@@ -333,11 +333,28 @@
 
         const Writing = () => {
             const essays = [
-                { date: 'Recent', title: 'Building Jasmine: Why AI UI Needs Taste' },
+                { 
+                    date: 'Recent', 
+                    title: 'Building Jasmine: Why AI UI Needs Taste',
+                    content: [
+                        'we are entering an era where software can build software.',
+                        'ask an ai to generate a website and it will give you one in seconds. ask it for a landing page and you get a fully functioning product. buttons, sections, components, colors — all assembled instantly.',
+                        'on the surface, this feels like magic. but if you look closely, something feels off. most ai-generated interfaces look the same. they are technically correct. they work. they render. but they lack something important. taste.',
+                        'today’s ai tools are incredibly good at producing structure. they know how to assemble navigation bars, hero sections, pricing tables, dashboards, forms. the output is functional. but design is not just structure. design is judgment.',
+                        'when a human designer builds something good, they keep asking: should this be lighter or darker? is this spacing too tight? does this font feel right? does this interaction delight or annoy? these subtle calls separate crafted from generated. ai today mostly produces the second — the ai slop — not because the code is wrong, but because the design has no soul.',
+                        'taste is the invisible layer of software. it is what makes stripe feel calm, linear feel precise, apple feel intentional. it shows up in border weight, animation timing, whitespace, typography. none of these are necessary for the product to function, but together they make it feel right.',
+                        'most ai builders optimize for speed, not taste. they lean on default fonts, generic palettes, predictable layouts. ten ai-generated sites look like cousins: same grid, same spacing, same components, different text. fast, but forgettable.',
+                        'what ai ui systems lack is a point of view. great designers have opinions about layouts, type, spacing. taste is encoded judgment. that’s missing in most ai design systems.',
+                        'jasmine started as a simple question: what if ai could design with taste? not just assemble components or generate code, but make the choices a thoughtful designer would — when minimalism works, when personality matters, when whitespace should breathe, when typography should lead.',
+                        'the aim isn’t to replace designers; it’s to raise the baseline. most products aren’t built by elite studios. founders and small teams deserve tools that output beautiful starting points, not templates they want to redo.',
+                        'good software feels calm and intentional because someone made thousands of tiny decisions so the user doesn’t have to. taste compresses complexity into simplicity. if ai is going to build the next generation of interfaces, it can’t just generate code — it has to understand taste. that is what jasmine is trying to build.'
+                    ]
+                },
                 { date: 'Archive', title: 'Scaling to 100 Users: Lessons from ideatr.dev' },
                 { date: 'Archive', title: 'Winning Stanford GSB LISA at 13' },
                 { date: 'Archive', title: 'The Elegance of Shipping Fast' }
             ];
+            const [selected, setSelected] = useState(essays[0]);
 
             return (
                 <motion.div variants={pageVariants} initial="initial" animate="enter" exit="exit" className="max-w-2xl w-full">
@@ -346,19 +363,36 @@
                     </motion.p>
 
                     <div className="flex flex-col gap-8 md:gap-12">
-                        {essays.map((essay, i) => (
-                            <motion.article 
+                        {essays.map((essay) => (
+                            <motion.button 
+                                type="button"
                                 key={essay.title}
                                 variants={itemVariants}
-                                className="flex flex-col gap-2 cursor-pointer group"
+                                onClick={() => setSelected(essay)}
+                                className={`flex flex-col gap-2 text-left cursor-pointer group ${selected.title === essay.title ? 'opacity-100' : 'opacity-60 hover:opacity-100'} transition-opacity duration-300`}
                             >
                                 <span className="font-mono text-[10px] tracking-widest text-ink-light uppercase">{essay.date}</span>
                                 <h3 className="text-xl md:text-2xl tracking-tight group-hover:italic transition-all duration-300">
                                     {essay.title}
                                 </h3>
-                            </motion.article>
+                            </motion.button>
                         ))}
                     </div>
+
+                    {selected?.content && (
+                        <motion.div 
+                            className="mt-10 md:mt-14 space-y-6 text-lg md:text-xl leading-relaxed text-ink/90"
+                            initial={{ opacity: 0, y: 10 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ duration: 0.6, ease }}
+                        >
+                            {selected.content.map((para, idx) => (
+                                <p key={idx}>
+                                    {para}
+                                </p>
+                            ))}
+                        </motion.div>
+                    )}
                 </motion.div>
             );
         };
