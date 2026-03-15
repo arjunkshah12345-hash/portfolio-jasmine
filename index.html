@@ -19,7 +19,7 @@
             theme: {
                 extend: {
                     colors: {
-                        paper: { DEFAULT: 'var(--bg)', dark: 'var(--bg-dark)' },
+                        paper: 'var(--bg)',
                         ink: { DEFAULT: 'var(--text)', light: 'var(--text-light)' }
                     },
                     fontFamily: {
@@ -43,17 +43,9 @@
     <style>
         :root {
             --bg: #f2f0e9;
-            --bg-dark: #e8e5dc;
             --text: #1c1c1a;
             --text-light: #6b6a65;
             --noise-opacity: 0.04;
-        }
-        [data-theme="dark"] {
-            --bg: #1a1a1a;
-            --bg-dark: #141414;
-            --text: #e8e5dc;
-            --text-light: #9a9890;
-            --noise-opacity: 0.03;
         }
         body {
             background-color: var(--bg);
@@ -85,7 +77,7 @@
     <div id="root"></div>
 
     <script type="text/babel" data-presets="react">
-        const { useState, useEffect, useMemo, useCallback } = React;
+        const { useState, useCallback } = React;
         const { motion, AnimatePresence } = window.Motion;
 
         // --- UTILITIES ---
@@ -192,32 +184,6 @@
                 </motion.div>
             );
         };
-
-        const ThemeToggle = ({ isDark, toggle }) => (
-            <motion.button
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ duration: 1, delay: 0.8 }}
-                onClick={toggle}
-                aria-label={isDark ? 'Switch to light mode' : 'Switch to dark mode'}
-                className="fixed bottom-6 left-6 md:bottom-12 md:left-12 z-50 w-9 h-9 flex items-center justify-center rounded-full border border-ink/10 hover:border-ink/30 transition-all duration-300 bg-paper/80 backdrop-blur-sm"
-                title={isDark ? 'Light mode' : 'Dark mode'}
-            >
-                {isDark ? (
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-                        <circle cx="12" cy="12" r="4"></circle>
-                        <path d="M12 2v2"></path><path d="M12 20v2"></path>
-                        <path d="m4.93 4.93 1.41 1.41"></path><path d="m17.66 17.66 1.41 1.41"></path>
-                        <path d="M2 12h2"></path><path d="M20 12h2"></path>
-                        <path d="m6.34 17.66-1.41 1.41"></path><path d="m19.07 4.93-1.41 1.41"></path>
-                    </svg>
-                ) : (
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-                        <path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"></path>
-                    </svg>
-                )}
-            </motion.button>
-        );
 
         const RevealText = ({ children, delay = 0, className = "" }) => (
             <motion.div variants={itemVariants} className={className}>
@@ -419,18 +385,6 @@
         // --- MAIN APP COMPONENT ---
         const App = () => {
             const [currentPath, setCurrentPath] = useState('/');
-            const [isDark, setIsDark] = useState(() => {
-                const saved = localStorage.getItem('theme');
-                if (saved) return saved === 'dark';
-                return window.matchMedia('(prefers-color-scheme: dark)').matches;
-            });
-
-            useEffect(() => {
-                document.documentElement.setAttribute('data-theme', isDark ? 'dark' : 'light');
-                localStorage.setItem('theme', isDark ? 'dark' : 'light');
-            }, [isDark]);
-
-            const toggleTheme = useCallback(() => setIsDark(prev => !prev), []);
 
             const renderPage = () => {
                 switch (currentPath) {
@@ -452,8 +406,6 @@
                             {renderPage()}
                         </AnimatePresence>
                     </main>
-
-                    <ThemeToggle isDark={isDark} toggle={toggleTheme} />
                     <AnimatePresence>
                         <JasmineBadge />
                     </AnimatePresence>
