@@ -39,6 +39,8 @@ GEMINI_MODEL = os.getenv("GEMINI_MODEL", "gemini-3.1-flash-lite-preview")
 SITE_URL = os.getenv("SITE_URL", "https://www.arjunshah.xyz")
 XURL_APP = os.getenv("XURL_APP", "jasmine")
 MAX_LEN = 270  # leave room for link/metadata
+POST_MODE = os.getenv("POST_MODE", "draft").lower()  # "live" posts to X; anything else saves drafts
+DRAFT_FILE = os.getenv("DRAFT_FILE", "draft_posts.txt")
 
 STYLE_PROMPT = """
 You are writing a single X (Twitter) post that promotes Jasmine (an AI frontend engineer) in the voice and tone of arjunshah.xyz: minimal, calm, confident, founder-driven. Avoid hashtags. Sometimes include the site link {site_url}; not every time. Vary length: sometimes short (<=160 chars), sometimes medium (<=220), sometimes long (<=270). Keep it first-person, focused on product taste, craft, and speed. No emojis.
@@ -109,11 +111,22 @@ def post(text: str):
         sys.exit(1)
 
 
+def save_draft(text: str):
+    timestamp = time.strftime("%Y-%m-%d %H:%M:%S")
+    line = f"[{timestamp}] {text}\n"
+    with open(DRAFT_FILE, "a", encoding="utf-8") as fh:
+        fh.write(line)
+    print(f"[draft] {text}")
+
+
 def main():
     raw = gemini_generate()
     final = trim(raw)
-    post(final)
-    print(final)
+    if POST_MODE == "live":
+        post(final)
+        print(final)
+    else:
+        save_draft(final)
 
 
 if __name__ == "__main__":
