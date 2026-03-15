@@ -35,7 +35,7 @@ def load_dotenv(path: str = ".env"):
 load_dotenv()
 
 GEMINI_KEY = os.getenv("GEMINI_API_KEY")
-GEMINI_MODEL = os.getenv("GEMINI_MODEL", "gemini-1.5-flash-latest")
+GEMINI_MODEL = os.getenv("GEMINI_MODEL", "gemini-3.1-flash-lite-preview")
 SITE_URL = os.getenv("SITE_URL", "https://www.arjunshah.xyz")
 XURL_APP = os.getenv("XURL_APP", "jasmine")
 MAX_LEN = 270  # leave room for link/metadata
