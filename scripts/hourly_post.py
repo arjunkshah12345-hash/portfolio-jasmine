@@ -35,6 +35,7 @@ def load_dotenv(path: str = ".env"):
 load_dotenv()
 
 GEMINI_KEY = os.getenv("GEMINI_API_KEY")
+GEMINI_MODEL = os.getenv("GEMINI_MODEL", "gemini-1.5-flash-latest")
 SITE_URL = os.getenv("SITE_URL", "https://www.arjunshah.xyz")
 XURL_APP = os.getenv("XURL_APP", "jasmine")
 MAX_LEN = 270  # leave room for link/metadata
@@ -47,7 +48,7 @@ def gemini_generate():
     if not GEMINI_KEY:
         sys.stderr.write("GEMINI_API_KEY is not set\n")
         sys.exit(1)
-    endpoint = "https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key=" + GEMINI_KEY
+    endpoint = f"https://generativelanguage.googleapis.com/v1beta/models/{GEMINI_MODEL}:generateContent?key=" + GEMINI_KEY
     lengths = [160, 220, 270]
     target_len = random.choice(lengths)
     include_link = random.random() < 0.6
