@@ -1,0 +1,6 @@
+Add this cron entry after you set .env and xurl auth:
+0 * * * * /usr/bin/env python3 /Users/arjunkshah21/Downloads/minimalist-portfolio-jasmine/scripts/hourly_post.py >> /Users/arjunkshah21/Downloads/minimalist-portfolio-jasmine/hourly_post.log 2>&1
+
+Notes:
+- The script auto-loads /Users/arjunkshah21/Downloads/minimalist-portfolio-jasmine/.env (GEMINI_API_KEY, XURL_APP, SITE_URL).
+- Ensure xurl is installed and authenticated for app "jasmine".
