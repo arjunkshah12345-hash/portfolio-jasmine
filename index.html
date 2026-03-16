@@ -454,6 +454,7 @@
                 const load = async () => {
                     try {
                         const res = await fetch('/draft_posts.txt', { cache: 'no-store' });
+                        if (!res.ok) throw new Error('drafts missing');
                         const text = await res.text();
                         const lines = text.split('\n').filter(Boolean);
                         const parsed = lines.map((line, idx) => {
@@ -467,6 +468,7 @@
                         setEntries(parsed);
                     } catch (err) {
                         console.error(err);
+                        setEntries([]);
                     }
                 };
                 load();
