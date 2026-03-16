@@ -519,14 +519,21 @@
                         {entries.map((item) => {
                             const isDone = !!done[item.id];
                             return (
-                                <button
-                                    key={item.id}
-                                    onClick={() => setDone(prev => ({ ...prev, [item.id]: !isDone }))}
-                                    className={`text-left p-4 transition ${isDone ? 'line-through text-ink-light opacity-70' : ''}`}
-                                >
-                                    <div className="font-mono text-[10px] tracking-widest uppercase text-ink-light mb-1">{item.timestamp}</div>
-                                    <div className="text-base md:text-lg leading-relaxed">{item.text}</div>
-                                </button>
+                                <div key={item.id} className="flex items-start gap-3 p-4">
+                                    <button
+                                        onClick={() => setDone(prev => ({ ...prev, [item.id]: !isDone }))}
+                                        className={`flex-1 text-left transition ${isDone ? 'line-through text-ink-light opacity-70' : ''}`}
+                                    >
+                                        <div className="font-mono text-[10px] tracking-widest uppercase text-ink-light mb-1">{item.timestamp}</div>
+                                        <div className="text-base md:text-lg leading-relaxed">{item.text}</div>
+                                    </button>
+                                    <button
+                                        onClick={() => navigator.clipboard && navigator.clipboard.writeText(item.text)}
+                                        className="text-xs px-2 py-1 border border-ink/20 rounded hover:border-ink/40 transition"
+                                    >
+                                        Copy
+                                    </button>
+                                </div>
                             );
                         })}
                     </div>

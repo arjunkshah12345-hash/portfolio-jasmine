@@ -1,1 +1,0 @@
-[2026-03-14 23:45:54] Jasmine is how I build frontend now. It bridges the gap between intent and production-ready code with actual taste. Try it: https://www.arjunshah.xyz
