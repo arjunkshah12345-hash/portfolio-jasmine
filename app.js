@@ -1,0 +1,365 @@
+(() => {
+  const { useState, useCallback, useEffect } = React;
+  const { motion, AnimatePresence } = window.Motion;
+  const ease = [0.16, 1, 0.3, 1];
+  const pageVariants = {
+    initial: { opacity: 0, y: 10, filter: "blur(4px)" },
+    enter: { opacity: 1, y: 0, filter: "blur(0px)", transition: { duration: 0.8, ease, staggerChildren: 0.1 } },
+    exit: { opacity: 0, y: -10, filter: "blur(4px)", transition: { duration: 0.4, ease } }
+  };
+  const itemVariants = {
+    initial: { opacity: 0, y: 10 },
+    enter: { opacity: 1, y: 0, transition: { duration: 0.8, ease } }
+  };
+  const JasmineBadge = () => {
+    const [visible, setVisible] = useState(() => {
+      return localStorage.getItem("jasmine-badge-dismissed") !== "true";
+    });
+    const dismiss = useCallback((e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      localStorage.setItem("jasmine-badge-dismissed", "true");
+      setVisible(false);
+    }, []);
+    if (!visible) return null;
+    return /* @__PURE__ */ React.createElement(
+      motion.div,
+      {
+        initial: { opacity: 0, y: 20 },
+        animate: { opacity: 1, y: 0 },
+        exit: { opacity: 0, y: 20 },
+        transition: { duration: 0.5, ease },
+        style: { position: "fixed", bottom: "20px", right: "20px", zIndex: 9999 }
+      },
+      /* @__PURE__ */ React.createElement(
+        "a",
+        {
+          href: "https://tryjasmine.dev",
+          target: "_blank",
+          rel: "noopener noreferrer",
+          className: "jasmine-badge",
+          style: {
+            display: "inline-flex",
+            alignItems: "center",
+            gap: "12px",
+            padding: "12px 36px 12px 20px",
+            background: "rgba(18,18,18,0.95)",
+            backdropFilter: "blur(12px)",
+            WebkitBackdropFilter: "blur(12px)",
+            border: "1px solid rgba(255,255,255,0.12)",
+            borderRadius: "6px",
+            textDecoration: "none",
+            fontFamily: "'Iowan Old Style','Iowan Old Serif',Georgia,serif",
+            fontSize: "15px",
+            fontWeight: 500,
+            color: "rgba(255,255,255,0.9)",
+            letterSpacing: "0.02em",
+            boxShadow: "0 4px 24px rgba(0,0,0,0.2)"
+          }
+        },
+        /* @__PURE__ */ React.createElement(
+          "img",
+          {
+            src: "https://tryjasmine.dev/logo-mark.png",
+            alt: "Jasmine",
+            width: "28",
+            height: "28",
+            style: { flexShrink: 0, objectFit: "contain", opacity: 0.95 }
+          }
+        ),
+        /* @__PURE__ */ React.createElement("span", null, "Made with Jasmine")
+      ),
+      /* @__PURE__ */ React.createElement(
+        "button",
+        {
+          onClick: dismiss,
+          "aria-label": "Dismiss badge",
+          style: {
+            position: "absolute",
+            top: "-8px",
+            right: "-8px",
+            width: "22px",
+            height: "22px",
+            borderRadius: "50%",
+            background: "rgba(18,18,18,0.95)",
+            border: "1px solid rgba(255,255,255,0.15)",
+            color: "rgba(255,255,255,0.7)",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            cursor: "pointer",
+            fontSize: "12px",
+            lineHeight: 1,
+            padding: 0
+          }
+        },
+        "\xD7"
+      )
+    );
+  };
+  const RevealText = ({ children, delay = 0, className = "" }) => /* @__PURE__ */ React.createElement(motion.div, { variants: itemVariants, className }, children);
+  const Navigation = ({ currentPath, setPath }) => {
+    const links = [
+      { path: "/", label: "index" },
+      { path: "/about", label: "about" },
+      { path: "/work", label: "work" },
+      { path: "/writing", label: "writing" },
+      { path: "/contact", label: "contact" }
+    ];
+    return /* @__PURE__ */ React.createElement(
+      motion.nav,
+      {
+        initial: { opacity: 0 },
+        animate: { opacity: 1 },
+        transition: { duration: 1, delay: 0.5 },
+        className: "fixed top-0 left-0 w-full p-6 md:p-12 flex justify-between items-start z-50 pointer-events-none mix-blend-difference text-paper"
+      },
+      /* @__PURE__ */ React.createElement("div", { className: "font-mono text-[10px] tracking-widest uppercase pointer-events-auto cursor-pointer", onClick: () => setPath("/") }, "A. Shah"),
+      /* @__PURE__ */ React.createElement("div", { className: "flex flex-col items-end gap-2 pointer-events-auto" }, links.map((link) => /* @__PURE__ */ React.createElement(
+        "button",
+        {
+          key: link.path,
+          onClick: () => setPath(link.path),
+          className: `font-mono text-[10px] tracking-widest uppercase transition-opacity duration-300 hover:opacity-100 ${currentPath === link.path ? "opacity-100" : "opacity-40"}`
+        },
+        link.label
+      )))
+    );
+  };
+  const Home = () => /* @__PURE__ */ React.createElement(motion.div, { variants: pageVariants, initial: "initial", animate: "enter", exit: "exit", className: "max-w-2xl" }, /* @__PURE__ */ React.createElement(motion.p, { variants: itemVariants, className: "font-mono text-[10px] tracking-widest text-ink-light uppercase mb-12" }, "01 / Introduction"), /* @__PURE__ */ React.createElement("div", { className: "space-y-8 text-xl md:text-3xl leading-relaxed md:leading-relaxed font-light tracking-tight" }, /* @__PURE__ */ React.createElement(RevealText, null, /* @__PURE__ */ React.createElement("p", null, "hello.")), /* @__PURE__ */ React.createElement(RevealText, null, /* @__PURE__ */ React.createElement("p", null, "i am arjun. i am a 14-year-old developer and founder building software that scales.")), /* @__PURE__ */ React.createElement(RevealText, null, /* @__PURE__ */ React.createElement("p", null, "i believe in shipping fast, iterating relentlessly, and creating tools that feel crafted. quiet, intentional, and powerful.")), /* @__PURE__ */ React.createElement(RevealText, null, /* @__PURE__ */ React.createElement("p", { className: "text-ink-light italic text-lg md:text-2xl mt-12" }, "currently building tryjasmine.dev \u2014 an ai frontend engineer that crafts, rather than codes."))));
+  const About = () => /* @__PURE__ */ React.createElement(motion.div, { variants: pageVariants, initial: "initial", animate: "enter", exit: "exit", className: "max-w-2xl" }, /* @__PURE__ */ React.createElement(motion.p, { variants: itemVariants, className: "font-mono text-[10px] tracking-widest text-ink-light uppercase mb-12" }, "02 / Trajectory"), /* @__PURE__ */ React.createElement("div", { className: "space-y-8 text-lg md:text-xl leading-relaxed text-ink/80" }, /* @__PURE__ */ React.createElement(RevealText, null, /* @__PURE__ */ React.createElement("p", null, "age is just a constraint. i approach engineering and product design with the mindset of a founder who needs to solve real problems, right now.")), /* @__PURE__ */ React.createElement(RevealText, null, /* @__PURE__ */ React.createElement("p", null, "my journey started with therooted.ai, which went on to win the stanford gsb lisa startup competition. that taught me how to pitch, build, and validate.")), /* @__PURE__ */ React.createElement(RevealText, { className: "py-8" }, /* @__PURE__ */ React.createElement(
+    "img",
+    {
+      src: "/about.jpg",
+      alt: "Arjun Shah smiling at a desk with his mom beside him.",
+      className: "w-full h-auto rounded-md shadow-md object-cover"
+    }
+  ), /* @__PURE__ */ React.createElement("p", { className: "font-mono text-[10px] text-ink-light mt-3 tracking-widest uppercase" }, "Fig 1. Foundations and family.")), /* @__PURE__ */ React.createElement(RevealText, null, /* @__PURE__ */ React.createElement("p", null, "after that, i built and scaled ideatr.dev to over 100 active users in just a few months. seeing real people use my software changed how i view the internet.")), /* @__PURE__ */ React.createElement(RevealText, null, /* @__PURE__ */ React.createElement("p", null, "now, i am focused entirely on the intersection of artificial intelligence and product-level design."))));
+  const Work = () => {
+    const projects = [
+      { year: "Now", title: "tryjasmine.dev", url: "https://tryjasmine.dev", desc: "An elite AI frontend engineer and product-level designer. Crafting interfaces without the AI slop." },
+      { year: "2023", title: "ideatr.dev", url: "https://ideatr.dev", desc: "Scaled to 100+ users in months. A platform built for rapid iteration and idea validation." },
+      { year: "2023", title: "therooted.ai", url: "https://therooted.ai", desc: "Winning project at the Stanford GSB LISA startup competition. AI-driven solutions." }
+    ];
+    return /* @__PURE__ */ React.createElement(motion.div, { variants: pageVariants, initial: "initial", animate: "enter", exit: "exit", className: "max-w-3xl w-full" }, /* @__PURE__ */ React.createElement(motion.p, { variants: itemVariants, className: "font-mono text-[10px] tracking-widest text-ink-light uppercase mb-12" }, "03 / Selected Works"), /* @__PURE__ */ React.createElement("div", { className: "flex flex-col w-full" }, projects.map((project, i) => /* @__PURE__ */ React.createElement(
+      motion.div,
+      {
+        key: project.title,
+        variants: itemVariants,
+        className: "group flex flex-col md:flex-row md:items-baseline border-b border-ink/5 py-8 md:py-12 gap-2 md:gap-8 hover:border-ink/20 transition-colors duration-500 cursor-pointer"
+      },
+      /* @__PURE__ */ React.createElement("span", { className: "font-mono text-xs text-ink-light w-16 shrink-0" }, project.year),
+      /* @__PURE__ */ React.createElement("div", { className: "flex flex-col gap-2" }, /* @__PURE__ */ React.createElement("h3", { className: "text-2xl md:text-4xl tracking-tight transition-transform duration-500 group-hover:translate-x-2" }, /* @__PURE__ */ React.createElement("a", { href: project.url, target: "_blank", rel: "noopener noreferrer" }, project.title)), /* @__PURE__ */ React.createElement("p", { className: "text-ink-light text-base md:text-lg max-w-md" }, project.desc))
+    ))));
+  };
+  const Writing = () => {
+    const essays = [
+      {
+        date: "Recent",
+        title: "Building Jasmine: Why AI UI Needs Taste",
+        content: [
+          "we are entering an era where software can build software.",
+          "ask an ai to generate a website and it will give you one in seconds. ask it for a landing page and you get a fully functioning product. buttons, sections, components, colors \u2014 all assembled instantly.",
+          "on the surface, this feels like magic. but if you look closely, something feels off. most ai-generated interfaces look the same. they are technically correct. they work. they render. but they lack something important. taste.",
+          "today\u2019s ai tools are incredibly good at producing structure. they know how to assemble navigation bars, hero sections, pricing tables, dashboards, forms. the output is functional. but design is not just structure. design is judgment.",
+          "when a human designer builds something good, they keep asking: should this be lighter or darker? is this spacing too tight? does this font feel right? does this interaction delight or annoy? these subtle calls separate crafted from generated. ai today mostly produces the second \u2014 the ai slop \u2014 not because the code is wrong, but because the design has no soul.",
+          "taste is the invisible layer of software. it is what makes stripe feel calm, linear feel precise, apple feel intentional. it shows up in border weight, animation timing, whitespace, typography. none of these are necessary for the product to function, but together they make it feel right.",
+          "most ai builders optimize for speed, not taste. they lean on default fonts, generic palettes, predictable layouts. ten ai-generated sites look like cousins: same grid, same spacing, same components, different text. fast, but forgettable.",
+          "what ai ui systems lack is a point of view. great designers have opinions about layouts, type, spacing. taste is encoded judgment. that\u2019s missing in most ai design systems.",
+          "jasmine started as a simple question: what if ai could design with taste? not just assemble components or generate code, but make the choices a thoughtful designer would \u2014 when minimalism works, when personality matters, when whitespace should breathe, when typography should lead.",
+          "the aim isn\u2019t to replace designers; it\u2019s to raise the baseline. most products aren\u2019t built by elite studios. founders and small teams deserve tools that output beautiful starting points, not templates they want to redo.",
+          "good software feels calm and intentional because someone made thousands of tiny decisions so the user doesn\u2019t have to. taste compresses complexity into simplicity. if ai is going to build the next generation of interfaces, it can\u2019t just generate code \u2014 it has to understand taste. that is what jasmine is trying to build."
+        ]
+      },
+      {
+        date: "Archive",
+        title: "Scaling to 100 Users: Lessons from ideatr.dev",
+        content: [
+          "most people think the first milestone for a product is 1,000 users. but the real milestone is 100. not signups. not visitors. users. people who actually open the product and use it. getting the first 100 is where you learn everything. ideatr.dev taught me that.",
+          "in the beginning, it feels like progress is measured in features: new pages, new tools, better prompts, more integrations. you feel productive. but none of that matters if nobody uses the product. the hardest moment for a builder is realizing that building is the easy part. distribution is the real challenge.",
+          "user number one is not scalable. it comes from conversations. you send the link to friends. you post in small communities. you message people who might care. sometimes they try it. sometimes they ignore it. the important thing is not the growth rate. the important thing is watching how they use it.",
+          "before users arrive, the product exists in your head. once users arrive, reality starts correcting you. buttons that seemed obvious confuse people. features you thought were important get ignored. tiny details you barely noticed become the most valuable parts. early users reshape the product.",
+          "at the beginning, you cannot wait for perfect. the best feedback loop looks like: build \u2192 ship \u2192 watch \u2192 improve. every day. sometimes multiple times per day. the goal is not to build something flawless. the goal is to learn faster than yesterday. speed compounds.",
+          "distribution is its own system. for ideatr.dev, early growth came from builder-heavy spaces: developer communities, indie hacker spaces, product forums, small tech twitter circles. these places have curiosity; people there are willing to try unfinished tools.",
+          "the first 100 users are collaborators. they find bugs, suggest features, explain what is confusing, and can help shape direction. if you listen closely, they will tell you exactly what to build next.",
+          "early on, most metrics are meaningless. page views and impressions do not matter. what matters: are people coming back? are they completing something valuable? are they telling someone else? if yes, the product is alive.",
+          "when a product reaches 100 real users, it stops being an experiment and becomes a system. people depend on it. bugs, design, and reliability matter more. you start building for a small community, not just yourself.",
+          "the first 100 users are about understanding: what the product really is, who it helps, and why someone would choose it over anything else. once you know that, the path to the next 1,000 is clearer. everything starts with the first 100."
+        ]
+      },
+      {
+        date: "Archive",
+        title: "Winning Stanford GSB LISA at 14",
+        content: [
+          "most people think startups begin with companies. they usually begin with questions. for me, the question was: why does modern health feel so complicated? thousands of supplements, endless advice, contradictions everywhere. meanwhile, ancient systems like ayurveda and traditional chinese medicine hold centuries of knowledge, but it\u2019s buried and scattered. that question became rooted.ai and the idea we brought to the stanford gsb lisa accelerator.",
+          "rooted.ai rests on a belief: the future of health will combine ancient wisdom and modern intelligence. traditional healing systems studied how food, herbs, and lifestyle affect the body. modern ai can organize, understand, and personalize that knowledge. the goal: an ai system that lets people explore natural remedies and lifestyle practices in a structured, personalized, evidence-aware way \u2014 a knowledge system for natural health.",
+          "pitching an early idea is strange because you describe something that doesn\u2019t fully exist. the pitch centered on the problem (health advice is fragmented), the opportunity (ai can organize massive bodies of knowledge), and the vision (a system where anyone can explore natural remedies, their history, and ties to modern science \u2014 making health clearer, not noisier).",
+          "lisa isn\u2019t just pitching; it\u2019s about thinking like a founder. it forces hard questions: who is this for? why now? what makes it unique? why you? those questions create clarity, and clarity is a founder\u2019s most valuable asset.",
+          "a surprising lesson: age mattered far less than curiosity. people cared about ideas, not credentials. if you\u2019re genuinely trying to build something meaningful, people listen.",
+          "winning lisa was exciting, but the real value was refinement. clearer problem, clearer vision, clearer direction. that\u2019s what early startup experiences offer: not just recognition, but sharpening.",
+          "startups start with curiosity, not certainty. rooted.ai began with a simple question about health. lisa helped turn that question into a real idea. now the work is building it."
+        ]
+      },
+      {
+        date: "Archive",
+        title: "The Elegance of Shipping Fast",
+        content: [
+          "there is a strange myth in software: people think great products are built slowly \u2014 carefully planned, perfectly designed, fully polished before the world sees them. in reality, most great products are shipped early, improved constantly, and shaped by real users. speed is not chaos. speed is a strategy.",
+          "waiting to ship has a hidden cost. \u201Cone more feature,\u201D \u201Cdesign isn\u2019t perfect,\u201D \u201Cclean up the code first\u201D all sound reasonable, but every day you delay is a day without feedback. feedback is the only thing that tells you if the idea actually works. shipping turns guesses into knowledge.",
+          "before shipping, the product lives in your head where everything makes sense. once you ship, reality shows up: users misunderstand, features get ignored, odd behaviors emerge. that isn\u2019t failure \u2014 it\u2019s the product becoming real.",
+          "fast teams aren\u2019t just quick; they learn faster than everyone else. each release answers questions: does this feature help? does this design reduce friction? does this workflow make sense? ship monthly and you learn monthly; ship daily and you learn daily. speed compounds.",
+          "shipping fast creates momentum. builders feel progress, users see improvement, the product evolves continuously. that builds trust. a slow product feels abandoned; a fast-moving product feels exciting and alive.",
+          "big launches are overrated. most successful products grow through small releases \u2014 tiny improvements, small features, incremental refinements. each step seems minor, but together they add up to massive progress.",
+          "fast does not mean careless. it means prioritizing learning. build the smallest thing that proves an idea, then improve it. this reduces risk; you find out quickly instead of spending months on the wrong thing.",
+          "there is elegance in iteration. products that evolve in public feel alive. users see progress and participate in the journey. the product becomes a shared story between builder and user.",
+          "in the end, shipping fast is about clarity. the faster you ship, the faster reality reveals what matters \u2014 what users care about, what features actually help, what ideas to abandon. speed removes illusion. clarity is a builder\u2019s advantage."
+        ]
+      }
+    ];
+    const [selected, setSelected] = useState(essays[0]);
+    return /* @__PURE__ */ React.createElement(motion.div, { variants: pageVariants, initial: "initial", animate: "enter", exit: "exit", className: "max-w-2xl w-full" }, /* @__PURE__ */ React.createElement(motion.p, { variants: itemVariants, className: "font-mono text-[10px] tracking-widest text-ink-light uppercase mb-12" }, "04 / Notes & Essays"), /* @__PURE__ */ React.createElement("div", { className: "flex flex-col gap-8 md:gap-12" }, essays.map((essay) => /* @__PURE__ */ React.createElement(
+      motion.button,
+      {
+        type: "button",
+        key: essay.title,
+        variants: itemVariants,
+        onClick: () => setSelected(essay),
+        className: `flex flex-col gap-2 text-left cursor-pointer group ${selected.title === essay.title ? "opacity-100" : "opacity-60 hover:opacity-100"} transition-opacity duration-300`
+      },
+      /* @__PURE__ */ React.createElement("span", { className: "font-mono text-[10px] tracking-widest text-ink-light uppercase" }, essay.date),
+      /* @__PURE__ */ React.createElement("h3", { className: "text-xl md:text-2xl tracking-tight group-hover:italic transition-all duration-300" }, essay.title)
+    ))), (selected == null ? void 0 : selected.content) && /* @__PURE__ */ React.createElement(
+      motion.div,
+      {
+        className: "mt-10 md:mt-14 space-y-6 text-lg md:text-xl leading-relaxed text-ink/90",
+        initial: { opacity: 0, y: 10 },
+        animate: { opacity: 1, y: 0 },
+        transition: { duration: 0.6, ease }
+      },
+      selected.content.map((para, idx) => /* @__PURE__ */ React.createElement("p", { key: idx }, para))
+    ));
+  };
+  const Admin = () => {
+    const [authed, setAuthed] = useState(() => {
+      if (typeof window === "undefined") return false;
+      return localStorage.getItem("admin-authed") === "true";
+    });
+    const [password, setPassword] = useState("");
+    const [entries, setEntries] = useState([]);
+    const [done, setDone] = useState(() => {
+      if (typeof window === "undefined") return {};
+      try {
+        return JSON.parse(localStorage.getItem("admin-done") || "{}");
+      } catch (e) {
+        return {};
+      }
+    });
+    useEffect(() => {
+      const load = async () => {
+        try {
+          const res = await fetch("/draft_posts.txt", { cache: "no-store" });
+          if (!res.ok) throw new Error("drafts missing");
+          const text = await res.text();
+          const lines = text.split("\n").filter(Boolean);
+          const parsed = lines.map((line, idx) => {
+            const match = line.match(/^\[(.*?)\]\s*(.*)$/);
+            return {
+              id: idx,
+              timestamp: match ? match[1] : "unknown",
+              text: match ? match[2] : line
+            };
+          }).reverse();
+          setEntries(parsed);
+        } catch (err) {
+          console.error(err);
+          setEntries([]);
+        }
+      };
+      load();
+    }, []);
+    useEffect(() => {
+      if (typeof window !== "undefined") {
+        localStorage.setItem("admin-done", JSON.stringify(done));
+      }
+    }, [done]);
+    const handleLogin = (e) => {
+      e.preventDefault();
+      if (password === "iwillwin") {
+        setAuthed(true);
+        if (typeof window !== "undefined") localStorage.setItem("admin-authed", "true");
+      }
+      setPassword("");
+    };
+    if (!authed) {
+      return /* @__PURE__ */ React.createElement(motion.div, { variants: pageVariants, initial: "initial", animate: "enter", exit: "exit", className: "max-w-lg w-full space-y-6" }, /* @__PURE__ */ React.createElement("p", { className: "font-mono text-[10px] tracking-widest text-ink-light uppercase" }, "Admin Access"), /* @__PURE__ */ React.createElement("form", { onSubmit: handleLogin, className: "space-y-4" }, /* @__PURE__ */ React.createElement(
+        "input",
+        {
+          type: "password",
+          value: password,
+          onChange: (e) => setPassword(e.target.value),
+          placeholder: "Enter password",
+          className: "w-full border border-ink/20 rounded px-3 py-2 bg-paper",
+          autoFocus: true
+        }
+      ), /* @__PURE__ */ React.createElement("button", { type: "submit", className: "px-4 py-2 border border-ink/30 rounded hover:border-ink/60 transition" }, "Enter")));
+    }
+    return /* @__PURE__ */ React.createElement(motion.div, { variants: pageVariants, initial: "initial", animate: "enter", exit: "exit", className: "w-full max-w-3xl space-y-6" }, /* @__PURE__ */ React.createElement("div", { className: "flex items-center justify-between" }, /* @__PURE__ */ React.createElement("p", { className: "font-mono text-[10px] tracking-widest text-ink-light uppercase" }, "Draft Posts (local)"), /* @__PURE__ */ React.createElement("span", { className: "text-xs text-ink-light" }, "click to mark done")), /* @__PURE__ */ React.createElement("div", { className: "flex flex-col divide-y divide-ink/10 border border-ink/10 rounded" }, entries.length === 0 && /* @__PURE__ */ React.createElement("div", { className: "p-4 text-ink-light text-sm" }, "No drafts found."), entries.map((item) => {
+      const isDone = !!done[item.id];
+      return /* @__PURE__ */ React.createElement("div", { key: item.id, className: "flex items-start gap-3 p-4" }, /* @__PURE__ */ React.createElement(
+        "button",
+        {
+          onClick: () => setDone((prev) => ({ ...prev, [item.id]: !isDone })),
+          className: `flex-1 text-left transition ${isDone ? "line-through text-ink-light opacity-70" : ""}`
+        },
+        /* @__PURE__ */ React.createElement("div", { className: "font-mono text-[10px] tracking-widest uppercase text-ink-light mb-1" }, item.timestamp),
+        /* @__PURE__ */ React.createElement("div", { className: "text-base md:text-lg leading-relaxed" }, item.text)
+      ), /* @__PURE__ */ React.createElement(
+        "button",
+        {
+          onClick: () => navigator.clipboard && navigator.clipboard.writeText(item.text),
+          className: "text-xs px-2 py-1 border border-ink/20 rounded hover:border-ink/40 transition"
+        },
+        "Copy"
+      ));
+    })));
+  };
+  const Contact = () => /* @__PURE__ */ React.createElement(motion.div, { variants: pageVariants, initial: "initial", animate: "enter", exit: "exit", className: "max-w-2xl" }, /* @__PURE__ */ React.createElement(motion.p, { variants: itemVariants, className: "font-mono text-[10px] tracking-widest text-ink-light uppercase mb-12" }, "05 / Correspondence"), /* @__PURE__ */ React.createElement("div", { className: "space-y-12" }, /* @__PURE__ */ React.createElement(RevealText, null, /* @__PURE__ */ React.createElement("p", { className: "text-2xl md:text-4xl tracking-tight leading-snug" }, "i am always open to talking about startups, artificial intelligence, or design.")), /* @__PURE__ */ React.createElement(RevealText, null, /* @__PURE__ */ React.createElement("div", { className: "flex flex-col gap-4 font-mono text-sm tracking-wide" }, /* @__PURE__ */ React.createElement("a", { href: "mailto:arjunkshah21@gmail.com", target: "_blank", rel: "noopener noreferrer", className: "text-ink hover:text-ink-light transition-colors w-fit border-b border-ink/20 hover:border-ink/0 pb-1" }, "arjunkshah21@gmail.com"), /* @__PURE__ */ React.createElement("a", { href: "https://x.com/arjunkshah21", target: "_blank", rel: "noopener noreferrer", className: "text-ink hover:text-ink-light transition-colors w-fit border-b border-ink/20 hover:border-ink/0 pb-1" }, "x.com/arjunkshah21"), /* @__PURE__ */ React.createElement("a", { href: "https://github.com/arjunkshah", target: "_blank", rel: "noopener noreferrer", className: "text-ink hover:text-ink-light transition-colors w-fit border-b border-ink/20 hover:border-ink/0 pb-1" }, "github.com/arjunkshah"), /* @__PURE__ */ React.createElement("a", { href: "https://www.linkedin.com/in/arjun-k-shah", target: "_blank", rel: "noopener noreferrer", className: "text-ink hover:text-ink-light transition-colors w-fit border-b border-ink/20 hover:border-ink/0 pb-1" }, "linkedin.com/in/arjun-k-shah"))), /* @__PURE__ */ React.createElement(RevealText, null, /* @__PURE__ */ React.createElement("p", { className: "text-ink-light italic mt-24" }, "signed,", /* @__PURE__ */ React.createElement("br", null), "a.s."))));
+  const App = () => {
+    const initialPath = typeof window !== "undefined" ? window.location.pathname : "/";
+    const [currentPath, setCurrentPath] = useState(initialPath || "/");
+    const renderPage = () => {
+      switch (currentPath) {
+        case "/":
+          return /* @__PURE__ */ React.createElement(Home, { key: "home" });
+        case "/about":
+          return /* @__PURE__ */ React.createElement(About, { key: "about" });
+        case "/work":
+          return /* @__PURE__ */ React.createElement(Work, { key: "work" });
+        case "/writing":
+          return /* @__PURE__ */ React.createElement(Writing, { key: "writing" });
+        case "/contact":
+          return /* @__PURE__ */ React.createElement(Contact, { key: "contact" });
+        case "/admin":
+          return /* @__PURE__ */ React.createElement(Admin, { key: "admin" });
+        default:
+          return /* @__PURE__ */ React.createElement(Home, { key: "home" });
+      }
+    };
+    const changePath = (path) => {
+      setCurrentPath(path);
+      if (typeof window !== "undefined") {
+        window.history.pushState({}, "", path);
+      }
+    };
+    useEffect(() => {
+      const onPop = () => {
+        setCurrentPath(window.location.pathname || "/");
+      };
+      window.addEventListener("popstate", onPop);
+      return () => window.removeEventListener("popstate", onPop);
+    }, []);
+    return /* @__PURE__ */ React.createElement("div", { className: "min-h-screen w-full flex flex-col selection:bg-ink selection:text-paper relative" }, /* @__PURE__ */ React.createElement(Navigation, { currentPath, setPath: changePath }), /* @__PURE__ */ React.createElement("main", { className: "flex-grow flex items-center justify-center p-6 md:p-24 lg:p-32 pt-32 md:pt-48 min-h-screen" }, /* @__PURE__ */ React.createElement(AnimatePresence, { mode: "wait" }, renderPage())), /* @__PURE__ */ React.createElement(AnimatePresence, null, /* @__PURE__ */ React.createElement(JasmineBadge, null)), /* @__PURE__ */ React.createElement("div", { className: "pointer-events-none fixed inset-0 shadow-[inset_0_0_100px_rgba(0,0,0,0.02)] z-[-1]" }));
+  };
+  const root = ReactDOM.createRoot(document.getElementById("root"));
+  root.render(/* @__PURE__ */ React.createElement(App, null));
+})();

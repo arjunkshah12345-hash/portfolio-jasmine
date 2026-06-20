@@ -32,6 +32,7 @@ const Contact = () => {
             <a href="mailto:arjunkshah21@gmail.com" target="_blank" rel="noopener noreferrer" className="text-ink hover:text-ink-light transition-colors w-fit border-b border-ink/20 hover:border-ink/0 pb-1">arjunkshah21@gmail.com</a>
             <a href="https://x.com/arjunkshah21" target="_blank" rel="noopener noreferrer" className="text-ink hover:text-ink-light transition-colors w-fit border-b border-ink/20 hover:border-ink/0 pb-1">x.com/arjunkshah21</a>
             <a href="https://github.com/arjunkshah" target="_blank" rel="noopener noreferrer" className="text-ink hover:text-ink-light transition-colors w-fit border-b border-ink/20 hover:border-ink/0 pb-1">github.com/arjunkshah</a>
+            <a href="https://www.linkedin.com/in/arjun-k-shah" target="_blank" rel="noopener noreferrer" className="text-ink hover:text-ink-light transition-colors w-fit border-b border-ink/20 hover:border-ink/0 pb-1">linkedin.com/in/arjun-k-shah</a>
           </div>
         </motion.div>
 

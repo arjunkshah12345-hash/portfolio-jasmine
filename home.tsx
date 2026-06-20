@@ -25,7 +25,7 @@ const Home = () => {
           <p>hello.</p>
         </motion.div>
         <motion.div variants={itemVariants}>
-          <p>i am arjun. i am a 13-year-old developer and founder building software that scales.</p>
+          <p>i am arjun. i am a 14-year-old developer and founder building software that scales.</p>
         </motion.div>
         <motion.div variants={itemVariants}>
           <p>i believe in shipping fast, iterating relentlessly, and creating tools that feel crafted. quiet, intentional, and powerful.</p>

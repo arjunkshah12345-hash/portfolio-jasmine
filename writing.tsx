@@ -17,7 +17,7 @@ const Writing = () => {
   const essays = [
     { date: 'Recent', title: 'Building Jasmine: Why AI UI Needs Taste' },
     { date: 'Archive', title: 'Scaling to 100 Users: Lessons from ideatr.dev' },
-    { date: 'Archive', title: 'Winning Stanford GSB LISA at 13' },
+    { date: 'Archive', title: 'Winning Stanford GSB LISA at 14' },
     { date: 'Archive', title: 'The Elegance of Shipping Fast' }
   ];
 
