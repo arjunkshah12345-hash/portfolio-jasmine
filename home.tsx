@@ -32,7 +32,7 @@ const Home = () => {
         </motion.div>
         <motion.div variants={itemVariants}>
           <p className="text-ink-light italic text-lg md:text-2xl mt-12">
-            currently building loopy.yachts — a local agent company that keeps builds moving.
+            currently building Loopy — a local agent company that keeps builds moving.
           </p>
         </motion.div>
       </div>

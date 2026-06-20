@@ -126,7 +126,7 @@
       )))
     );
   };
-  const Home = () => /* @__PURE__ */ React.createElement(motion.div, { variants: pageVariants, initial: "initial", animate: "enter", exit: "exit", className: "max-w-2xl" }, /* @__PURE__ */ React.createElement(motion.p, { variants: itemVariants, className: "font-mono text-[10px] tracking-widest text-ink-light uppercase mb-12" }, "01 / Introduction"), /* @__PURE__ */ React.createElement("div", { className: "space-y-8 text-xl md:text-3xl leading-relaxed md:leading-relaxed font-light tracking-tight" }, /* @__PURE__ */ React.createElement(RevealText, null, /* @__PURE__ */ React.createElement("p", null, "hello.")), /* @__PURE__ */ React.createElement(RevealText, null, /* @__PURE__ */ React.createElement("p", null, "i am arjun. i am a 14-year-old developer and founder building software that scales.")), /* @__PURE__ */ React.createElement(RevealText, null, /* @__PURE__ */ React.createElement("p", null, "i believe in shipping fast, iterating relentlessly, and creating tools that feel crafted. quiet, intentional, and powerful.")), /* @__PURE__ */ React.createElement(RevealText, null, /* @__PURE__ */ React.createElement("p", { className: "text-ink-light italic text-lg md:text-2xl mt-12" }, "currently building loopy.yachts \u2014 a local agent company that keeps builds moving."))));
+  const Home = () => /* @__PURE__ */ React.createElement(motion.div, { variants: pageVariants, initial: "initial", animate: "enter", exit: "exit", className: "max-w-2xl" }, /* @__PURE__ */ React.createElement(motion.p, { variants: itemVariants, className: "font-mono text-[10px] tracking-widest text-ink-light uppercase mb-12" }, "01 / Introduction"), /* @__PURE__ */ React.createElement("div", { className: "space-y-8 text-xl md:text-3xl leading-relaxed md:leading-relaxed font-light tracking-tight" }, /* @__PURE__ */ React.createElement(RevealText, null, /* @__PURE__ */ React.createElement("p", null, "hello.")), /* @__PURE__ */ React.createElement(RevealText, null, /* @__PURE__ */ React.createElement("p", null, "i am arjun. i am a 14-year-old developer and founder building software that scales.")), /* @__PURE__ */ React.createElement(RevealText, null, /* @__PURE__ */ React.createElement("p", null, "i believe in shipping fast, iterating relentlessly, and creating tools that feel crafted. quiet, intentional, and powerful.")), /* @__PURE__ */ React.createElement(RevealText, null, /* @__PURE__ */ React.createElement("p", { className: "text-ink-light italic text-lg md:text-2xl mt-12" }, "currently building Loopy \u2014 a local agent company that keeps builds moving."))));
   const About = () => /* @__PURE__ */ React.createElement(motion.div, { variants: pageVariants, initial: "initial", animate: "enter", exit: "exit", className: "max-w-2xl" }, /* @__PURE__ */ React.createElement(motion.p, { variants: itemVariants, className: "font-mono text-[10px] tracking-widest text-ink-light uppercase mb-12" }, "02 / Trajectory"), /* @__PURE__ */ React.createElement("div", { className: "space-y-8 text-lg md:text-xl leading-relaxed text-ink/80" }, /* @__PURE__ */ React.createElement(RevealText, null, /* @__PURE__ */ React.createElement("p", null, "age is just a constraint. i approach engineering and product design with the mindset of a founder who needs to solve real problems, right now.")), /* @__PURE__ */ React.createElement(RevealText, null, /* @__PURE__ */ React.createElement("p", null, "my journey started with therooted.ai, which went on to win the stanford gsb lisa startup competition. that taught me how to pitch, build, and validate.")), /* @__PURE__ */ React.createElement(RevealText, { className: "py-8" }, /* @__PURE__ */ React.createElement(
     "img",
     {
@@ -135,30 +135,200 @@
       className: "w-full h-auto rounded-md shadow-md object-cover"
     }
   ), /* @__PURE__ */ React.createElement("p", { className: "font-mono text-[10px] text-ink-light mt-3 tracking-widest uppercase" }, "Fig 1. Foundations and family.")), /* @__PURE__ */ React.createElement(RevealText, null, /* @__PURE__ */ React.createElement("p", null, "after that, i built and scaled ideatr.dev to over 100 active users in just a few months. seeing real people use my software changed how i view the internet.")), /* @__PURE__ */ React.createElement(RevealText, null, /* @__PURE__ */ React.createElement("p", null, "now, i am focused entirely on the intersection of artificial intelligence and product-level design."))));
-  const Work = () => {
-    const projects = [
-      { year: "Now", title: "loopy.yachts", url: "https://loopy.yachts", desc: "Go to bed and wake up with a fully tested, fully optimized, live product." },
-      { year: "2026", title: "supercompress", url: "https://github.com/arjunkshah/supercompress", desc: "The new standard of context compression." },
-      { year: "2026", title: "pincer", url: "https://github.com/arjunkshah/pincer", desc: "A Chrome extension that modifies page content to support dyslexic users." },
-      { year: "Last year", title: "rooted.ai", url: "https://github.com/arjunkshah/rooted.ai", desc: "Winning Stanford GSB LISA project focused on AI-driven natural health exploration." },
-      { year: "Last year", title: "ideatr.dev", url: "https://github.com/arjunkshah/ideatr", desc: "Clone and recreate any website as a modern React app in seconds." },
-      { year: "Last year", title: "tryjasmine.dev", url: "https://tryjasmine.dev", desc: "The future of frontend design." },
-      { year: "2025", title: "Vortex21-X.github.io", url: "https://github.com/arjunkshah/Vortex21-X.github.io", desc: "A Flappy Bird game where AI birds learn to play through evolution." },
-      { year: "2024", title: "Typing Club Bot", url: "https://github.com/arjunkshah/Typing-Club-Bot", desc: "Typing Club automation and practice tooling." }
-    ];
-    return /* @__PURE__ */ React.createElement(motion.div, { variants: pageVariants, initial: "initial", animate: "enter", exit: "exit", className: "max-w-3xl w-full" }, /* @__PURE__ */ React.createElement(motion.p, { variants: itemVariants, className: "font-mono text-[10px] tracking-widest text-ink-light uppercase mb-12" }, "03 / Selected Works"), /* @__PURE__ */ React.createElement("div", { className: "flex flex-col w-full" }, projects.map((project, i) => /* @__PURE__ */ React.createElement(
-      motion.div,
+  const workProjects = [
+    {
+      slug: "loopy",
+      year: "Now",
+      title: "Loopy",
+      url: "https://loopy.yachts",
+      linkLabel: "Live",
+      desc: "Autonomous software engineer that researches, plans, builds, fixes, and loops until the product is done.",
+      overview: [
+        "Loopy is my autonomous software engineer.",
+        "You give it an idea and it handles the loop: research, planning, implementation, commits, bugfixes, and task tracking.",
+        "The product exists to keep one clear goal moving forward instead of scattering context across too many prompts."
+      ]
+    },
+    {
+      slug: "supercompress",
+      year: "2026",
+      title: "Supercompress",
+      url: "https://trysupercompress.vercel.app",
+      linkLabel: "Live",
+      desc: "Neural context compression for long-running AI agents.",
+      overview: [
+        "Supercompress started as a fix for the context problem inside Loopy.",
+        "It compresses long agent history while preserving the decisions, constraints, code references, failures, and state that actually matter.",
+        "The goal is useful memory, not generic summarization."
+      ]
+    },
+    {
+      slug: "pincer",
+      year: "2026",
+      title: "Pincer",
+      url: "https://github.com/arjunkshah/pincer",
+      linkLabel: "Repo",
+      desc: "Chrome extension that modifies page content to support dyslexic users.",
+      overview: [
+        "Pincer is a browser extension built to make web content easier to read.",
+        "It modifies page content in place so the reading experience is clearer and less tiring.",
+        "The project sits closer to accessibility tooling than a demo app."
+      ]
+    },
+    {
+      slug: "rooted",
+      year: "Last year",
+      title: "rooted.ai",
+      url: "https://rooted-ai.vercel.app",
+      linkLabel: "Live",
+      desc: "Stanford GSB LISA project focused on AI-driven natural health exploration.",
+      overview: [
+        "rooted.ai came out of a question about why modern health advice feels so fragmented.",
+        "The project explored how AI could organize natural remedies and lifestyle practices in a structured, evidence-aware way.",
+        "It was the first project that forced the idea into a real founder-shaped product."
+      ]
+    },
+    {
+      slug: "ideatr",
+      year: "Last year",
+      title: "ideatr.dev",
+      url: "https://github.com/arjunkshah/ideatr",
+      linkLabel: "Repo",
+      desc: "Clone and recreate any website as a modern React app in seconds.",
+      overview: [
+        "ideatr taught me how fast distribution and iteration start to matter once people actually use the product.",
+        "The project focused on turning web ideas into modern React builds quickly.",
+        "It became an early lesson in shipping and listening instead of overbuilding."
+      ]
+    },
+    {
+      slug: "tryjasmine",
+      year: "Last year",
+      title: "tryjasmine.dev",
+      url: "https://tryjasmine.dev",
+      linkLabel: "Live",
+      desc: "AI frontend design with stronger taste and less slop.",
+      overview: [
+        "Jasmine is the AI frontend engineer behind this portfolio's visual direction.",
+        "The focus is not just generating interfaces, but making them feel deliberate, calm, and crafted.",
+        "It is where the product taste work became a product itself."
+      ]
+    },
+    {
+      slug: "neat-flappy-bird",
+      year: "2025",
+      title: "NEAT Flappy Bird",
+      url: "https://github.com/arjunkshah/Vortex21-X.github.io",
+      linkLabel: "Repo",
+      desc: "Flappy Bird where AI birds learn to play through evolution.",
+      overview: [
+        "This is the Flappy Bird project that used evolving neural network agents.",
+        "The birds improve across generations by learning which decisions keep them alive longer.",
+        "It is a small game, but the underlying idea is the same one I keep returning to: systems that learn over time."
+      ]
+    },
+    {
+      slug: "typing-club-bot",
+      year: "2024",
+      title: "Typing Club Bot",
+      url: "https://github.com/arjunkshah/Typing-Club-Bot",
+      linkLabel: "Repo",
+      desc: "Typing Club automation and practice tooling.",
+      overview: [
+        "Typing Club Bot was an early automation project.",
+        "It focused on repeatable typing workflows and reducing friction in a very specific task.",
+        "It is one of the earliest examples of me building small tools around a narrow pain point."
+      ]
+    }
+  ];
+  const workProjectMap = Object.fromEntries(workProjects.map((project) => [project.slug, project]));
+  const Work = ({ setPath }) => /* @__PURE__ */ React.createElement(motion.div, { variants: pageVariants, initial: "initial", animate: "enter", exit: "exit", className: "max-w-3xl w-full" }, /* @__PURE__ */ React.createElement(motion.p, { variants: itemVariants, className: "font-mono text-[10px] tracking-widest text-ink-light uppercase mb-12" }, "03 / Selected Works"), /* @__PURE__ */ React.createElement("div", { className: "flex flex-col w-full" }, workProjects.map((project) => /* @__PURE__ */ React.createElement(
+    motion.div,
+    {
+      key: project.slug,
+      variants: itemVariants,
+      onClick: () => setPath(`/work/${project.slug}`),
+      className: "group flex items-center justify-between gap-4 border-b border-ink/5 py-8 md:py-12 hover:border-ink/20 transition-colors duration-500 cursor-pointer"
+    },
+    /* @__PURE__ */ React.createElement("div", { className: "flex flex-col md:flex-row md:items-baseline gap-2 md:gap-8 min-w-0" }, /* @__PURE__ */ React.createElement("span", { className: "font-mono text-xs text-ink-light w-16 shrink-0" }, project.year), /* @__PURE__ */ React.createElement("div", { className: "flex flex-col gap-2 min-w-0" }, /* @__PURE__ */ React.createElement("h3", { className: "text-2xl md:text-4xl tracking-tight transition-transform duration-500 group-hover:translate-x-2" }, project.title), /* @__PURE__ */ React.createElement("p", { className: "text-ink-light text-base md:text-lg max-w-xl" }, project.desc))),
+    /* @__PURE__ */ React.createElement(
+      "a",
       {
-        key: project.title,
-        variants: itemVariants,
-        className: "group flex flex-col md:flex-row md:items-baseline border-b border-ink/5 py-8 md:py-12 gap-2 md:gap-8 hover:border-ink/20 transition-colors duration-500 cursor-pointer"
+        href: project.url,
+        target: "_blank",
+        rel: "noopener noreferrer",
+        onClick: (e) => e.stopPropagation(),
+        className: "shrink-0 inline-flex items-center gap-2 rounded-full border border-ink/15 px-3 py-1 text-[10px] tracking-widest uppercase text-ink-light hover:border-ink/35 hover:text-ink transition-colors"
       },
-      /* @__PURE__ */ React.createElement("span", { className: "font-mono text-xs text-ink-light w-16 shrink-0" }, project.year),
-      /* @__PURE__ */ React.createElement("div", { className: "flex flex-col gap-2" }, /* @__PURE__ */ React.createElement("h3", { className: "text-2xl md:text-4xl tracking-tight transition-transform duration-500 group-hover:translate-x-2" }, /* @__PURE__ */ React.createElement("a", { href: project.url, target: "_blank", rel: "noopener noreferrer" }, project.title)), /* @__PURE__ */ React.createElement("p", { className: "text-ink-light text-base md:text-lg max-w-md" }, project.desc))
-    ))));
-  };
+      project.linkLabel,
+      /* @__PURE__ */ React.createElement("span", { "aria-hidden": "true" }, "\u2197")
+    )
+  ))));
+  const ProjectDetail = ({ project, setPath }) => /* @__PURE__ */ React.createElement(motion.div, { variants: pageVariants, initial: "initial", animate: "enter", exit: "exit", className: "max-w-3xl w-full" }, /* @__PURE__ */ React.createElement("div", { className: "flex items-start justify-between gap-6 mb-12" }, /* @__PURE__ */ React.createElement("button", { type: "button", onClick: () => setPath("/work"), className: "font-mono text-[10px] tracking-widest uppercase text-ink-light hover:text-ink transition-colors" }, "Back"), /* @__PURE__ */ React.createElement(
+    "a",
+    {
+      href: project.url,
+      target: "_blank",
+      rel: "noopener noreferrer",
+      className: "inline-flex items-center gap-2 rounded-full border border-ink/15 px-3 py-1 text-[10px] tracking-widest uppercase text-ink-light hover:border-ink/35 hover:text-ink transition-colors"
+    },
+    project.linkLabel,
+    /* @__PURE__ */ React.createElement("span", { "aria-hidden": "true" }, "\u2197")
+  )), /* @__PURE__ */ React.createElement("div", { className: "space-y-8" }, /* @__PURE__ */ React.createElement("p", { className: "font-mono text-[10px] tracking-widest text-ink-light uppercase" }, project.year), /* @__PURE__ */ React.createElement("h2", { className: "text-4xl md:text-6xl tracking-tight" }, project.title), /* @__PURE__ */ React.createElement("p", { className: "text-lg md:text-2xl leading-relaxed text-ink/80 max-w-2xl" }, project.desc), /* @__PURE__ */ React.createElement("div", { className: "space-y-6 pt-6 text-lg md:text-xl leading-relaxed text-ink/90 max-w-2xl" }, project.overview.map((paragraph, idx) => /* @__PURE__ */ React.createElement("p", { key: idx }, paragraph)))));
   const Writing = () => {
     const essays = [
+      {
+        date: "Recent",
+        title: "i built supercompress",
+        content: [
+          "i kept running into the same problem with ai agents.",
+          "not the demo problem.",
+          "the real problem.",
+          "context.",
+          "when an agent runs for five minutes, everything looks amazing. when it runs for five hours, everything starts breaking.",
+          "it forgets what it already did. it repeats work. it loses the original goal. it starts treating old decisions like new ideas. it burns tokens for no reason.",
+          "i saw this while building loopy.",
+          "loopy is my autonomous software engineer. the goal is simple: give it an idea, and it researches, plans, builds, tracks tasks, commits code, fixes bugs, and keeps looping until the product is done.",
+          "but the longer loopy ran, the more obvious the bottleneck became.",
+          "the agent did not need more prompts.",
+          "it needed better memory.",
+          "so i built supercompress.",
+          "supercompress is a neural context compression tool for ai agents.",
+          "the goal is not to summarize text into generic bullets. that loses too much signal.",
+          "the goal is to compress long context while preserving the parts an agent actually needs to keep working: decisions, constraints, code references, failures, todos, reasoning trails, and important state.",
+          "basically, the stuff a human engineer would remember.",
+          "the first version was simple. take a long agent context. compress it. feed it back in. see what broke.",
+          "a lot broke.",
+          "early versions were too aggressive. they saved tokens, but the agent lost important details. then some versions kept too much and were not useful. the hard part was finding the line between compression and memory loss.",
+          "eventually, supercompress started working.",
+          "it cut token usage by around 65% while retaining about 98.7% of the important information.",
+          "that changed the whole system.",
+          "loopy became cheaper. it became faster. it stayed on task longer. it stopped dragging around huge messy context windows. it could carry forward the right state instead of the entire conversation.",
+          "technically, supercompress is built around signal-preserving compression for agent memory. it is designed for long-running workflows where context keeps growing every loop.",
+          "it focuses on preserving things like project goals, implementation decisions, files changed, bugs found, tasks completed, unresolved issues, constraints from the user, and next actions.",
+          "that matters because agents are not just chat interfaces anymore.",
+          "they are becoming workers.",
+          "and workers need memory.",
+          "not infinite memory.",
+          "useful memory.",
+          "that is the difference.",
+          "a normal chatbot can forget things and still be fine. but an autonomous coding agent cannot forget why it created a file, what bug it already fixed, or what the user explicitly told it not to do.",
+          "that is why i think compression is going to be a core part of agent infrastructure.",
+          "everyone is trying to build smarter agents.",
+          "but smarter agents with bad memory still fail.",
+          "supercompress is my attempt at fixing that layer.",
+          "it is live now: trysupercompress.vercel.app",
+          "and the code is here: github.com/arjunkshah/supercompress",
+          "this started as a problem inside loopy, but it became its own thing.",
+          "because the more i build agents, the more i believe this:",
+          "the future of agents is not just better models.",
+          "it is better systems around the models.",
+          "memory. compression. state. feedback loops. execution.",
+          "that is what makes an agent actually useful.",
+          "supercompress is one piece of that.",
+          "and i am done with the first version."
+        ]
+      },
       {
         date: "Recent",
         title: "Building Jasmine: Why AI UI Needs Taste",
@@ -333,13 +503,20 @@
     const initialPath = typeof window !== "undefined" ? window.location.pathname : "/";
     const [currentPath, setCurrentPath] = useState(initialPath || "/");
     const renderPage = () => {
+      const detailMatch = currentPath.match(/^\/work\/([^/]+)$/);
+      if (detailMatch) {
+        const project = workProjectMap[detailMatch[1]];
+        if (project) {
+          return /* @__PURE__ */ React.createElement(ProjectDetail, { key: project.slug, project, setPath: changePath });
+        }
+      }
       switch (currentPath) {
         case "/":
           return /* @__PURE__ */ React.createElement(Home, { key: "home" });
         case "/about":
           return /* @__PURE__ */ React.createElement(About, { key: "about" });
         case "/work":
-          return /* @__PURE__ */ React.createElement(Work, { key: "work" });
+          return /* @__PURE__ */ React.createElement(Work, { key: "work", setPath: changePath });
         case "/writing":
           return /* @__PURE__ */ React.createElement(Writing, { key: "writing" });
         case "/contact":
