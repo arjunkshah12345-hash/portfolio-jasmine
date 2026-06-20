@@ -2,3 +2,5 @@
 .venv
 __pycache__/
 hourly_post.log
+.vercel
+.env*.local
