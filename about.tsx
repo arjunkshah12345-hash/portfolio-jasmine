@@ -22,10 +22,10 @@ const About = () => {
 
       <div className="space-y-8 text-lg md:text-xl leading-relaxed text-ink/80">
         <motion.div variants={itemVariants}>
-          <p>age is just a constraint. i approach engineering and product design with the mindset of a founder who needs to solve real problems, right now.</p>
+          <p>i am 14 and i build like a founder. the goal is not to make things look impressive in isolation. it is to solve real problems, ship, and keep improving the system.</p>
         </motion.div>
         <motion.div variants={itemVariants}>
-          <p>my journey started with therooted.ai, which went on to win the stanford gsb lisa startup competition. that taught me how to pitch, build, and validate.</p>
+          <p>my journey started with rooted.ai, which won the stanford gsb lisa startup competition. that taught me how to turn a question into a product, how to pitch it clearly, and how to validate the idea before it was fully formed.</p>
         </motion.div>
         
         <motion.div variants={itemVariants} className="py-8">
@@ -39,10 +39,10 @@ const About = () => {
         </motion.div>
 
         <motion.div variants={itemVariants}>
-          <p>after that, i built and scaled ideatr.dev to over 100 active users in just a few months. seeing real people use my software changed how i view the internet.</p>
+          <p>after that, i built and scaled ideatr.dev to over 100 active users in a few months. seeing real people use my software changed how i think about product, distribution, and the cost of being wrong.</p>
         </motion.div>
         <motion.div variants={itemVariants}>
-          <p>now, i am focused entirely on the intersection of artificial intelligence and product-level design.</p>
+          <p>now i am focused on the intersection of artificial intelligence, product-level design, and execution. that is why i am building loopy, supercompress, pincer, and the rest of the work around them.</p>
         </motion.div>
       </div>
     </motion.div>
