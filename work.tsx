@@ -15,9 +15,14 @@ const itemVariants = {
 
 const Work = () => {
   const projects = [
-    { year: 'Now', title: 'tryjasmine.dev', url: 'https://tryjasmine.dev', desc: 'An elite AI frontend engineer and product-level designer. Crafting interfaces without the AI slop.' },
-    { year: '2023', title: 'ideatr.dev', url: 'https://ideatr.dev', desc: 'Scaled to 100+ users in months. A platform built for rapid iteration and idea validation.' },
-    { year: '2023', title: 'therooted.ai', url: 'https://therooted.ai', desc: 'Winning project at the Stanford GSB LISA startup competition. AI-driven solutions.' }
+    { year: 'Now', title: 'loopy.yachts', url: 'https://loopy.yachts', desc: "Go to bed and wake up with a fully tested, fully optimized, live product." },
+    { year: '2026', title: 'supercompress', url: 'https://github.com/arjunkshah/supercompress', desc: 'The new standard of context compression.' },
+    { year: '2026', title: 'pincer', url: 'https://github.com/arjunkshah/pincer', desc: 'A Chrome extension that modifies page content to support dyslexic users.' },
+    { year: 'Last year', title: 'rooted.ai', url: 'https://github.com/arjunkshah/rooted.ai', desc: 'Winning Stanford GSB LISA project focused on AI-driven natural health exploration.' },
+    { year: 'Last year', title: 'ideatr.dev', url: 'https://github.com/arjunkshah/ideatr', desc: 'Clone and recreate any website as a modern React app in seconds.' },
+    { year: 'Last year', title: 'tryjasmine.dev', url: 'https://tryjasmine.dev', desc: 'The future of frontend design.' },
+    { year: '2025', title: 'Vortex21-X.github.io', url: 'https://github.com/arjunkshah/Vortex21-X.github.io', desc: 'A Flappy Bird game where AI birds learn to play through evolution.' },
+    { year: '2024', title: 'Typing Club Bot', url: 'https://github.com/arjunkshah/Typing-Club-Bot', desc: 'Typing Club automation and practice tooling.' }
   ];
 
   return (
