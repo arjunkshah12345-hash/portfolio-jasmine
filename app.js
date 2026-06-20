@@ -146,7 +146,8 @@
       overview: [
         "Loopy is my autonomous software engineer.",
         "You give it an idea and it handles the loop: research, planning, implementation, commits, bugfixes, and task tracking.",
-        "The product exists to keep one clear goal moving forward instead of scattering context across too many prompts."
+        "The system is built around short execution cycles so it can re-read the repo, update state, and keep moving without dragging stale context through every step.",
+        "That matters because long-running agents fail when they treat old decisions like current ones. Loopy tries to keep the goal, the task list, and the codebase in sync."
       ]
     },
     {
@@ -158,21 +159,23 @@
       desc: "Neural context compression for long-running AI agents.",
       overview: [
         "Supercompress started as a fix for the context problem inside Loopy.",
-        "It compresses long agent history while preserving the decisions, constraints, code references, failures, and state that actually matter.",
-        "The goal is useful memory, not generic summarization."
+        "It compresses long agent history while preserving the decisions, constraints, code references, failures, todos, and state that actually matter.",
+        "The technical goal is signal preservation under token pressure: keep enough structured memory for the agent to continue correctly, but remove the noise that wastes budget.",
+        "That turned into a reusable memory layer for long-running workflows instead of a generic summary tool."
       ]
     },
     {
       slug: "pincer",
       year: "2026",
       title: "Pincer",
-      url: "https://github.com/arjunkshah/pincer",
-      linkLabel: "Repo",
+      url: "https://trypincer.netlify.app/",
+      linkLabel: "Live",
       desc: "Chrome extension that modifies page content to support dyslexic users.",
       overview: [
         "Pincer is a browser extension built to make web content easier to read.",
-        "It modifies page content in place so the reading experience is clearer and less tiring.",
-        "The project sits closer to accessibility tooling than a demo app."
+        "It works as an on-page reading layer, modifying content in place so the page stays usable while the visual noise gets reduced.",
+        "The technical problem is browser DOM manipulation at the content-script level: rewriting text presentation without breaking layout, focus, or navigation.",
+        "It sits closer to accessibility tooling than a demo app."
       ]
     },
     {
@@ -184,7 +187,8 @@
       desc: "Stanford GSB LISA project focused on AI-driven natural health exploration.",
       overview: [
         "rooted.ai came out of a question about why modern health advice feels so fragmented.",
-        "The project explored how AI could organize natural remedies and lifestyle practices in a structured, evidence-aware way.",
+        "The project explored how AI could organize natural remedies and lifestyle practices into a structured, evidence-aware system.",
+        "The product work was about turning a broad topic into a usable information flow with clear categories, trust signals, and a cleaner path from question to answer.",
         "It was the first project that forced the idea into a real founder-shaped product."
       ]
     },
@@ -197,7 +201,8 @@
       desc: "Clone and recreate any website as a modern React app in seconds.",
       overview: [
         "ideatr taught me how fast distribution and iteration start to matter once people actually use the product.",
-        "The project focused on turning web ideas into modern React builds quickly.",
+        "The project focused on turning web ideas into modern React builds quickly, so a site could be translated from reference to working UI in a short loop.",
+        "The technical challenge was reducing the distance between intent, layout, and implementation without losing the structure that makes the original page recognizable.",
         "It became an early lesson in shipping and listening instead of overbuilding."
       ]
     },
@@ -211,6 +216,7 @@
       overview: [
         "Jasmine is the AI frontend engineer behind this portfolio's visual direction.",
         "The focus is not just generating interfaces, but making them feel deliberate, calm, and crafted.",
+        "Technically, the product is about pushing generated UI away from default composition and toward stronger decisions around spacing, typography, motion, and hierarchy.",
         "It is where the product taste work became a product itself."
       ]
     },
@@ -224,6 +230,7 @@
       overview: [
         "This is the Flappy Bird project that used evolving neural network agents.",
         "The birds improve across generations by learning which decisions keep them alive longer.",
+        "The technical idea is simple neuroevolution: evaluate fitness, keep the better agents, mutate the next generation, and repeat until the policy improves.",
         "It is a small game, but the underlying idea is the same one I keep returning to: systems that learn over time."
       ]
     },
@@ -237,6 +244,7 @@
       overview: [
         "Typing Club Bot was an early automation project.",
         "It focused on repeatable typing workflows and reducing friction in a very specific task.",
+        "The technical shape was a narrow automation loop: observe the target, reproduce the typing interaction, and keep the workflow consistent enough to be useful.",
         "It is one of the earliest examples of me building small tools around a narrow pain point."
       ]
     }

@@ -15,13 +15,13 @@ const itemVariants = {
 
 const Work = () => {
   const projects = [
-    { year: 'Now', title: 'loopy.yachts', url: 'https://loopy.yachts', desc: "Go to bed and wake up with a fully tested, fully optimized, live product." },
-    { year: '2026', title: 'supercompress', url: 'https://github.com/arjunkshah/supercompress', desc: 'The new standard of context compression.' },
-    { year: '2026', title: 'pincer', url: 'https://github.com/arjunkshah/pincer', desc: 'A Chrome extension that modifies page content to support dyslexic users.' },
-    { year: 'Last year', title: 'rooted.ai', url: 'https://github.com/arjunkshah/rooted.ai', desc: 'Winning Stanford GSB LISA project focused on AI-driven natural health exploration.' },
+    { year: 'Now', title: 'Loopy', url: 'https://loopy.yachts', desc: 'Autonomous software engineer that researches, plans, builds, fixes, and loops until the product is done.' },
+    { year: '2026', title: 'Supercompress', url: 'https://trysupercompress.vercel.app', desc: 'Neural context compression for long-running AI agents.' },
+    { year: '2026', title: 'Pincer', url: 'https://trypincer.netlify.app/', desc: 'Chrome extension that modifies page content to support dyslexic users.' },
+    { year: 'Last year', title: 'rooted.ai', url: 'https://rooted-ai.vercel.app', desc: 'Stanford GSB LISA project focused on AI-driven natural health exploration.' },
     { year: 'Last year', title: 'ideatr.dev', url: 'https://github.com/arjunkshah/ideatr', desc: 'Clone and recreate any website as a modern React app in seconds.' },
-    { year: 'Last year', title: 'tryjasmine.dev', url: 'https://tryjasmine.dev', desc: 'The future of frontend design.' },
-    { year: '2025', title: 'Vortex21-X.github.io', url: 'https://github.com/arjunkshah/Vortex21-X.github.io', desc: 'A Flappy Bird game where AI birds learn to play through evolution.' },
+    { year: 'Last year', title: 'tryjasmine.dev', url: 'https://tryjasmine.dev', desc: 'AI frontend design with stronger taste and less slop.' },
+    { year: '2025', title: 'NEAT Flappy Bird', url: 'https://github.com/arjunkshah/Vortex21-X.github.io', desc: 'Flappy Bird where AI birds learn to play through evolution.' },
     { year: '2024', title: 'Typing Club Bot', url: 'https://github.com/arjunkshah/Typing-Club-Bot', desc: 'Typing Club automation and practice tooling.' }
   ];
 
