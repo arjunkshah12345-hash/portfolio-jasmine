@@ -126,41 +126,6 @@
       )))
     );
   };
-  // ─── Site Timer ──────────────────────────────────────────────
-  const SiteTimer = () => {
-    const [time, setTime] = React.useState(0);
-    const startRef = React.useRef(null);
-
-    React.useEffect(() => {
-      // Get or set session start time
-      let start = sessionStorage.getItem('site-start');
-      if (!start) {
-        start = Date.now().toString();
-        sessionStorage.setItem('site-start', start);
-      }
-      startRef.current = parseInt(start, 10);
-
-      const tick = () => {
-        const elapsed = Math.floor((Date.now() - startRef.current) / 1000);
-        setTime(elapsed);
-      };
-      tick();
-      const interval = setInterval(tick, 1000);
-      return () => clearInterval(interval);
-    }, []);
-
-    const formatTime = (s) => {
-      const h = Math.floor(s / 3600);
-      const m = Math.floor((s % 3600) / 60);
-      const sec = s % 60;
-      if (h > 0) return `${h}h ${m}m ${sec}s`;
-      if (m > 0) return `${m}m ${sec}s`;
-      return `${sec}s`;
-    };
-
-    return /* @__PURE__ */ React.createElement("span", { className: "font-mono text-[10px] tracking-widest uppercase text-ink-light" }, "on site for ", formatTime(time));
-  };
-
   // ─── NEAT Flappy Bird ────────────────────────────────────────
   const FlappyBirdHome = () => {
     const canvasRef = React.useRef(null);
@@ -287,7 +252,6 @@
           /* @__PURE__ */ React.createElement("span", { "aria-hidden": "true", className: "group-hover:translate-x-0.5 transition-transform" }, "\u2197")
         )
       ),
-      /* @__PURE__ */ React.createElement("div", { className: "text-center" }, /* @__PURE__ */ React.createElement(SiteTimer, null))
     )),
   ));
   const About = () => /* @__PURE__ */ React.createElement(motion.div, { variants: pageVariants, initial: "initial", animate: "enter", exit: "exit", className: "max-w-2xl" }, /* @__PURE__ */ React.createElement(motion.p, { variants: itemVariants, className: "font-mono text-[10px] tracking-widest text-ink-light uppercase mb-12" }, "02 / Trajectory"), /* @__PURE__ */ React.createElement("div", { className: "space-y-8 text-lg md:text-xl leading-relaxed text-ink/80" }, /* @__PURE__ */ React.createElement(RevealText, null, /* @__PURE__ */ React.createElement("p", null, "i am arjun shah. i am 14 and i build like a founder. the goal is not to make things look impressive in isolation. it is to solve real problems, ship, and keep improving the system. i code in typescript, python, and swift, and my work spans the entire stack \u2014 from agent orchestration to neural compression to browser extensions.")), /* @__PURE__ */ React.createElement(RevealText, null, /* @__PURE__ */ React.createElement("p", null, "my journey started with rooted.ai, which won the stanford gsb lisa startup competition. that taught me how to turn a question into a product, how to pitch it clearly, and how to validate the idea before it was fully formed.")), /* @__PURE__ */ React.createElement(RevealText, { className: "py-8" }, /* @__PURE__ */ React.createElement(
