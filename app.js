@@ -246,18 +246,6 @@
         "It sits closer to accessibility tooling than a demo app — focused on real usability for people who struggle with dense web layouts."
       ]
     },
-      year: "2026",
-      title: "Pincer",
-      url: "https://trypincer.netlify.app/",
-      linkLabel: "Live",
-      desc: "Chrome extension that modifies page content to support dyslexic users.",
-      overview: [
-        "Pincer is a browser extension built to make web content easier to read.",
-        "It works as an on-page reading layer, modifying content in place so the page stays usable while the visual noise gets reduced.",
-        "The technical problem is browser DOM manipulation at the content-script level: rewriting text presentation without breaking layout, focus, or navigation.",
-        "It sits closer to accessibility tooling than a demo app."
-      ]
-    },
     {
       slug: "rooted",
       year: "Last year",
