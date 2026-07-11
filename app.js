@@ -126,121 +126,222 @@
       )))
     );
   };
-  // ─── ASCII Art Terminal ──────────────────────────────────────
-  const asciiArtPieces = [
-    `
-             ___
-            /   \\
-       .-. | (@) |
-      /   \\|.___/|
-     /     \\     |
-    /       \\    |
-   /    ____\\___/
-  /    /            arjunkshah
- /    /
-/ ___/
-`,
-    `
-    ╔══════════════════╗
-    ║                  ║
-    ║  14 · builder    ║
-    ║  AI · agents     ║
-    ║  taste · ship    ║
-    ║                  ║
-    ╚══════════════════╝
-`,
-    `
-    ░█▀▄░█▀█░█▀█░█░█░█░█▀▀░█▀▀
-    ░█░█░█▀█░█░█░█▄█░█░▀▀█░▀▀█
-    ░▀▀░░▀░▀░▀░▀░▀░▀░▀░▀▀▀░▀▀▀
-`
-  ];
-
-  const AsciiTerminal = () => {
-    const [displayedText, setDisplayedText] = React.useState('');
-    const [pieceIndex, setPieceIndex] = React.useState(0);
-    const [cursor, setCursor] = React.useState(true);
-    const [phase, setPhase] = React.useState('typing'); // typing | pausing | erasing
-    const charIndexRef = React.useRef(0);
-    const timerRef = React.useRef(null);
+  // ─── Playable Flappy Bird ────────────────────────────────────
+  const PlayableFlappyBird = () => {
+    const canvasRef = React.useRef(null);
+    const gameRef = React.useRef(null);
+    const [score, setScore] = React.useState(0);
+    const [best, setBest] = React.useState(0);
+    const [playing, setPlaying] = React.useState(false);
 
     React.useEffect(() => {
-      const currentPiece = asciiArtPieces[pieceIndex];
+      const canvas = canvasRef.current;
+      if (!canvas) return;
+      const ctx = canvas.getContext('2d');
+      canvas.width = 400;
+      canvas.height = 600;
 
-      const tick = () => {
-        if (phase === 'typing') {
-          if (charIndexRef.current < currentPiece.length) {
-            charIndexRef.current++;
-            setDisplayedText(currentPiece.slice(0, charIndexRef.current));
-            timerRef.current = setTimeout(tick, 16 + Math.random() * 24);
-          } else {
-            setPhase('pausing');
-            timerRef.current = setTimeout(tick, 2500);
-          }
-        } else if (phase === 'pausing') {
-          setPhase('erasing');
-          timerRef.current = setTimeout(tick, 80);
-        } else if (phase === 'erasing') {
-          if (charIndexRef.current > 0) {
-            charIndexRef.current -= 2;
-            if (charIndexRef.current < 0) charIndexRef.current = 0;
-            setDisplayedText(currentPiece.slice(0, charIndexRef.current));
-            timerRef.current = setTimeout(tick, 10 + Math.random() * 16);
-          } else {
-            setPhase('typing');
-            setPieceIndex((prev) => (prev + 1) % asciiArtPieces.length);
-            timerRef.current = setTimeout(tick, 200);
-          }
+      // Game state
+      let bird = { x: 80, y: 250, vy: 0, r: 14 };
+      let pipes = [];
+      let frame = 0;
+      let gameScore = 0;
+      let gameOver = false;
+      let started = false;
+      let animId = null;
+
+      const GRAVITY = 0.45;
+      const FLAP = -7;
+      const PIPE_W = 45;
+      const PIPE_GAP = 170;
+      const PIPE_SPEED = 3;
+
+      const reset = () => {
+        bird = { x: 80, y: 250, vy: 0, r: 14 };
+        pipes = [];
+        frame = 0;
+        gameScore = 0;
+        gameOver = false;
+        started = false;
+        setScore(0);
+      };
+
+      const flap = () => {
+        if (gameOver) { reset(); return; }
+        bird.vy = FLAP;
+        if (!started) started = true;
+      };
+
+      const handleKey = (e) => { if (e.code === 'Space' || e.key === ' ') { e.preventDefault(); flap(); } };
+      const handleClick = () => flap();
+
+      canvas.addEventListener('click', handleClick);
+      window.addEventListener('keydown', handleKey);
+
+      const draw = () => {
+        ctx.fillStyle = '#1a1a18';
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+        // Ground
+        ctx.fillStyle = '#252523';
+        ctx.fillRect(0, canvas.height - 40, canvas.width, 40);
+        ctx.strokeStyle = '#333330';
+        ctx.lineWidth = 1;
+        ctx.beginPath();
+        ctx.moveTo(0, canvas.height - 40);
+        ctx.lineTo(canvas.width, canvas.height - 40);
+        ctx.stroke();
+
+        // Pipes
+        for (const p of pipes) {
+          // Top pipe
+          ctx.fillStyle = '#333330';
+          ctx.fillRect(p.x, 0, PIPE_W, p.top);
+          ctx.fillStyle = '#2a2a28';
+          ctx.fillRect(p.x - 3, p.top - 25, PIPE_W + 6, 25);
+          // Bottom pipe
+          ctx.fillStyle = '#333330';
+          ctx.fillRect(p.x, p.top + PIPE_GAP, PIPE_W, canvas.height - p.top - PIPE_GAP - 40);
+          ctx.fillStyle = '#2a2a28';
+          ctx.fillRect(p.x - 3, p.top + PIPE_GAP, PIPE_W + 6, 25);
+        }
+
+        // Bird
+        ctx.save();
+        ctx.translate(bird.x, bird.y);
+        const angle = Math.min(Math.max(bird.vy * 0.06, -0.5), 0.8);
+        ctx.rotate(angle);
+
+        // Body
+        ctx.beginPath();
+        ctx.arc(0, 0, bird.r, 0, Math.PI * 2);
+        ctx.fillStyle = '#e8e5dd';
+        ctx.fill();
+        ctx.strokeStyle = '#333330';
+        ctx.lineWidth = 1.5;
+        ctx.stroke();
+
+        // Eye
+        ctx.beginPath();
+        ctx.arc(6, -4, 5, 0, Math.PI * 2);
+        ctx.fillStyle = '#1a1a18';
+        ctx.fill();
+        ctx.beginPath();
+        ctx.arc(7, -5, 2, 0, Math.PI * 2);
+        ctx.fillStyle = '#e8e5dd';
+        ctx.fill();
+
+        // Beak
+        ctx.beginPath();
+        ctx.moveTo(14, 0);
+        ctx.lineTo(22, 3);
+        ctx.lineTo(14, 6);
+        ctx.closePath();
+        ctx.fillStyle = '#333330';
+        ctx.fill();
+
+        ctx.restore();
+
+        // Score
+        ctx.fillStyle = '#e8e5dd';
+        ctx.font = '18px "Iowan Old Style", Georgia, serif';
+        ctx.textAlign = 'center';
+        ctx.fillText(gameScore, canvas.width / 2, 50);
+
+        if (gameOver) {
+          ctx.fillStyle = 'rgba(26,26,24,0.75)';
+          ctx.fillRect(0, 0, canvas.width, canvas.height);
+          ctx.fillStyle = '#e8e5dd';
+          ctx.font = '14px "Iowan Old Style", Georgia, serif';
+          ctx.textAlign = 'center';
+          ctx.fillText('Score: ' + gameScore, canvas.width / 2, canvas.height / 2 - 20);
+          ctx.fillStyle = '#999';
+          ctx.font = '10px monospace';
+          ctx.fillText('click or space to restart', canvas.width / 2, canvas.height / 2 + 20);
+        } else if (!started) {
+          ctx.fillStyle = 'rgba(232,229,221,0.6)';
+          ctx.font = '11px monospace';
+          ctx.textAlign = 'center';
+          ctx.fillText('click or press space', canvas.width / 2, canvas.height / 2 + 60);
         }
       };
 
-      timerRef.current = setTimeout(tick, phase === 'typing' ? 100 : 16);
+      const update = () => {
+        if (gameOver || !started) { draw(); return; }
+
+        bird.vy += GRAVITY;
+        bird.y += bird.vy;
+
+        // Pipes
+        if (frame % 120 === 0) {
+          const top = 40 + Math.random() * (canvas.height - PIPE_GAP - 120);
+          pipes.push({ x: canvas.width, top });
+        }
+
+        for (let i = pipes.length - 1; i >= 0; i--) {
+          pipes[i].x -= PIPE_SPEED;
+          if (pipes[i].x < -PIPE_W) { pipes.splice(i, 1); continue; }
+
+          // Check pass
+          if (pipes[i].x + PIPE_W < bird.x && !pipes[i].scored) {
+            pipes[i].scored = true;
+            gameScore++;
+            setScore(gameScore);
+            if (gameScore > best) {
+              setBest(gameScore);
+              try { localStorage.setItem('flappy-best', gameScore); } catch {}
+            }
+          }
+
+          // Collision
+          if (bird.x + bird.r > pipes[i].x && bird.x - bird.r < pipes[i].x + PIPE_W) {
+            if (bird.y - bird.r < pipes[i].top || bird.y + bird.r > pipes[i].top + PIPE_GAP) {
+              gameOver = true;
+            }
+          }
+        }
+
+        // Ground / ceiling
+        if (bird.y + bird.r > canvas.height - 40 || bird.y - bird.r < 0) {
+          gameOver = true;
+        }
+
+        frame++;
+        draw();
+      };
+
+      // Load best
+      try {
+        const saved = localStorage.getItem('flappy-best');
+        if (saved) setBest(parseInt(saved, 10) || 0);
+      } catch {}
+
+      const loop = () => {
+        update();
+        animId = requestAnimationFrame(loop);
+      };
+      loop();
 
       return () => {
-        if (timerRef.current) clearTimeout(timerRef.current);
+        canvas.removeEventListener('click', handleClick);
+        window.removeEventListener('keydown', handleKey);
+        if (animId) cancelAnimationFrame(animId);
       };
-    }, [pieceIndex, phase]);
-
-    // Blinking cursor
-    React.useEffect(() => {
-      const ci = setInterval(() => setCursor((c) => !c), 530);
-      return () => clearInterval(ci);
     }, []);
 
     return /* @__PURE__ */ React.createElement(RevealText, null, /* @__PURE__ */ React.createElement("div", { className: "w-full py-8 md:py-12 border-t border-ink/10" },
-      /* @__PURE__ */ React.createElement("div", { className: "flex items-center gap-3 mb-4" },
-        /* @__PURE__ */ React.createElement("span", { className: "font-mono text-[9px] tracking-widest uppercase border border-ink/15 rounded-full px-2 py-0.5 text-ink-light" }, "Terminal"),
-        /* @__PURE__ */ React.createElement("h3", { className: "text-lg md:text-2xl tracking-tight" }, "ascii-skill \u2014 Live Demo")
+      /* @__PURE__ */ React.createElement("div", { className: "flex items-center gap-3 mb-6" },
+        /* @__PURE__ */ React.createElement("span", { className: "font-mono text-[9px] tracking-widest uppercase border border-ink/15 rounded-full px-2 py-0.5 text-ink-light" }, "Game"),
+        /* @__PURE__ */ React.createElement("h3", { className: "text-lg md:text-2xl tracking-tight" }, "Flappy Bird")
       ),
-      /* @__PURE__ */ React.createElement("div", {
-        className: "w-full rounded-md overflow-hidden ring-1 ring-ink/15",
-        style: { background: '#121210' }
-      },
-        /* @__PURE__ */ React.createElement("div", { className: "flex items-center gap-1.5 px-3 py-2 border-b border-white/5" },
-          /* @__PURE__ */ React.createElement("span", { className: "w-2.5 h-2.5 rounded-full", style: { background: '#ff5f56' } }),
-          /* @__PURE__ */ React.createElement("span", { className: "w-2.5 h-2.5 rounded-full", style: { background: '#ffbd2e' } }),
-          /* @__PURE__ */ React.createElement("span", { className: "w-2.5 h-2.5 rounded-full", style: { background: '#27c93f' } }),
-          /* @__PURE__ */ React.createElement("span", { className: "ml-2 font-mono text-[9px] tracking-widest uppercase", style: { color: 'rgba(255,255,255,0.25)' } }, "ascii-skill — arjunkshah")
-        ),
-        /* @__PURE__ */ React.createElement("pre", {
-          className: "font-mono text-xs md:text-sm leading-relaxed p-4 md:p-6 overflow-x-auto",
-          style: {
-            color: '#b5cea8',
-            minHeight: '180px',
-            textShadow: '0 0 4px rgba(181, 206, 168, 0.15)'
-          }
-        },
-          displayedText,
-          /* @__PURE__ */ React.createElement("span", {
-            style: {
-              opacity: cursor ? 1 : 0,
-              transition: 'opacity 0.1s',
-              color: '#b5cea8'
-            }
-          }, '\u2588')
-        )
+      /* @__PURE__ */ React.createElement("div", { className: "flex flex-wrap gap-4 mb-6 font-mono text-[10px] tracking-widest text-ink-light uppercase" },
+        /* @__PURE__ */ React.createElement("span", null, "Score ", score),
+        /* @__PURE__ */ React.createElement("span", null, "Best ", best)
       ),
-      /* @__PURE__ */ React.createElement("p", { className: "text-ink-light text-sm mt-3 max-w-lg" }, "a live demo of ascii-skill rendering in the browser. install it: ", /* @__PURE__ */ React.createElement("code", { className: "font-mono text-[10px] bg-ink/5 px-1.5 py-0.5 rounded" }, "npx skills add arjunkshah/ascii-skill"), ".")
+      /* @__PURE__ */ React.createElement("div", { className: "relative w-full max-w-[400px] mx-auto rounded-md overflow-hidden ring-1 ring-ink/10" },
+        /* @__PURE__ */ React.createElement("canvas", { ref: canvasRef, className: "w-full h-auto block cursor-pointer", style: { aspectRatio: "400/600", background: "#1a1a18" } })
+      ),
+      /* @__PURE__ */ React.createElement("p", { className: "text-ink-light text-sm mt-4 max-w-lg mx-auto text-center" }, "Click or press space to flap. How high can you score?")
     ));
   };
 
@@ -320,48 +421,13 @@
     });
   };
 
-  const FlappyBirdHome = () => {
-    const canvasRef = React.useRef(null);
-    const gameRef = React.useRef(null);
-    const [stats, setStats] = React.useState({ generation: 0, bestScore: 0, allTimeBest: 0, aliveCount: 0, totalBirds: 80, runningTime: 0 });
-    const formatTime = (s) => {
-      const m = Math.floor(s / 60);
-      const sec = s % 60;
-      return m > 0 ? m + 'm ' + sec + 's' : sec + 's';
-    };
-    React.useEffect(() => {
-      const canvas = canvasRef.current;
-      if (!canvas) return;
-      canvas.width = 400;
-      canvas.height = 600;
-      const game = new FlappyBirdGame(canvas, setStats);
-      gameRef.current = game;
-      return () => { if (gameRef.current) { gameRef.current.destroy(); gameRef.current = null; } };
-    }, []);
-    return /* @__PURE__ */ React.createElement(RevealText, null, /* @__PURE__ */ React.createElement("div", { className: "w-full py-8 md:py-12 border-t border-ink/10" },
-      /* @__PURE__ */ React.createElement("div", { className: "flex items-center gap-3 mb-6" },
-        /* @__PURE__ */ React.createElement("span", { className: "font-mono text-[9px] tracking-widest uppercase border border-ink/15 rounded-full px-2 py-0.5 text-ink-light" }, "Evolution"),
-        /* @__PURE__ */ React.createElement("h3", { className: "text-lg md:text-2xl tracking-tight" }, "NEAT Flappy Bird \u2014 AI Learning in Real Time")
-      ),
-      /* @__PURE__ */ React.createElement("div", { className: "flex flex-wrap gap-4 mb-6 font-mono text-[10px] tracking-widest text-ink-light uppercase" },
-        /* @__PURE__ */ React.createElement("span", null, "Generation ", stats.generation),
-        /* @__PURE__ */ React.createElement("span", null, "Best Score ", stats.bestScore),
-        /* @__PURE__ */ React.createElement("span", null, "All-Time ", stats.allTimeBest),
-        /* @__PURE__ */ React.createElement("span", { className: "text-ink/50" }, "Running ", formatTime(stats.runningTime))
-      ),
-      /* @__PURE__ */ React.createElement("div", { className: "relative w-full max-w-[400px] mx-auto rounded-md overflow-hidden ring-1 ring-ink/10" },
-        /* @__PURE__ */ React.createElement("canvas", { ref: canvasRef, className: "w-full h-auto block", style: { aspectRatio: "400/600", background: "#1a1a18" } })
-      ),
-      /* @__PURE__ */ React.createElement("p", { className: "text-ink-light text-sm mt-4 max-w-lg mx-auto text-center" }, "Each generation of birds evolves a better neural network. The best scorers pass their genes \u2014 mutation, crossover, survival of the fittest. All running in your browser.")
-    ));
-  };
+
   const Home = () => /* @__PURE__ */ React.createElement(motion.div, { variants: pageVariants, initial: "initial", animate: "enter", exit: "exit", className: "max-w-2xl w-full" }, /* @__PURE__ */ React.createElement(motion.p, { variants: itemVariants, className: "font-mono text-[10px] tracking-widest text-ink-light uppercase mb-8" }, "01 / Introduction"), /* @__PURE__ */ React.createElement("div", { className: "space-y-6 text-xl md:text-3xl leading-relaxed md:leading-relaxed font-light tracking-tight" },
     /* @__PURE__ */ React.createElement(RevealText, null, /* @__PURE__ */ React.createElement("p", null, "i am arjun shah. i started coding at 7 \u2014 python on tynker, then neural networks, then shipped products before i was a teenager.")),
     /* @__PURE__ */ React.createElement(RevealText, null, /* @__PURE__ */ React.createElement("p", null, "at 13, i built rooted.ai and won the stanford gsb lisa startup competition. at 14, i grew ideatr.dev to 100+ active users. now i build autonomous agents, context compression engines, ASCII art libraries, and design taste systems.")),
     /* @__PURE__ */ React.createElement(RevealText, null, /* @__PURE__ */ React.createElement("p", null, "my work spans loopy (autonomous software engineer), supercompress (neural context compression), ascii-skill (ASCII art for AI agents), pincer (dyslexia-friendly browsing), and jasmine (AI frontend with taste). across 86 repos on gitlab and github.")),
     /* @__PURE__ */ React.createElement(RevealText, null, /* @__PURE__ */ React.createElement("p", { className: "text-ink-light italic text-lg md:text-xl mt-8" }, "i believe in shipping fast, iterating relentlessly, and building tools that are quiet, intentional, and powerful. i also recently started documenting the full journey on video \u2014 episode 1 is live on ", /* @__PURE__ */ React.createElement("a", { href: "https://x.com/arjunkshah21/status/2075300855780356143/video/1/", target: "_blank", rel: "noopener noreferrer", className: "underline underline-offset-4 decoration-ink/30 hover:decoration-ink transition-all" }, "x.com/arjunkshah21"), ".")),
-    /* @__PURE__ */ React.createElement(AsciiTerminal, null),
-    /* @__PURE__ */ React.createElement(FlappyBirdHome, null)
+    /* @__PURE__ */ React.createElement(PlayableFlappyBird, null)
   ));
   const About = () => /* @__PURE__ */ React.createElement(motion.div, { variants: pageVariants, initial: "initial", animate: "enter", exit: "exit", className: "max-w-2xl" }, /* @__PURE__ */ React.createElement(motion.p, { variants: itemVariants, className: "font-mono text-[10px] tracking-widest text-ink-light uppercase mb-12" }, "02 / Trajectory"), /* @__PURE__ */ React.createElement("div", { className: "space-y-8 text-lg md:text-xl leading-relaxed text-ink/80" }, /* @__PURE__ */ React.createElement(RevealText, null, /* @__PURE__ */ React.createElement("p", null, "i am arjun shah. i am 14 and i build like a founder. the goal is not to make things look impressive in isolation. it is to solve real problems, ship, and keep improving the system. i code in typescript, python, and swift, and my work spans the entire stack \u2014 from agent orchestration to neural compression to browser extensions.")), /* @__PURE__ */ React.createElement(RevealText, null, /* @__PURE__ */ React.createElement("p", null, "my journey started with rooted.ai, which won the stanford gsb lisa startup competition. that taught me how to turn a question into a product, how to pitch it clearly, and how to validate the idea before it was fully formed.")), /* @__PURE__ */ React.createElement(RevealText, { className: "py-8" }, /* @__PURE__ */ React.createElement(
     "img",
