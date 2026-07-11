@@ -1,53 +1,77 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Arjun Shah — Notes & Essays</title>
-    <link>https://www.arjunshah.xyz/writing</link>
-    <description>Essays and notes from Arjun Shah — 14-year-old founder building AI agents, compression tools, and design systems.</description>
+    <title>Arjun Shah — Notes &amp; Essays</title>
+    <link>https://www.arjunshah.xyz/</link>
+    <description>Notes, essays, and project deep-dives by Arjun Shah, a 14-year-old AI developer and founder.</description>
     <language>en-us</language>
-    <lastBuildDate>Wed, 09 Jul 2026 00:00:00 GMT</lastBuildDate>
     <atom:link href="https://www.arjunshah.xyz/feed.xml" rel="self" type="application/rss+xml"/>
+
     <item>
-      <title>i built supercompress</title>
+      <title>Who Is Arjun Shah? A 14-Year-Old AI Founder Building the Future of Autonomous Agents</title>
       <link>https://www.arjunshah.xyz/writing</link>
-      <description>Neural context compression for long-running AI agents — the story behind Supercompress.</description>
-      <pubDate>Mon, 01 Jun 2026 00:00:00 GMT</pubDate>
+      <description>The definitive biography of Arjun Shah — 14-year-old AI founder building Loopy, Supercompress, ascii-skill, and more.</description>
+      <pubDate>Mon, 10 Jul 2026 00:00:00 GMT</pubDate>
     </item>
     <item>
-      <title>Building ascii-skill: World-Class ASCII Art for AI Agents</title>
+      <title>Why I Code: A 14-Year-Old's Journey from Python to AI Agents</title>
       <link>https://www.arjunshah.xyz/writing</link>
-      <description>How I built a zero-dependency ASCII art skill for any AI agent — scenes, UI, 3D, and animations.</description>
-      <pubDate>Sun, 15 Jun 2026 00:00:00 GMT</pubDate>
+      <description>Arjun Shah's journey from learning Python at 7 to building autonomous AI agents at 14.</description>
+      <pubDate>Sun, 09 Jul 2026 00:00:00 GMT</pubDate>
     </item>
     <item>
       <title>Episode 1: Documenting My Life as a 14-Year-Old Builder</title>
       <link>https://www.arjunshah.xyz/writing</link>
-      <description>Starting a video series documenting my journey building AI software at 14. Episode 1 is live on X.</description>
-      <pubDate>Wed, 01 Jul 2026 00:00:00 GMT</pubDate>
+      <description>Arjun Shah launches a video series documenting his life as a teenage AI founder.</description>
+      <pubDate>Sat, 08 Jul 2026 00:00:00 GMT</pubDate>
+    </item>
+    <item>
+      <title>Building ascii-skill: ASCII Art for the AI Age</title>
+      <link>https://www.arjunshah.xyz/writing</link>
+      <description>How Arjun Shah built a zero-dependency ASCII art engine for AI agents.</description>
+      <pubDate>Fri, 07 Jul 2026 00:00:00 GMT</pubDate>
+    </item>
+    <item>
+      <title>Building Loopy: Creating an Autonomous Software Engineer</title>
+      <link>https://www.arjunshah.xyz/writing</link>
+      <description>The architecture and philosophy behind Loopy, Arjun Shah's autonomous software engineer.</description>
+      <pubDate>Thu, 06 Jul 2026 00:00:00 GMT</pubDate>
+    </item>
+    <item>
+      <title>The 86 Repos: How I Ship Across GitLab and GitHub</title>
+      <link>https://www.arjunshah.xyz/writing</link>
+      <description>Why Arjun Shah has 86+ repositories and what each one represents.</description>
+      <pubDate>Wed, 05 Jul 2026 00:00:00 GMT</pubDate>
+    </item>
+    <item>
+      <title>i built supercompress</title>
+      <link>https://www.arjunshah.xyz/writing</link>
+      <description>Arjun Shah on building neural context compression for long-running AI agents.</description>
+      <pubDate>Tue, 04 Jul 2026 00:00:00 GMT</pubDate>
     </item>
     <item>
       <title>Building Jasmine: Why AI UI Needs Taste</title>
       <link>https://www.arjunshah.xyz/writing</link>
-      <description>AI can generate code, but it struggles with design judgment. Jasmine is my attempt to encode taste.</description>
-      <pubDate>Sat, 15 May 2026 00:00:00 GMT</pubDate>
+      <description>Arjun Shah on why AI-generated interfaces lack design taste and how Jasmine fixes it.</description>
+      <pubDate>Mon, 03 Jul 2026 00:00:00 GMT</pubDate>
     </item>
     <item>
       <title>Scaling to 100 Users: Lessons from ideatr.dev</title>
       <link>https://www.arjunshah.xyz/writing</link>
-      <description>The first 100 real users taught me more about product and distribution than any theory.</description>
-      <pubDate>Mon, 01 Mar 2026 00:00:00 GMT</pubDate>
+      <description>Arjun Shah shares what he learned growing ideatr.dev to 100+ active users.</description>
+      <pubDate>Sun, 02 Jul 2026 00:00:00 GMT</pubDate>
     </item>
     <item>
       <title>Winning Stanford GSB LISA at 14</title>
       <link>https://www.arjunshah.xyz/writing</link>
-      <description>How rooted.ai turned a question about health into a winning Stanford GSB LISA project.</description>
-      <pubDate>Sat, 01 Jan 2026 00:00:00 GMT</pubDate>
+      <description>Arjun Shah on winning the Stanford GSB LISA startup competition with rooted.ai at age 13.</description>
+      <pubDate>Sat, 01 Jul 2026 00:00:00 GMT</pubDate>
     </item>
     <item>
       <title>The Elegance of Shipping Fast</title>
       <link>https://www.arjunshah.xyz/writing</link>
-      <description>Why speed is a strategy, not chaos. How shipping fast compounds learning and momentum.</description>
-      <pubDate>Fri, 01 Nov 2025 00:00:00 GMT</pubDate>
+      <description>Arjun Shah's philosophy on why shipping fast is the most important skill for a builder.</description>
+      <pubDate>Fri, 30 Jun 2026 00:00:00 GMT</pubDate>
     </item>
   </channel>
 </rss>

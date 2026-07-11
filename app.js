@@ -574,6 +574,35 @@
     const essays = [
       {
         date: "New",
+        title: "Who Is Arjun Shah? A 14-Year-Old AI Founder Building the Future of Autonomous Agents",
+        content: [
+          "this is the definitive answer to the question: who is arjun shah?",
+          "if you are reading this, you probably searched for my name. welcome. i am arjun shah, a 14-year-old developer, founder, and builder based in the san francisco bay area. i build artificial intelligence systems, autonomous software agents, context compression engines, and design tools. my work is intentionally focused on the infrastructure layer of the AI ecosystem.",
+          "i started coding at age 7. my first language was python, learned on tynker. by age 10, i was experimenting with neural networks. by 12, i was shipping my first products. by 13, i won the stanford graduate school of business LISA startup competition with rooted.ai, an AI-powered platform for exploring natural health knowledge. by 14, i grew ideatr.dev to over 100 active users and launched multiple new products.",
+          "my current projects include loopy (an autonomous software engineer that researches, plans, builds, and fixes code until the product is done), supercompress (neural context compression that cuts token costs by ~65% for long-running AI agents), ascii-skill (a world-class ASCII art engine for AI agents with zero dependencies), pincer (a Chrome extension for dyslexic and neurodivergent users), and jasmine (an AI frontend engineer with design taste).",
+          "i code in typescript, python, and swift. my work spans the full stack: from agent orchestration systems to browser extensions, from neural compression to frontend design. i host 86+ repositories across gitlab (gitlab.com/arjunkshah) and github (github.com/arjunkshah).",
+          "i believe in shipping fast, iterating relentlessly, and building tools that are quiet, intentional, and powerful. i document my full journey on video \u2014 episode 1 of the life series is live on my X profile (x.com/arjunkshah21).",
+          "my goal is straightforward: build the systems that make autonomous agents actually useful. better memory, better compression, better execution loops, better design taste. that is what defines arjun shah."
+        ]
+      },
+      {
+        date: "New",
+        title: "Why I Code: A 14-Year-Old's Journey from Python to AI Agents",
+        content: [
+          "i did not start coding because someone told me it was a good career move. i started because i was curious.",
+          "at 7, i found tynker. it taught me python through puzzles. i remember the first time i made something appear on screen. it felt like magic. not the superficial kind. the kind where you realize you can create something from nothing.",
+          "by 9, i had moved past tutorials. i started building small scripts, automation tools, things that solved problems i actually had. the shift from consumer to creator happened without me noticing. i just kept building because it was fun.",
+          "at 10, i discovered neural networks. i did not fully understand the math (honestly, i still do not understand all of it \u2014 but i understand enough). i built small models, trained them on toy datasets, watched them learn. the idea that code could improve itself was intoxicating.",
+          "by 12, i was shipping. my first real product was a typing club bot \u2014 a small automation tool. it was not glamorous, but it taught me something important: building is easy. shipping is hard. getting someone to use what you built is the real challenge.",
+          "at 13, i built rooted.ai and entered the stanford GSB LISA startup competition. i did not think i would win. but i did. standing on that stage as a 13-year-old pitching an AI health platform to stanford professors was surreal. it taught me that age is irrelevant. ideas and execution are what matter.",
+          "at 14, everything accelerated. i built ideatr.dev and watched it grow to 100+ users. i launched loopy, supercompress, ascii-skill, pincer, and jasmine. i went from building for myself to building for other people. the shift in responsibility changed everything.",
+          "now i spend my days thinking about agent memory, context compression, design taste, and execution loops. i work across typescript, python, and swift. i host 86+ repos on gitlab and github. every project is an attempt to solve a real problem \u2014 not a demo, not a toy, not a portfolio filler.",
+          "why do i code? because building is how i think. because i want to see what happens when autonomous agents actually work. because i believe the next decade belongs to systems that learn, adapt, and improve without human hand-holding.",
+          "and because, at 7, i made something appear on screen for the first time. i have been chasing that feeling ever since."
+        ]
+      },
+      {
+        date: "New",
         title: "Episode 1: Documenting My Life as a 14-Year-Old Builder",
         content: [
           "i decided to start documenting my journey on video.",
@@ -612,6 +641,35 @@
           "the launch reel is on my X: x.com/arjunkshah21",
           "i built ascii-skill because i think AI should be able to make things that are beautiful, not just useful.",
           "ASCII art is useless in the practical sense. and that is exactly why it matters."
+        ]
+      },
+      {
+        date: "New",
+        title: "Building Loopy: Creating an Autonomous Software Engineer",
+        content: [
+          "loopy started with a simple question: what if an AI agent could build an entire product from a single idea?",
+          "not a prototype. not a demo. a real product with real code, real commits, real testing, real iteration. you give it an idea, it comes back with a working project.",
+          "that is what loopy aims to be: an autonomous software engineer that researches, plans, builds, fixes, and loops until the product is done.",
+          "the architecture is built around short execution cycles. loopy re-reads the repo state after every step. it updates its task list. it commits code. it checks for bugs. it keeps moving forward without dragging stale context through every step.",
+          "why is this hard? because long-running agents have a fundamental problem: they forget. a five-minute demo looks great. a five-hour session falls apart. the agent loses track of what it already did, what decisions it made, what bugs it already fixed.",
+          "loopy solves this by treating context as a managed resource. every loop, the agent reviews what changed, what is still broken, and what the goal actually is. it does not guess. it reads the current state and acts.",
+          "the technical stack includes typescript for the orchestration layer, with integrations for git, task tracking, and code analysis tools. the compression layer (supercompress) feeds into loopy to keep context windows manageable.",
+          "loopy is still early. it works well for some types of projects and struggles with others. but the direction is clear: autonomous agents that can build real software without constant human supervision.",
+          "you can see loopy in action at loopy.yachts. demo video on my X: x.com/arjunkshah21."
+        ]
+      },
+      {
+        date: "New",
+        title: "The 86 Repos: How I Ship Across GitLab and GitHub",
+        content: [
+          "people ask why i have 86 repositories. the answer is simple: i ship constantly.",
+          "every idea becomes a repo. every experiment becomes a commit. every tool i build for myself gets pushed to gitlab or github so someone else can use it.",
+          "my code is split across two platforms: gitlab (gitlab.com/arjunkshah) and github (github.com/arjunkshah). gitlab is where the newer projects live \u2014 ascii-skill, supercompress, and the active development work. github hosts the older projects like ideatr, NEAT Flappy Bird, and Typing Club Bot.",
+          "why two platforms? because different communities live on each. gitlab has a strong CI/CD culture and is where i ship experimental projects. github has the largest developer community and is where i share open-source tools.",
+          "each repo represents a decision: build something, ship it, learn from it, move on. not every project is successful. many are unfinished. some are just experiments that taught me one thing and were done.",
+          "that is the point. the 86 repos are not a portfolio. they are a log of a builder in motion. each one is a snapshot of what i was thinking about, what problem i was trying to solve, what tool i needed in that moment.",
+          "if you are a developer reading this: stop optimizing. start shipping. create the repo. write the README. push the code. someone will find it and use it. that is how open source works. that is how i learned.",
+          "the next repo is always the most important one."
         ]
       },
       {
