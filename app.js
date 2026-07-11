@@ -126,6 +126,200 @@
       )))
     );
   };
+  // ─── ASCII Art Terminal ──────────────────────────────────────
+  const asciiArtPieces = [
+    `
+             ___
+            /   \\
+       .-. | (@) |
+      /   \\|.___/|
+     /     \\     |
+    /       \\    |
+   /    ____\\___/
+  /    /            arjunkshah
+ /    /
+/ ___/
+`,
+    `
+    ╔══════════════════╗
+    ║                  ║
+    ║  14 · builder    ║
+    ║  AI · agents     ║
+    ║  taste · ship    ║
+    ║                  ║
+    ╚══════════════════╝
+`,
+    `
+    ░█▀▄░█▀█░█▀█░█░█░█░█▀▀░█▀▀
+    ░█░█░█▀█░█░█░█▄█░█░▀▀█░▀▀█
+    ░▀▀░░▀░▀░▀░▀░▀░▀░▀░▀▀▀░▀▀▀
+`
+  ];
+
+  const AsciiTerminal = () => {
+    const [displayedText, setDisplayedText] = React.useState('');
+    const [pieceIndex, setPieceIndex] = React.useState(0);
+    const [cursor, setCursor] = React.useState(true);
+    const [phase, setPhase] = React.useState('typing'); // typing | pausing | erasing
+    const charIndexRef = React.useRef(0);
+    const timerRef = React.useRef(null);
+
+    React.useEffect(() => {
+      const currentPiece = asciiArtPieces[pieceIndex];
+
+      const tick = () => {
+        if (phase === 'typing') {
+          if (charIndexRef.current < currentPiece.length) {
+            charIndexRef.current++;
+            setDisplayedText(currentPiece.slice(0, charIndexRef.current));
+            timerRef.current = setTimeout(tick, 16 + Math.random() * 24);
+          } else {
+            setPhase('pausing');
+            timerRef.current = setTimeout(tick, 2500);
+          }
+        } else if (phase === 'pausing') {
+          setPhase('erasing');
+          timerRef.current = setTimeout(tick, 80);
+        } else if (phase === 'erasing') {
+          if (charIndexRef.current > 0) {
+            charIndexRef.current -= 2;
+            if (charIndexRef.current < 0) charIndexRef.current = 0;
+            setDisplayedText(currentPiece.slice(0, charIndexRef.current));
+            timerRef.current = setTimeout(tick, 10 + Math.random() * 16);
+          } else {
+            setPhase('typing');
+            setPieceIndex((prev) => (prev + 1) % asciiArtPieces.length);
+            timerRef.current = setTimeout(tick, 200);
+          }
+        }
+      };
+
+      timerRef.current = setTimeout(tick, phase === 'typing' ? 100 : 16);
+
+      return () => {
+        if (timerRef.current) clearTimeout(timerRef.current);
+      };
+    }, [pieceIndex, phase]);
+
+    // Blinking cursor
+    React.useEffect(() => {
+      const ci = setInterval(() => setCursor((c) => !c), 530);
+      return () => clearInterval(ci);
+    }, []);
+
+    return /* @__PURE__ */ React.createElement(RevealText, null, /* @__PURE__ */ React.createElement("div", { className: "w-full py-8 md:py-12 border-t border-ink/10" },
+      /* @__PURE__ */ React.createElement("div", { className: "flex items-center gap-3 mb-4" },
+        /* @__PURE__ */ React.createElement("span", { className: "font-mono text-[9px] tracking-widest uppercase border border-ink/15 rounded-full px-2 py-0.5 text-ink-light" }, "Terminal"),
+        /* @__PURE__ */ React.createElement("h3", { className: "text-lg md:text-2xl tracking-tight" }, "ascii-skill \u2014 Live Demo")
+      ),
+      /* @__PURE__ */ React.createElement("div", {
+        className: "w-full rounded-md overflow-hidden ring-1 ring-ink/15",
+        style: { background: '#121210' }
+      },
+        /* @__PURE__ */ React.createElement("div", { className: "flex items-center gap-1.5 px-3 py-2 border-b border-white/5" },
+          /* @__PURE__ */ React.createElement("span", { className: "w-2.5 h-2.5 rounded-full", style: { background: '#ff5f56' } }),
+          /* @__PURE__ */ React.createElement("span", { className: "w-2.5 h-2.5 rounded-full", style: { background: '#ffbd2e' } }),
+          /* @__PURE__ */ React.createElement("span", { className: "w-2.5 h-2.5 rounded-full", style: { background: '#27c93f' } }),
+          /* @__PURE__ */ React.createElement("span", { className: "ml-2 font-mono text-[9px] tracking-widest uppercase", style: { color: 'rgba(255,255,255,0.25)' } }, "ascii-skill — arjunkshah")
+        ),
+        /* @__PURE__ */ React.createElement("pre", {
+          className: "font-mono text-xs md:text-sm leading-relaxed p-4 md:p-6 overflow-x-auto",
+          style: {
+            color: '#b5cea8',
+            minHeight: '180px',
+            textShadow: '0 0 4px rgba(181, 206, 168, 0.15)'
+          }
+        },
+          displayedText,
+          /* @__PURE__ */ React.createElement("span", {
+            style: {
+              opacity: cursor ? 1 : 0,
+              transition: 'opacity 0.1s',
+              color: '#b5cea8'
+            }
+          }, '\u2588')
+        )
+      ),
+      /* @__PURE__ */ React.createElement("p", { className: "text-ink-light text-sm mt-3 max-w-lg" }, "a live demo of ascii-skill rendering in the browser. install it: ", /* @__PURE__ */ React.createElement("code", { className: "font-mono text-[10px] bg-ink/5 px-1.5 py-0.5 rounded" }, "npx skills add arjunkshah/ascii-skill"), ".")
+    ));
+  };
+
+  // ─── Cursor Particles ──────────────────────────────────────────
+  const CursorParticles = () => {
+    const canvasRef = React.useRef(null);
+    const particlesRef = React.useRef([]);
+    const mouseRef = React.useRef({ x: -100, y: -100 });
+    const rafRef = React.useRef(null);
+
+    React.useEffect(() => {
+      const canvas = canvasRef.current;
+      if (!canvas) return;
+      const ctx = canvas.getContext('2d');
+
+      const resize = () => {
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+      };
+      resize();
+      window.addEventListener('resize', resize);
+
+      const onMove = (e) => {
+        mouseRef.current.x = e.clientX;
+        mouseRef.current.y = e.clientY;
+        // Add particle
+        particlesRef.current.push({
+          x: e.clientX,
+          y: e.clientY,
+          life: 1,
+          size: 2 + Math.random() * 3,
+          vx: (Math.random() - 0.5) * 0.5,
+          vy: (Math.random() - 0.5) * 0.5 - 0.3
+        });
+        if (particlesRef.current.length > 40) {
+          particlesRef.current = particlesRef.current.slice(-40);
+        }
+      };
+      window.addEventListener('mousemove', onMove);
+
+      const animate = () => {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+        for (let i = particlesRef.current.length - 1; i >= 0; i--) {
+          const p = particlesRef.current[i];
+          p.x += p.vx;
+          p.y += p.vy;
+          p.life -= 0.025;
+          p.vy += 0.01;
+
+          if (p.life <= 0) {
+            particlesRef.current.splice(i, 1);
+            continue;
+          }
+
+          ctx.beginPath();
+          ctx.arc(p.x, p.y, p.size * p.life, 0, Math.PI * 2);
+          ctx.fillStyle = `rgba(28, 28, 26, ${p.life * 0.12})`;
+          ctx.fill();
+        }
+
+        rafRef.current = requestAnimationFrame(animate);
+      };
+      animate();
+
+      return () => {
+        window.removeEventListener('resize', resize);
+        window.removeEventListener('mousemove', onMove);
+        if (rafRef.current) cancelAnimationFrame(rafRef.current);
+      };
+    }, []);
+
+    /* @__PURE */ return React.createElement('canvas', {
+      ref: canvasRef,
+      className: 'fixed inset-0 pointer-events-none z-[60]',
+      style: { mixBlendMode: 'multiply' }
+    });
+  };
+
   const FlappyBirdHome = () => {
     const canvasRef = React.useRef(null);
     const gameRef = React.useRef(null);
@@ -166,6 +360,7 @@
     /* @__PURE__ */ React.createElement(RevealText, null, /* @__PURE__ */ React.createElement("p", null, "at 13, i built rooted.ai and won the stanford gsb lisa startup competition. at 14, i grew ideatr.dev to 100+ active users. now i build autonomous agents, context compression engines, ASCII art libraries, and design taste systems.")),
     /* @__PURE__ */ React.createElement(RevealText, null, /* @__PURE__ */ React.createElement("p", null, "my work spans loopy (autonomous software engineer), supercompress (neural context compression), ascii-skill (ASCII art for AI agents), pincer (dyslexia-friendly browsing), and jasmine (AI frontend with taste). across 86 repos on gitlab and github.")),
     /* @__PURE__ */ React.createElement(RevealText, null, /* @__PURE__ */ React.createElement("p", { className: "text-ink-light italic text-lg md:text-xl mt-8" }, "i believe in shipping fast, iterating relentlessly, and building tools that are quiet, intentional, and powerful. i also recently started documenting the full journey on video \u2014 episode 1 is live on ", /* @__PURE__ */ React.createElement("a", { href: "https://x.com/arjunkshah21/status/2075300855780356143/video/1/", target: "_blank", rel: "noopener noreferrer", className: "underline underline-offset-4 decoration-ink/30 hover:decoration-ink transition-all" }, "x.com/arjunkshah21"), ".")),
+    /* @__PURE__ */ React.createElement(AsciiTerminal, null),
     /* @__PURE__ */ React.createElement(FlappyBirdHome, null)
   ));
   const About = () => /* @__PURE__ */ React.createElement(motion.div, { variants: pageVariants, initial: "initial", animate: "enter", exit: "exit", className: "max-w-2xl" }, /* @__PURE__ */ React.createElement(motion.p, { variants: itemVariants, className: "font-mono text-[10px] tracking-widest text-ink-light uppercase mb-12" }, "02 / Trajectory"), /* @__PURE__ */ React.createElement("div", { className: "space-y-8 text-lg md:text-xl leading-relaxed text-ink/80" }, /* @__PURE__ */ React.createElement(RevealText, null, /* @__PURE__ */ React.createElement("p", null, "i am arjun shah. i am 14 and i build like a founder. the goal is not to make things look impressive in isolation. it is to solve real problems, ship, and keep improving the system. i code in typescript, python, and swift, and my work spans the entire stack \u2014 from agent orchestration to neural compression to browser extensions.")), /* @__PURE__ */ React.createElement(RevealText, null, /* @__PURE__ */ React.createElement("p", null, "my journey started with rooted.ai, which won the stanford gsb lisa startup competition. that taught me how to turn a question into a product, how to pitch it clearly, and how to validate the idea before it was fully formed.")), /* @__PURE__ */ React.createElement(RevealText, { className: "py-8" }, /* @__PURE__ */ React.createElement(
@@ -682,7 +877,8 @@
       window.addEventListener("popstate", onPop);
       return () => window.removeEventListener("popstate", onPop);
     }, []);
-    return /* @__PURE__ */ React.createElement("div", { className: "min-h-screen w-full flex flex-col selection:bg-ink selection:text-paper relative" }, /* @__PURE__ */ React.createElement(Navigation, { currentPath, setPath: changePath }), /* @__PURE__ */ React.createElement("main", { className: "flex-grow flex items-center justify-center p-6 md:p-24 lg:p-32 pt-32 md:pt-48 min-h-screen" }, /* @__PURE__ */ React.createElement(AnimatePresence, { mode: "wait" }, renderPage())), /* @__PURE__ */ React.createElement(AnimatePresence, null, /* @__PURE__ */ React.createElement(JasmineBadge, null)), /* @__PURE__ */ React.createElement("div", { className: "pointer-events-none fixed inset-0 shadow-[inset_0_0_100px_rgba(0,0,0,0.02)] z-[-1]" }));
+    return /* @__PURE__ */ React.createElement("div", { className: "min-h-screen w-full flex flex-col selection:bg-ink selection:text-paper relative" }, /* @__PURE__ */ React.createElement(Navigation, { currentPath, setPath: changePath }), /* @__PURE__ */ React.createElement("main", { className: "flex-grow flex items-center justify-center p-6 md:p-24 lg:p-32 pt-32 md:pt-48 min-h-screen" }, /* @__PURE__ */ React.createElement(AnimatePresence, { mode: "wait" }, renderPage())), /* @__PURE__ */ React.createElement(AnimatePresence, null, /* @__PURE__ */ React.createElement(JasmineBadge, null)),
+    /* @__PURE__ */ React.createElement(CursorParticles, null), /* @__PURE__ */ React.createElement("div", { className: "pointer-events-none fixed inset-0 shadow-[inset_0_0_100px_rgba(0,0,0,0.02)] z-[-1]" }));
   };
   const root = ReactDOM.createRoot(document.getElementById("root"));
   root.render(/* @__PURE__ */ React.createElement(App, null));
