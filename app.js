@@ -276,7 +276,7 @@
 
 
   const Home = () => /* @__PURE__ */ React.createElement(motion.div, { variants: pageVariants, initial: "initial", animate: "enter", exit: "exit", className: "max-w-2xl w-full" }, /* @__PURE__ */ React.createElement(motion.p, { variants: itemVariants, className: "font-mono text-[10px] tracking-widest text-ink-light uppercase mb-8" }, "01 / Introduction"), /* @__PURE__ */ React.createElement("div", { className: "space-y-5 text-lg md:text-2xl leading-relaxed md:leading-relaxed font-light tracking-tight" },
-    /* @__PURE__ */ React.createElement(RevealText, null, /* @__PURE__ */ React.createElement("p", null, "hi, my name is arjun shah. this is my website, and i'm currently working on supercompress \u2014 it is open source. i like doing cool stuff, and feel free to check out the website.")),
+    /* @__PURE__ */ React.createElement(RevealText, null, /* @__PURE__ */ React.createElement("p", null, "hi, my name is arjun shah. this is my website, and i'm currently working on ", /* @__PURE__ */ React.createElement("a", { href: "https://supercompress.dev", target: "_blank", rel: "noopener noreferrer", className: "underline underline-offset-4 decoration-ink/30 hover:decoration-ink transition-all" }, "supercompress"), " \u2014 it is open source. i like doing cool stuff, and feel free to check out the website.")),
     /* @__PURE__ */ React.createElement(RevealText, null, /* @__PURE__ */ React.createElement("p", { className: "text-ink-light text-lg md:text-xl mt-8" }, "here's my pet, flappy bird:")),
     /* @__PURE__ */ React.createElement(FlappyBirdHome, null),
     /* @__PURE__ */ React.createElement(RevealText, null, /* @__PURE__ */ React.createElement("div", { className: "w-full py-4 border-t border-ink/10 space-y-4" },
