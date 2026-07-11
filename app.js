@@ -126,15 +126,15 @@
       )))
     );
   };
-  const Home = () => /* @__PURE__ */ React.createElement(motion.div, { variants: pageVariants, initial: "initial", animate: "enter", exit: "exit", className: "max-w-2xl" }, /* @__PURE__ */ React.createElement(motion.p, { variants: itemVariants, className: "font-mono text-[10px] tracking-widest text-ink-light uppercase mb-12" }, "01 / Introduction"), /* @__PURE__ */ React.createElement("div", { className: "space-y-8 text-xl md:text-3xl leading-relaxed md:leading-relaxed font-light tracking-tight" }, /* @__PURE__ */ React.createElement(RevealText, null, /* @__PURE__ */ React.createElement("p", null, "hello.")), /* @__PURE__ */ React.createElement(RevealText, null, /* @__PURE__ */ React.createElement("p", null, "i am arjun. i am a 14-year-old developer and founder building software that scales.")), /* @__PURE__ */ React.createElement(RevealText, null, /* @__PURE__ */ React.createElement("p", null, "i believe in shipping fast, iterating relentlessly, and creating tools that feel crafted. quiet, intentional, and powerful.")), /* @__PURE__ */ React.createElement(RevealText, null, /* @__PURE__ */ React.createElement("p", { className: "text-ink-light italic text-lg md:text-2xl mt-12" }, "currently building Loopy \u2014 a local agent company that keeps builds moving."))));
-  const About = () => /* @__PURE__ */ React.createElement(motion.div, { variants: pageVariants, initial: "initial", animate: "enter", exit: "exit", className: "max-w-2xl" }, /* @__PURE__ */ React.createElement(motion.p, { variants: itemVariants, className: "font-mono text-[10px] tracking-widest text-ink-light uppercase mb-12" }, "02 / Trajectory"), /* @__PURE__ */ React.createElement("div", { className: "space-y-8 text-lg md:text-xl leading-relaxed text-ink/80" }, /* @__PURE__ */ React.createElement(RevealText, null, /* @__PURE__ */ React.createElement("p", null, "i am 14 and i build like a founder. the goal is not to make things look impressive in isolation. it is to solve real problems, ship, and keep improving the system.")), /* @__PURE__ */ React.createElement(RevealText, null, /* @__PURE__ */ React.createElement("p", null, "my journey started with rooted.ai, which won the stanford gsb lisa startup competition. that taught me how to turn a question into a product, how to pitch it clearly, and how to validate the idea before it was fully formed.")), /* @__PURE__ */ React.createElement(RevealText, { className: "py-8" }, /* @__PURE__ */ React.createElement(
+  const Home = () => /* @__PURE__ */ React.createElement(motion.div, { variants: pageVariants, initial: "initial", animate: "enter", exit: "exit", className: "max-w-2xl" }, /* @__PURE__ */ React.createElement(motion.p, { variants: itemVariants, className: "font-mono text-[10px] tracking-widest text-ink-light uppercase mb-12" }, "01 / Introduction"), /* @__PURE__ */ React.createElement("div", { className: "space-y-8 text-xl md:text-3xl leading-relaxed md:leading-relaxed font-light tracking-tight" }, /* @__PURE__ */ React.createElement(RevealText, null, /* @__PURE__ */ React.createElement("p", null, "hello. i am arjun shah.")), /* @__PURE__ */ React.createElement(RevealText, null, /* @__PURE__ */ React.createElement("p", null, "i am a 14-year-old developer and founder building AI-powered software that scales. my work spans autonomous agents, context compression, ASCII art engines for AI, accessibility tools, and design taste systems.")), /* @__PURE__ */ React.createElement(RevealText, null, /* @__PURE__ */ React.createElement("p", null, "i believe in shipping fast, iterating relentlessly, and creating tools that feel crafted \u2014 quiet, intentional, and powerful. not impressive in isolation, but powerful in use.")), /* @__PURE__ */ React.createElement(RevealText, null, /* @__PURE__ */ React.createElement("p", { className: "text-ink-light italic text-lg md:text-2xl mt-12" }, "currently building Loopy \u2014 a local agent company that keeps builds moving. also building Supercompress, ascii-skill, Jasmine, and more.")), /* @__PURE__ */ React.createElement(RevealText, null, /* @__PURE__ */ React.createElement("p", { className: "text-ink-light text-base md:text-lg mt-8" }, "i also recently started documenting my journey on video. episode 1 is live on X. it covers what i build, why i build it, and what drives a 14-year-old founder in the age of AI agents."))));
+  const About = () => /* @__PURE__ */ React.createElement(motion.div, { variants: pageVariants, initial: "initial", animate: "enter", exit: "exit", className: "max-w-2xl" }, /* @__PURE__ */ React.createElement(motion.p, { variants: itemVariants, className: "font-mono text-[10px] tracking-widest text-ink-light uppercase mb-12" }, "02 / Trajectory"), /* @__PURE__ */ React.createElement("div", { className: "space-y-8 text-lg md:text-xl leading-relaxed text-ink/80" }, /* @__PURE__ */ React.createElement(RevealText, null, /* @__PURE__ */ React.createElement("p", null, "i am arjun shah. i am 14 and i build like a founder. the goal is not to make things look impressive in isolation. it is to solve real problems, ship, and keep improving the system. i code in typescript, python, and swift, and my work spans the entire stack \u2014 from agent orchestration to neural compression to browser extensions.")), /* @__PURE__ */ React.createElement(RevealText, null, /* @__PURE__ */ React.createElement("p", null, "my journey started with rooted.ai, which won the stanford gsb lisa startup competition. that taught me how to turn a question into a product, how to pitch it clearly, and how to validate the idea before it was fully formed.")), /* @__PURE__ */ React.createElement(RevealText, { className: "py-8" }, /* @__PURE__ */ React.createElement(
     "img",
     {
       src: "/about.jpg",
       alt: "Arjun Shah smiling at a desk with his mom beside him.",
       className: "w-full h-auto rounded-md shadow-md object-cover"
     }
-  ), /* @__PURE__ */ React.createElement("p", { className: "font-mono text-[10px] text-ink-light mt-3 tracking-widest uppercase" }, "Fig 1. Momentum over perfection.")), /* @__PURE__ */ React.createElement(RevealText, null, /* @__PURE__ */ React.createElement("p", null, "after that, i built and scaled ideatr.dev to over 100 active users in a few months. seeing real people use my software changed how i think about product, distribution, and the cost of being wrong.")), /* @__PURE__ */ React.createElement(RevealText, null, /* @__PURE__ */ React.createElement("p", null, "now i am focused on the intersection of artificial intelligence, product-level design, and execution. that is why i am building loopy, supercompress, pincer, and the rest of the work around them."))));
+  ), /* @__PURE__ */ React.createElement("p", { className: "font-mono text-[10px] text-ink-light mt-3 tracking-widest uppercase" }, "Fig 1. Momentum over perfection.")), /* @__PURE__ */ React.createElement(RevealText, null, /* @__PURE__ */ React.createElement("p", null, "after that, i built and scaled ideatr.dev to over 100 active users in a few months. seeing real people use my software changed how i think about product, distribution, and the cost of being wrong.")), /* @__PURE__ */ React.createElement(RevealText, null, /* @__PURE__ */ React.createElement("p", null, "in 2026, i launched supercompress (neural context compression for AI agents), ascii-skill (world-class ASCII art for any agent), and kept building loopy. i also won early traction with pincer (a dyslexia-friendly browser extension) and jasmine (AI frontend design with taste).")), /* @__PURE__ */ React.createElement(RevealText, null, /* @__PURE__ */ React.createElement("p", null, "i now host my code on gitlab (gitlab.com/arjunkshah) and github. i'm starting to document my full journey on video \u2014 episode 1 is live on X. it covers what drives a 14-year-old building at the intersection of AI, product design, and agent infrastructure.")), /* @__PURE__ */ React.createElement(RevealText, null, /* @__PURE__ */ React.createElement("p", null, "now i am focused on the intersection of artificial intelligence, product-level design, and execution. that is why i am building loopy, supercompress, ascii-skill, pincer, jasmine, and everything around autonomous agents and design taste."))));
   const workProjects = [
     {
       slug: "loopy",
@@ -142,6 +142,8 @@
       title: "Loopy",
       url: "https://loopy.yachts",
       linkLabel: "Live",
+      videoUrl: "https://x.com/arjunkshah21/status/2065643348711428271",
+      videoLabel: "Demo Video",
       desc: "Autonomous software engineer that researches, plans, builds, fixes, and loops until the product is done.",
       overview: [
         "Loopy is my autonomous software engineer.",
@@ -154,18 +156,55 @@
       slug: "supercompress",
       year: "2026",
       title: "Supercompress",
-      url: "https://trysupercompress.vercel.app",
+      url: "https://supercompress.dev",
       linkLabel: "Live",
-      desc: "Neural context compression for long-running AI agents.",
+      videoUrl: "https://x.com/arjunkshah21/status/2070570033953263850",
+      videoLabel: "Launch Video",
+      desc: "Neural context compression for long-running AI agents. Cuts token costs by ~65%.",
       overview: [
         "Supercompress started as a fix for the context problem inside Loopy.",
         "It compresses long agent history while preserving the decisions, constraints, code references, failures, todos, and state that actually matter.",
         "The technical goal is signal preservation under token pressure: keep enough structured memory for the agent to continue correctly, but remove the noise that wastes budget.",
-        "That turned into a reusable memory layer for long-running workflows instead of a generic summary tool."
+        "It cuts token usage by around 65% while retaining about 98.7% of the important information.",
+        "That turned into a reusable memory layer for long-running workflows instead of a generic summary tool.",
+        "Supercompress now ranks #1 on Google for its category, proving that signal-preserving compression is the future of agent memory."
+      ]
+    },
+    {
+      slug: "ascii-skill",
+      year: "2026",
+      title: "ascii-skill",
+      url: "https://gitlab.com/arjunkshah/ascii-skill",
+      linkLabel: "GitLab",
+      gitlab: "https://gitlab.com/arjunkshah/ascii-skill",
+      videoUrl: "https://x.com/arjunkshah21",
+      videoLabel: "Launch Reel on X",
+      desc: "World-class ASCII art for any AI agent. Scenes, UI, 3D, animations — zero dependencies.",
+      overview: [
+        "ascii-skill is an AI agent skill for generating world-class ASCII art.",
+        "It supports scenes, user interfaces, 3D rotating objects (spheres, cubes, toruses), particle systems, wireframe terrain, and animations — all with zero external dependencies.",
+        "The technical challenge was building a full ASCII rendering engine in pure Python that any AI agent could import and use without installing any additional libraries.",
+        "It works across terminals, logs, build output, and any text-based interface where ASCII art adds personality and clarity.",
+        "The project has already generated over 124 ASCII pieces with 420+ keywords and 15 style presets.",
+        "Install it with: npx skills add arjunkshah/ascii-skill"
       ]
     },
     {
       slug: "pincer",
+      year: "2026",
+      title: "Pincer",
+      url: "https://trypincer.netlify.app/",
+      linkLabel: "Live",
+      videoUrl: "https://trypincer.netlify.app/",
+      videoLabel: "Demo on Site",
+      desc: "Chrome extension that modifies page content to support dyslexic and neurodivergent users.",
+      overview: [
+        "Pincer is a browser extension built to make web content more accessible for dyslexic and neurodivergent users.",
+        "It works as an on-page reading layer, modifying content in place so the page stays usable while the visual noise gets reduced.",
+        "The technical problem is browser DOM manipulation at the content-script level: rewriting text presentation without breaking layout, focus, or navigation.",
+        "It sits closer to accessibility tooling than a demo app — focused on real usability for people who struggle with dense web layouts."
+      ]
+    },
       year: "2026",
       title: "Pincer",
       url: "https://trypincer.netlify.app/",
@@ -198,6 +237,8 @@
       title: "ideatr.dev",
       url: "https://github.com/arjunkshah/ideatr",
       linkLabel: "Repo",
+      videoUrl: "https://x.com/arjunkshah21",
+      videoLabel: "Demo on X",
       desc: "Clone and recreate any website as a modern React app in seconds.",
       overview: [
         "ideatr taught me how fast distribution and iteration start to matter once people actually use the product.",
@@ -258,7 +299,7 @@
       onClick: () => setPath(`/work/${project.slug}`),
       className: "group flex items-center justify-between gap-4 border-b border-ink/5 py-8 md:py-12 hover:border-ink/20 transition-colors duration-500 cursor-pointer"
     },
-    /* @__PURE__ */ React.createElement("div", { className: "flex flex-col md:flex-row md:items-baseline gap-2 md:gap-8 min-w-0" }, /* @__PURE__ */ React.createElement("span", { className: "font-mono text-xs text-ink-light w-16 shrink-0" }, project.year), /* @__PURE__ */ React.createElement("div", { className: "flex flex-col gap-2 min-w-0" }, /* @__PURE__ */ React.createElement("h3", { className: "text-2xl md:text-4xl tracking-tight transition-transform duration-500 group-hover:translate-x-2" }, project.title), /* @__PURE__ */ React.createElement("p", { className: "text-ink-light text-base md:text-lg max-w-xl" }, project.desc))),
+    /* @__PURE__ */ React.createElement("div", { className: "flex flex-col md:flex-row md:items-baseline gap-2 md:gap-8 min-w-0" }, /* @__PURE__ */ React.createElement("span", { className: "font-mono text-xs text-ink-light w-16 shrink-0" }, project.year), /* @__PURE__ */ React.createElement("div", { className: "flex flex-col gap-2 min-w-0" }, /* @__PURE__ */ React.createElement("div", { className: "flex items-center gap-3" }, /* @__PURE__ */ React.createElement("h3", { className: "text-2xl md:text-4xl tracking-tight transition-transform duration-500 group-hover:translate-x-2" }, project.title), project.videoUrl && /* @__PURE__ */ React.createElement("span", { className: "text-[9px] font-mono tracking-widest uppercase border border-ink/15 rounded-full px-2 py-0.5 text-ink-light", title: "Demo video available" }, "Video")), /* @__PURE__ */ React.createElement("p", { className: "text-ink-light text-base md:text-lg max-w-xl" }, project.desc))),
     /* @__PURE__ */ React.createElement(
       "a",
       {
@@ -282,9 +323,73 @@
     },
     project.linkLabel,
     /* @__PURE__ */ React.createElement("span", { "aria-hidden": "true" }, "\u2197")
-  )), /* @__PURE__ */ React.createElement("div", { className: "space-y-8" }, /* @__PURE__ */ React.createElement("p", { className: "font-mono text-[10px] tracking-widest text-ink-light uppercase" }, project.year), /* @__PURE__ */ React.createElement("h2", { className: "text-4xl md:text-6xl tracking-tight" }, project.title), /* @__PURE__ */ React.createElement("p", { className: "text-lg md:text-2xl leading-relaxed text-ink/80 max-w-2xl" }, project.desc), /* @__PURE__ */ React.createElement("div", { className: "space-y-6 pt-6 text-lg md:text-xl leading-relaxed text-ink/90 max-w-2xl" }, project.overview.map((paragraph, idx) => /* @__PURE__ */ React.createElement("p", { key: idx }, paragraph)))));
+  )), /* @__PURE__ */ React.createElement("div", { className: "space-y-8" }, /* @__PURE__ */ React.createElement("p", { className: "font-mono text-[10px] tracking-widest text-ink-light uppercase" }, project.year), /* @__PURE__ */ React.createElement("h2", { className: "text-4xl md:text-6xl tracking-tight" }, project.title), /* @__PURE__ */ React.createElement("p", { className: "text-lg md:text-2xl leading-relaxed text-ink/80 max-w-2xl" }, project.desc),
+    /* @__PURE__ */ React.createElement("div", { className: "flex flex-wrap gap-3 pt-4" }, project.gitlab && /* @__PURE__ */ React.createElement(
+      "a",
+      {
+        href: project.gitlab,
+        target: "_blank",
+        rel: "noopener noreferrer",
+        className: "inline-flex items-center gap-2 rounded-full border border-ink/15 px-3 py-1 text-[10px] tracking-widest uppercase text-ink-light hover:border-ink/35 hover:text-ink transition-colors"
+      },
+      "GitLab",
+      /* @__PURE__ */ React.createElement("span", { "aria-hidden": "true" }, "\u2197")
+    ), project.videoUrl && /* @__PURE__ */ React.createElement(
+      "a",
+      {
+        href: project.videoUrl,
+        target: "_blank",
+        rel: "noopener noreferrer",
+        className: "inline-flex items-center gap-2 rounded-full border border-ink/15 px-3 py-1 text-[10px] tracking-widest uppercase text-ink-light hover:border-ink/35 hover:text-ink transition-colors"
+      },
+      project.videoLabel || "Demo Video",
+      /* @__PURE__ */ React.createElement("span", { "aria-hidden": "true" }, "\u25B6")
+    )),
+    /* @__PURE__ */ React.createElement("div", { className: "space-y-6 pt-6 text-lg md:text-xl leading-relaxed text-ink/90 max-w-2xl" }, project.overview.map((paragraph, idx) => /* @__PURE__ */ React.createElement("p", { key: idx }, paragraph)))));
   const Writing = () => {
     const essays = [
+      {
+        date: "New",
+        title: "Episode 1: Documenting My Life as a 14-Year-Old Builder",
+        content: [
+          "i decided to start documenting my journey on video.",
+          "not the polished, produced version of my life. the real version.",
+          "the late nights debugging agent loops. the excitement of a project finally working. the moments of doubt when nothing compiles. the wins that make it all worth it.",
+          "i am 14 years old. i build AI agents, compression tools, ASCII art engines, accessibility extensions, and design systems. and i think the story behind the building matters as much as the code.",
+          "episode 1 is the introduction. it covers:",
+          "who i am \u2014 arjun shah, 14, founder and developer in the bay area.",
+          "what i build \u2014 loopy, supercompress, ascii-skill, pincer, jasmine, and more.",
+          "why i build \u2014 because i believe AI agents need better infrastructure, better memory, and better taste.",
+          "and where this is going \u2014 a raw, unfiltered look at what it means to be a teenage founder building at the frontier of autonomous agents.",
+          "the video is live on my X profile: x.com/arjunkshah21",
+          "this series is not about views. it is about keeping a record. a time capsule of the building years.",
+          "because one day, i want to look back and see exactly how it all started.",
+          "episode 1 is the first frame.",
+          "more coming."
+        ]
+      },
+      {
+        date: "New",
+        title: "Building ascii-skill: ASCII Art for the AI Age",
+        content: [
+          "i built ascii-skill because i wanted AI agents to have a creative outlet.",
+          "not everything an agent produces has to be code, text, or data. sometimes an agent should just draw something cool in the terminal.",
+          "ascii-skill is an AI agent skill for world-class ASCII art. it supports scenes, user interfaces, 3D rotating objects, particle systems, wireframe terrain, and animations.",
+          "and it has zero dependencies. you can import it into any Python agent without installing anything extra.",
+          "the technical challenge was building a full ASCII rendering engine that could handle:",
+          "3D mathematics \u2014 rotating spheres, cubes, and toruses projected onto a 2D character grid.",
+          "particle systems \u2014 fire, smoke, and spark effects using only ASCII characters.",
+          "wireframe rendering \u2014 terrain and complex shapes using line-drawing characters.",
+          "animation loops \u2014 frame-by-frame updates that create smooth motion in the terminal.",
+          "all of this had to work without numpy, without curses, without any external library. just pure Python and math.",
+          "the project has already generated over 124 ASCII pieces with 420+ keywords and 15 style presets. people are using it in their own agents, and the community is growing.",
+          "you can install it with: npx skills add arjunkshah/ascii-skill",
+          "the code is on gitlab: gitlab.com/arjunkshah/ascii-skill",
+          "the launch reel is on my X: x.com/arjunkshah21",
+          "i built ascii-skill because i think AI should be able to make things that are beautiful, not just useful.",
+          "ASCII art is useless in the practical sense. and that is exactly why it matters."
+        ]
+      },
       {
         date: "Recent",
         title: "i built supercompress",
@@ -506,7 +611,7 @@
       ));
     })));
   };
-  const Contact = () => /* @__PURE__ */ React.createElement(motion.div, { variants: pageVariants, initial: "initial", animate: "enter", exit: "exit", className: "max-w-2xl" }, /* @__PURE__ */ React.createElement(motion.p, { variants: itemVariants, className: "font-mono text-[10px] tracking-widest text-ink-light uppercase mb-12" }, "05 / Correspondence"), /* @__PURE__ */ React.createElement("div", { className: "space-y-12" }, /* @__PURE__ */ React.createElement(RevealText, null, /* @__PURE__ */ React.createElement("p", { className: "text-2xl md:text-4xl tracking-tight leading-snug" }, "i am always open to talking about startups, artificial intelligence, or design.")), /* @__PURE__ */ React.createElement(RevealText, null, /* @__PURE__ */ React.createElement("div", { className: "flex flex-col gap-4 font-mono text-sm tracking-wide" }, /* @__PURE__ */ React.createElement("a", { href: "mailto:arjunkshah21@gmail.com", target: "_blank", rel: "noopener noreferrer", className: "text-ink hover:text-ink-light transition-colors w-fit border-b border-ink/20 hover:border-ink/0 pb-1" }, "arjunkshah21@gmail.com"), /* @__PURE__ */ React.createElement("a", { href: "https://x.com/arjunkshah21", target: "_blank", rel: "noopener noreferrer", className: "text-ink hover:text-ink-light transition-colors w-fit border-b border-ink/20 hover:border-ink/0 pb-1" }, "x.com/arjunkshah21"), /* @__PURE__ */ React.createElement("a", { href: "https://github.com/arjunkshah", target: "_blank", rel: "noopener noreferrer", className: "text-ink hover:text-ink-light transition-colors w-fit border-b border-ink/20 hover:border-ink/0 pb-1" }, "github.com/arjunkshah"), /* @__PURE__ */ React.createElement("a", { href: "https://www.linkedin.com/in/arjun-k-shah", target: "_blank", rel: "noopener noreferrer", className: "text-ink hover:text-ink-light transition-colors w-fit border-b border-ink/20 hover:border-ink/0 pb-1" }, "linkedin.com/in/arjun-k-shah"))), /* @__PURE__ */ React.createElement(RevealText, null, /* @__PURE__ */ React.createElement("p", { className: "text-ink-light italic mt-24" }, "signed,", /* @__PURE__ */ React.createElement("br", null), "a.s."))));
+  const Contact = () => /* @__PURE__ */ React.createElement(motion.div, { variants: pageVariants, initial: "initial", animate: "enter", exit: "exit", className: "max-w-2xl" }, /* @__PURE__ */ React.createElement(motion.p, { variants: itemVariants, className: "font-mono text-[10px] tracking-widest text-ink-light uppercase mb-12" }, "05 / Correspondence"), /* @__PURE__ */ React.createElement("div", { className: "space-y-12" }, /* @__PURE__ */ React.createElement(RevealText, null, /* @__PURE__ */ React.createElement("p", { className: "text-2xl md:text-4xl tracking-tight leading-snug" }, "i am always open to talking about startups, artificial intelligence, product design, or autonomous agents.")), /* @__PURE__ */ React.createElement(RevealText, null, /* @__PURE__ */ React.createElement("div", { className: "flex flex-col gap-4 font-mono text-sm tracking-wide" }, /* @__PURE__ */ React.createElement("a", { href: "mailto:arjunkshah21@gmail.com", target: "_blank", rel: "noopener noreferrer", className: "text-ink hover:text-ink-light transition-colors w-fit border-b border-ink/20 hover:border-ink/0 pb-1" }, "arjunkshah21@gmail.com"), /* @__PURE__ */ React.createElement("a", { href: "https://x.com/arjunkshah21", target: "_blank", rel: "noopener noreferrer", className: "text-ink hover:text-ink-light transition-colors w-fit border-b border-ink/20 hover:border-ink/0 pb-1" }, "x.com/arjunkshah21"), /* @__PURE__ */ React.createElement("a", { href: "https://github.com/arjunkshah", target: "_blank", rel: "noopener noreferrer", className: "text-ink hover:text-ink-light transition-colors w-fit border-b border-ink/20 hover:border-ink/0 pb-1" }, "github.com/arjunkshah"), /* @__PURE__ */ React.createElement("a", { href: "https://gitlab.com/arjunkshah", target: "_blank", rel: "noopener noreferrer", className: "text-ink hover:text-ink-light transition-colors w-fit border-b border-ink/20 hover:border-ink/0 pb-1" }, "gitlab.com/arjunkshah"), /* @__PURE__ */ React.createElement("a", { href: "https://www.linkedin.com/in/arjun-k-shah", target: "_blank", rel: "noopener noreferrer", className: "text-ink hover:text-ink-light transition-colors w-fit border-b border-ink/20 hover:border-ink/0 pb-1" }, "linkedin.com/in/arjun-k-shah"))), /* @__PURE__ */ React.createElement(RevealText, null, /* @__PURE__ */ React.createElement("p", { className: "text-ink-light italic mt-24" }, "signed,", /* @__PURE__ */ React.createElement("br", null), "a.s."))));
   const App = () => {
     const initialPath = typeof window !== "undefined" ? window.location.pathname : "/";
     const [currentPath, setCurrentPath] = useState(initialPath || "/");

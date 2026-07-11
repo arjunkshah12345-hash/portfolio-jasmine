@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Arjun Shah — Notes & Essays</title>
+    <link>https://www.arjunshah.xyz/writing</link>
+    <description>Essays and notes from Arjun Shah — 14-year-old founder building AI agents, compression tools, and design systems.</description>
+    <language>en-us</language>
+    <lastBuildDate>Wed, 09 Jul 2026 00:00:00 GMT</lastBuildDate>
+    <atom:link href="https://www.arjunshah.xyz/feed.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>i built supercompress</title>
+      <link>https://www.arjunshah.xyz/writing</link>
+      <description>Neural context compression for long-running AI agents — the story behind Supercompress.</description>
+      <pubDate>Mon, 01 Jun 2026 00:00:00 GMT</pubDate>
+    </item>
+    <item>
+      <title>Building ascii-skill: World-Class ASCII Art for AI Agents</title>
+      <link>https://www.arjunshah.xyz/writing</link>
+      <description>How I built a zero-dependency ASCII art skill for any AI agent — scenes, UI, 3D, and animations.</description>
+      <pubDate>Sun, 15 Jun 2026 00:00:00 GMT</pubDate>
+    </item>
+    <item>
+      <title>Episode 1: Documenting My Life as a 14-Year-Old Builder</title>
+      <link>https://www.arjunshah.xyz/writing</link>
+      <description>Starting a video series documenting my journey building AI software at 14. Episode 1 is live on X.</description>
+      <pubDate>Wed, 01 Jul 2026 00:00:00 GMT</pubDate>
+    </item>
+    <item>
+      <title>Building Jasmine: Why AI UI Needs Taste</title>
+      <link>https://www.arjunshah.xyz/writing</link>
+      <description>AI can generate code, but it struggles with design judgment. Jasmine is my attempt to encode taste.</description>
+      <pubDate>Sat, 15 May 2026 00:00:00 GMT</pubDate>
+    </item>
+    <item>
+      <title>Scaling to 100 Users: Lessons from ideatr.dev</title>
+      <link>https://www.arjunshah.xyz/writing</link>
+      <description>The first 100 real users taught me more about product and distribution than any theory.</description>
+      <pubDate>Mon, 01 Mar 2026 00:00:00 GMT</pubDate>
+    </item>
+    <item>
+      <title>Winning Stanford GSB LISA at 14</title>
+      <link>https://www.arjunshah.xyz/writing</link>
+      <description>How rooted.ai turned a question about health into a winning Stanford GSB LISA project.</description>
+      <pubDate>Sat, 01 Jan 2026 00:00:00 GMT</pubDate>
+    </item>
+    <item>
+      <title>The Elegance of Shipping Fast</title>
+      <link>https://www.arjunshah.xyz/writing</link>
+      <description>Why speed is a strategy, not chaos. How shipping fast compounds learning and momentum.</description>
+      <pubDate>Fri, 01 Nov 2025 00:00:00 GMT</pubDate>
+    </item>
+  </channel>
+</rss>
