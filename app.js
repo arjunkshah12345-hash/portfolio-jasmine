@@ -128,38 +128,31 @@
   };
   // ─── NEAT Flappy Bird ────────────────────────────────────────
   const FlappyBirdHome = () => {
-    const canvasRef = React.useRef(null);
+    const containerRef = React.useRef(null);
     const gameRef = React.useRef(null);
-    const [stats, setStats] = React.useState({ generation: 0, bestScore: 0, allTimeBest: 0, aliveCount: 0, totalBirds: 80, runningTime: 0 });
-    const formatTime = (s) => {
-      const m = Math.floor(s / 60);
-      const sec = s % 60;
-      return m > 0 ? m + 'm ' + sec + 's' : sec + 's';
-    };
+    const [stats, setStats] = React.useState({ generation: 0, bestScore: 0, aliveCount: 0, totalGenerations: 0 });
+
     React.useEffect(() => {
-      const canvas = canvasRef.current;
-      if (!canvas) return;
-      canvas.width = 400;
-      canvas.height = 600;
-      const game = new FlappyBirdGame(canvas, setStats);
+      const container = containerRef.current;
+      if (!container) return;
+      const game = initVortexFlappy('vortex-game-container', setStats);
       gameRef.current = game;
       return () => { if (gameRef.current) { gameRef.current.destroy(); gameRef.current = null; } };
     }, []);
+
     return /* @__PURE__ */ React.createElement(RevealText, null, /* @__PURE__ */ React.createElement("div", { className: "w-full py-8 md:py-12 border-t border-ink/10" },
       /* @__PURE__ */ React.createElement("div", { className: "flex items-center gap-3 mb-6" },
         /* @__PURE__ */ React.createElement("span", { className: "font-mono text-[9px] tracking-widest uppercase border border-ink/15 rounded-full px-2 py-0.5 text-ink-light" }, "Evolution"),
-        /* @__PURE__ */ React.createElement("h3", { className: "text-lg md:text-2xl tracking-tight" }, "NEAT Flappy Bird \u2014 AI Learning in Real Time")
+        /* @__PURE__ */ React.createElement("h3", { className: "text-lg md:text-2xl tracking-tight" }, "NEAT Flappy Bird \u2014 Learning Forever")
       ),
       /* @__PURE__ */ React.createElement("div", { className: "flex flex-wrap gap-4 mb-6 font-mono text-[10px] tracking-widest text-ink-light uppercase" },
         /* @__PURE__ */ React.createElement("span", null, "Generation ", stats.generation),
         /* @__PURE__ */ React.createElement("span", null, "Best Score ", stats.bestScore),
-        /* @__PURE__ */ React.createElement("span", null, "All-Time ", stats.allTimeBest),
-        /* @__PURE__ */ React.createElement("span", { className: "text-ink/50" }, "Running ", formatTime(stats.runningTime))
+        /* @__PURE__ */ React.createElement("span", null, "Alive ", stats.aliveCount),
+        /* @__PURE__ */ React.createElement("span", { className: "text-ink/50" }, "Total Gens ", stats.totalGenerations)
       ),
-      /* @__PURE__ */ React.createElement("div", { className: "relative w-full max-w-[400px] mx-auto rounded-md overflow-hidden ring-1 ring-ink/10" },
-        /* @__PURE__ */ React.createElement("canvas", { ref: canvasRef, className: "w-full h-auto block", style: { aspectRatio: "400/600", background: "#1a1a18" } })
-      ),
-      /* @__PURE__ */ React.createElement("p", { className: "text-ink-light text-sm mt-4 max-w-lg mx-auto text-center" }, "Each generation of birds evolves a better neural network. The best scorers pass their genes \u2014 mutation, crossover, survival of the fittest. All running in your browser.")
+      /* @__PURE__ */ React.createElement("div", { id: "vortex-game-container", ref: containerRef, className: "w-full max-w-[760px] mx-auto" }),
+      /* @__PURE__ */ React.createElement("p", { className: "text-ink-light text-sm mt-4 max-w-lg mx-auto text-center" }, "Running the actual NEAT algorithm from my Vortex21 project. TensorFlow.js neural networks evolving in your browser. Progress persists across sessions.")
     ));
   };
 
