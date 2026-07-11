@@ -130,7 +130,7 @@
   const FlappyBirdHome = () => {
     const containerRef = React.useRef(null);
     const gameRef = React.useRef(null);
-    const [stats, setStats] = React.useState({ generation: 0, bestScore: 0, aliveCount: 0, totalGenerations: 0 });
+    const [stats, setStats] = React.useState({ generation: 0, bestScore: 0, aliveCount: 0, totalGenerations: 0, elapsedDays: 0, elapsedHours: 0, elapsedMinutes: 0 });
 
     React.useEffect(() => {
       const container = containerRef.current;
@@ -149,7 +149,8 @@
         /* @__PURE__ */ React.createElement("span", null, "Generation ", stats.generation),
         /* @__PURE__ */ React.createElement("span", null, "Best Score ", stats.bestScore),
         /* @__PURE__ */ React.createElement("span", null, "Alive ", stats.aliveCount),
-        /* @__PURE__ */ React.createElement("span", { className: "text-ink/50" }, "Total Gens ", stats.totalGenerations)
+        /* @__PURE__ */ React.createElement("span", { className: "text-ink/50" }, "Total Gens ", stats.totalGenerations),
+        /* @__PURE__ */ React.createElement("span", { className: "text-ink/50" }, "Uptime ", stats.elapsedDays, "d ", stats.elapsedHours, "h ", stats.elapsedMinutes, "m")
       ),
       /* @__PURE__ */ React.createElement("div", { id: "vortex-game-container", ref: containerRef, className: "w-full max-w-[760px] mx-auto" }),
       /* @__PURE__ */ React.createElement("p", { className: "text-ink-light text-sm mt-4 max-w-lg mx-auto text-center" }, "Running the actual NEAT algorithm from my Vortex21 project. TensorFlow.js neural networks evolving in your browser. Progress persists across sessions.")

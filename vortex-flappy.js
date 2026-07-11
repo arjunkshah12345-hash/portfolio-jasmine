@@ -288,6 +288,18 @@ function initVortexFlappy(containerId, statsCallback) {
         savedBest = parseInt(localStorage.getItem('vortex-bestScore')) || 0;
     } catch {}
 
+    // Birth timestamp — set once, runs forever
+    let birthTimestamp;
+    try {
+        birthTimestamp = parseInt(localStorage.getItem('vortex-birth'));
+        if (!birthTimestamp) {
+            birthTimestamp = Date.now();
+            localStorage.setItem('vortex-birth', birthTimestamp);
+        }
+    } catch {
+        birthTimestamp = Date.now();
+    }
+
     let population = new VortexPopulation(gameCanvas.width, gameCanvas.height, savedGen, savedBest);
 
     // Pipe spawning
@@ -491,13 +503,23 @@ function initVortexFlappy(containerId, statsCallback) {
         drawPopulationStats();
         drawStats();
 
+        // Calculate elapsed time since birth
+        const elapsed = Date.now() - birthTimestamp;
+        const totalSeconds = Math.floor(elapsed / 1000);
+        const days = Math.floor(totalSeconds / 86400);
+        const hours = Math.floor((totalSeconds % 86400) / 3600);
+        const minutes = Math.floor((totalSeconds % 3600) / 60);
+
         // Report stats to React
         if (statsCallback) {
             statsCallback({
                 generation: population.generation,
                 bestScore: population.bestScore,
                 aliveCount: population.birds.filter(b => b.alive).length,
-                totalGenerations: population.totalGenerations
+                totalGenerations: population.totalGenerations,
+                elapsedDays: days,
+                elapsedHours: hours,
+                elapsedMinutes: minutes
             });
         }
 
