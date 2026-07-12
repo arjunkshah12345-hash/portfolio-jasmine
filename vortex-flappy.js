@@ -237,11 +237,12 @@ class VortexPopulation {
 
         this.generation++;
         this.totalGenerations++;
-        // Persist progress
+        // Persist progress and last-active timestamp
         try {
             localStorage.setItem('vortex-generation', this.generation);
             localStorage.setItem('vortex-bestScore', this.bestScore);
             localStorage.setItem('vortex-totalGens', this.totalGenerations);
+            localStorage.setItem('vortex-lastActive', Date.now());
         } catch {}
     }
 
@@ -299,12 +300,41 @@ function initVortexFlappy(containerId, statsCallback) {
 
     // Restore persisted stats and brain
     let savedGen = 1;
+    let savedTotalGens = 1;
     let savedBest = 0;
     let savedBrain = null;
+    let savedLastActive = null;
     try {
         savedGen = parseInt(localStorage.getItem('vortex-generation')) || 1;
+        savedTotalGens = parseInt(localStorage.getItem('vortex-totalGens')) || 1;
         savedBest = parseInt(localStorage.getItem('vortex-bestScore')) || 0;
         savedBrain = loadBestBrain();
+        savedLastActive = parseInt(localStorage.getItem('vortex-lastActive'));
+    } catch {}
+
+    // Fast-forward generations based on time elapsed since last active
+    // The game runs ~180 generations per hour (~20s per gen)
+    if (savedLastActive) {
+        const elapsedMs = Date.now() - savedLastActive;
+        const elapsedHours = elapsedMs / (1000 * 60 * 60);
+        if (elapsedHours > 1) {
+            const ffGens = Math.floor(elapsedHours * 180);
+            if (ffGens > 0) {
+                savedGen += ffGens;
+                savedTotalGens += ffGens;
+            }
+        }
+    }
+
+    // Save updated counters immediately
+    try {
+        localStorage.setItem('vortex-generation', savedGen);
+        localStorage.setItem('vortex-totalGens', savedTotalGens);
+        localStorage.setItem('vortex-bestScore', savedBest);
+    } catch {}
+    // Update lastActive to now
+    try {
+        localStorage.setItem('vortex-lastActive', Date.now());
     } catch {}
 
     // Birth timestamp — set once, runs forever
