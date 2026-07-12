@@ -269,8 +269,25 @@ const birdFrames = [
     { x: 31, y: 491 }
 ];
 
+// ─── Helpers ───────────────────────────────────────────────────
+// Fetch server-trained brain from the Vercel evolution API
+async function fetchServerBrain() {
+    try {
+        const controller = new AbortController();
+        const timeout = setTimeout(() => controller.abort(), 3000);
+        const res = await fetch('/api/stats', { signal: controller.signal });
+        clearTimeout(timeout);
+        if (!res.ok) return null;
+        const data = await res.json();
+        if (!data.weights || !data.bestScore) return null;
+        return data;
+    } catch {
+        return null;
+    }
+}
+
 // ─── Init Function ─────────────────────────────────────────────
-function initVortexFlappy(containerId, statsCallback) {
+async function initVortexFlappy(containerId, statsCallback) {
     const container = document.getElementById(containerId);
     if (!container) return null;
 
@@ -298,7 +315,7 @@ function initVortexFlappy(containerId, statsCallback) {
     let groundX = 0;
     let running = true;
 
-    // Restore persisted stats and brain
+    // Restore persisted stats and brain from localStorage
     let savedGen = 1;
     let savedTotalGens = 1;
     let savedBest = 0;
@@ -310,6 +327,23 @@ function initVortexFlappy(containerId, statsCallback) {
         savedBest = parseInt(localStorage.getItem('vortex-bestScore')) || 0;
         savedBrain = loadBestBrain();
         savedLastActive = parseInt(localStorage.getItem('vortex-lastActive'));
+    } catch {}
+
+    // Fetch server-trained brain (trained 24/7 via Vercel function)
+    // Override local state if server has a better brain
+    try {
+        const server = await fetchServerBrain();
+        if (server && server.weights && server.bestScore > savedBest) {
+            // Save server brain to localStorage for persistence
+            localStorage.setItem('vortex-brain', JSON.stringify(server.weights));
+            localStorage.setItem('vortex-generation', server.generation);
+            localStorage.setItem('vortex-bestScore', server.bestScore);
+            localStorage.setItem('vortex-totalGens', server.totalGenerations);
+            savedBest = server.bestScore;
+            savedGen = server.generation;
+            savedTotalGens = server.totalGenerations;
+            savedBrain = loadBestBrain(); // converts server weights to TF model
+        }
     } catch {}
 
     // Fast-forward generations based on time elapsed since last active

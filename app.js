@@ -143,7 +143,8 @@
     React.useEffect(() => {
       const container = containerRef.current;
       if (!container) return;
-      const game = initVortexFlappy('vortex-game-container', (newStats) => {
+      let mounted = true;
+      initVortexFlappy('vortex-game-container', (newStats) => {
         const prev = statsRef.current;
         // Only trigger React re-render when something actually changes
         if (prev.generation !== newStats.generation ||
@@ -155,9 +156,14 @@
           statsRef.current = newStats;
           setStats(newStats);
         }
+      }).then(game => {
+        if (!mounted && game) { game.destroy(); return; }
+        gameRef.current = game;
       });
-      gameRef.current = game;
-      return () => { if (gameRef.current) { gameRef.current.destroy(); gameRef.current = null; } };
+      return () => {
+        mounted = false;
+        if (gameRef.current) { gameRef.current.destroy(); gameRef.current = null; }
+      };
     }, []);
 
     return /* @__PURE__ */ React.createElement(RevealText, null, /* @__PURE__ */ React.createElement("div", { className: "w-full py-8 md:py-12 border-t border-ink/10" },
