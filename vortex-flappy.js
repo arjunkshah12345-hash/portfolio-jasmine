@@ -118,14 +118,19 @@ async function initVortexFlappy(containerId, statsCallback) {
 
     // ─── Load the best brain (source of truth: latest-brain.json) ──
     let brain = null;
-    let brainBestScore = 0;
+
+    // Load persisted best score from localStorage (survives tab closes)
+    let brainBestScore = parseInt(localStorage.getItem('vortex-bestScore')) || 0;
 
     try {
         const fileBrain = await fetchLatestBrain();
         if (fileBrain && fileBrain.weights && fileBrain.bestScore > 0) {
             localStorage.setItem('vortex-brain', JSON.stringify(fileBrain.weights));
-            localStorage.setItem('vortex-bestScore', fileBrain.bestScore);
-            brainBestScore = fileBrain.bestScore;
+            // Keep the higher of file brain score and what we've seen
+            if (fileBrain.bestScore > brainBestScore) {
+                brainBestScore = fileBrain.bestScore;
+                localStorage.setItem('vortex-bestScore', brainBestScore);
+            }
             brain = loadBestBrain();
         }
     } catch {}
@@ -133,7 +138,6 @@ async function initVortexFlappy(containerId, statsCallback) {
     // Fallback to localStorage cache
     if (!brain) {
         brain = loadBestBrain();
-        brainBestScore = parseInt(localStorage.getItem('vortex-bestScore')) || 0;
     }
 
     // If still no brain, create a random one
@@ -161,7 +165,9 @@ async function initVortexFlappy(containerId, statsCallback) {
     let bird = new FlappyBird(gameCanvas.width, gameCanvas.height, brain);
     let pipes = [];
     let roundScore = 0;
-    let sessionHighScore = 0;
+    // Load persisted high score so it survives tab closes
+    let sessionHighScore = parseInt(localStorage.getItem('vortex-highScore')) || 0;
+    if (sessionHighScore > brainBestScore) brainBestScore = sessionHighScore;
     let frameCount = 0;
     let currentFrame = 0;
     let groundX = 0;
@@ -267,7 +273,11 @@ async function initVortexFlappy(containerId, statsCallback) {
                 if (!firstPipe.scored && firstPipe.x + 52 < bird.x) {
                     firstPipe.scored = true;
                     roundScore++;
-                    if (roundScore > sessionHighScore) sessionHighScore = roundScore;
+                    if (roundScore > sessionHighScore) {
+                        sessionHighScore = roundScore;
+                        // Persist high score across tab closes
+                        localStorage.setItem('vortex-highScore', sessionHighScore);
+                    }
                 }
             }
         } else if (bird) {
