@@ -1,13 +1,14 @@
 // ─── Server-side NEAT Flappy Bird Evolution ─────────────────────
-// Reads latest-brain.json (deployed with the project) as the source of truth.
-// Uses in-memory cache for warm instances. CLIENTS FETCH THE FILE DIRECTLY.
-// GitLab CI runs evolution locally and commits updated brain to the repo.
+// This endpoint is the SINGLE SOURCE OF TRUTH for the brain state.
+// Vercel Hobby plan runs a single serverless instance, so ALL visitors
+// hit the same in-memory state — everyone sees the SAME bird and score.
 //
-// This endpoint exists for: manual evolution triggers, quick stats, and
-// as a warm-instance fallback. The shared state is the FILE, not memory.
+// GitLab CI pings /api/evolve every 10 min to keep the instance warm
+// and advance evolution. Clients fetch /api/evolve?stats=1 to get the
+// current brain weights + best score.
 //
-// IMPORTANT: All clients fetch /latest-brain.json directly from CDN.
-// This guarantees every visitor sees the SAME brain — no instance divergence.
+// On cold start, hydrates from latest-brain.json (deployed with project).
+// On each evolution, also writes to latest-brain.json as a fallback.
 
 const fs = require('fs');
 const path = require('path');
@@ -292,10 +293,16 @@ module.exports = async (req, res) => {
       lastActive: Date.now(),
     };
 
+    // Also try to persist to file as cold-start fallback
+    try {
+      fs.writeFileSync(BRAIN_FILE, JSON.stringify(cachedState, null, 2));
+    } catch {}
+
     res.status(200).json({
       generation: cachedState.generation,
       bestScore: cachedState.bestScore,
       totalGenerations: cachedState.totalGenerations,
+      weights: cachedState.weights,
       message: `Evolved ${GENERATIONS_PER_RUN} generations. Best score: ${cachedState.bestScore}`,
     });
   } catch (err) {

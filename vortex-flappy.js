@@ -72,12 +72,15 @@ function loadBestBrain() {
     }
 }
 
-// ─── Fetch the shared brain file from CDN (same for ALL visitors) ──
-async function fetchLatestBrain() {
+// ─── Fetch the shared brain from the API (SINGLE SOURCE OF TRUTH) ──
+// Every visitor fetches from /api/evolve?stats=1 which returns the
+// exact same in-memory state from Vercel's serverless instance.
+// GitLab CI keeps the instance warm and evolving every 10 minutes.
+async function fetchServerBrain() {
     try {
         const controller = new AbortController();
-        const timeout = setTimeout(() => controller.abort(), 3000);
-        const res = await fetch('/latest-brain.json', { signal: controller.signal });
+        const timeout = setTimeout(() => controller.abort(), 5000);
+        const res = await fetch('/api/evolve?stats=1', { signal: controller.signal });
         clearTimeout(timeout);
         if (!res.ok) return null;
         const data = await res.json();
@@ -116,26 +119,24 @@ async function initVortexFlappy(containerId, statsCallback) {
     const sprites = new Image();
     sprites.src = '/vortex-sprites.png';
 
-    // ─── Load the best brain (source of truth: latest-brain.json) ──
+    // ─── Load the best brain from the API (SINGLE SOURCE OF TRUTH) ──
     let brain = null;
 
-    // Load persisted best score from localStorage (survives tab closes)
+    // Load last known best score from localStorage (local cache only)
     let brainBestScore = parseInt(localStorage.getItem('vortex-bestScore')) || 0;
 
+    // Fetch the authoritative brain from Vercel API — same for ALL visitors
     try {
-        const fileBrain = await fetchLatestBrain();
-        if (fileBrain && fileBrain.weights && fileBrain.bestScore > 0) {
-            localStorage.setItem('vortex-brain', JSON.stringify(fileBrain.weights));
-            // Keep the higher of file brain score and what we've seen
-            if (fileBrain.bestScore > brainBestScore) {
-                brainBestScore = fileBrain.bestScore;
-                localStorage.setItem('vortex-bestScore', brainBestScore);
-            }
+        const serverBrain = await fetchServerBrain();
+        if (serverBrain && serverBrain.weights && serverBrain.bestScore > 0) {
+            localStorage.setItem('vortex-brain', JSON.stringify(serverBrain.weights));
+            localStorage.setItem('vortex-bestScore', serverBrain.bestScore);
+            brainBestScore = serverBrain.bestScore;
             brain = loadBestBrain();
         }
     } catch {}
 
-    // Fallback to localStorage cache
+    // Fallback to localStorage cache (offline or very first visit)
     if (!brain) {
         brain = loadBestBrain();
     }
