@@ -244,32 +244,6 @@
     });
   };
 
-  // ─── Scroll Reveal ──────────────────────────────────────────────
-  const ScrollReveal = ({ children, className = "" }) => {
-    const ref = React.useRef(null);
-    const [inView, setInView] = React.useState(false);
-    React.useEffect(() => {
-      const el = ref.current;
-      if (!el) return;
-      const observer = new IntersectionObserver(
-        ([entry]) => { if (entry.isIntersecting) { setInView(true); observer.unobserve(el); } },
-        { threshold: 0.15 }
-      );
-      observer.observe(el);
-      return () => observer.disconnect();
-    }, []);
-    return React.createElement(
-      motion.div,
-      {
-        ref,
-        initial: { opacity: 0, y: 32 },
-        animate: inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 32 },
-        transition: { duration: 0.65, ease }
-      },
-      React.createElement("div", { className }, children)
-    );
-  };
-
   const Home = () => /* @__PURE__ */ React.createElement(motion.div, { variants: pageVariants, initial: "initial", animate: "enter", exit: "exit", className: "max-w-2xl w-full" }, /* @__PURE__ */ React.createElement("div", { className: "space-y-5 text-lg md:text-2xl leading-relaxed md:leading-relaxed font-light tracking-tight" },
     /* @__PURE__ */ React.createElement(RevealText, null, /* @__PURE__ */ React.createElement("p", null, "hi, my name is arjun shah. this is my website, and i'm currently working on ", /* @__PURE__ */ React.createElement("a", { href: "https://supercompress.dev", target: "_blank", rel: "noopener noreferrer", className: "underline underline-offset-4 decoration-ink/30 hover:decoration-ink transition-all" }, "supercompress"), " \u2014 it is open source. i like doing cool stuff, and feel free to check out the website.")),
     /* @__PURE__ */ React.createElement(RevealText, null, /* @__PURE__ */ React.createElement("p", { className: "text-ink-light text-lg md:text-xl mt-8" }, "here's my pet, flappy bird:")),
@@ -284,14 +258,14 @@
       ),
     )),
   ));
-  const About = () => /* @__PURE__ */ React.createElement(motion.div, { variants: pageVariants, initial: "initial", animate: "enter", exit: "exit", className: "max-w-2xl" }, /* @__PURE__ */ React.createElement("div", { className: "space-y-8 text-lg md:text-xl leading-relaxed text-ink/80" }, /* @__PURE__ */ React.createElement(ScrollReveal, null, /* @__PURE__ */ React.createElement("p", null, "i am arjun shah. i am 14 and i build like a founder. the goal is not to make things look impressive in isolation. it is to solve real problems, ship, and keep improving the system. i code in typescript, python, and swift, and my work spans the entire stack \u2014 from agent orchestration to neural compression to browser extensions.")), /* @__PURE__ */ React.createElement(ScrollReveal, null, /* @__PURE__ */ React.createElement("p", null, "my journey started with rooted.ai, which won the stanford gsb lisa startup competition. that taught me how to turn a question into a product, how to pitch it clearly, and how to validate the idea before it was fully formed.")), /* @__PURE__ */ React.createElement(ScrollReveal, { className: "py-8" }, /* @__PURE__ */ React.createElement(
+  const About = () => /* @__PURE__ */ React.createElement(motion.div, { variants: pageVariants, initial: "initial", animate: "enter", exit: "exit", className: "max-w-2xl" }, /* @__PURE__ */ React.createElement("div", { className: "space-y-8 text-lg md:text-xl leading-relaxed text-ink/80" }, /* @__PURE__ */ React.createElement("p", null, "i am arjun shah. i am 14 and i build like a founder. the goal is not to make things look impressive in isolation. it is to solve real problems, ship, and keep improving the system. i code in typescript, python, and swift, and my work spans the entire stack \u2014 from agent orchestration to neural compression to browser extensions."), /* @__PURE__ */ React.createElement("p", null, "my journey started with rooted.ai, which won the stanford gsb lisa startup competition. that taught me how to turn a question into a product, how to pitch it clearly, and how to validate the idea before it was fully formed."), /* @__PURE__ */ React.createElement("div", { className: "py-8" }, /* @__PURE__ */ React.createElement(
     "img",
     {
       src: "/about.jpg",
       alt: "Arjun Shah smiling at a desk with his mom beside him.",
       className: "w-full h-auto rounded-md shadow-md object-cover"
     }
-  ), /* @__PURE__ */ React.createElement("p", { className: "font-mono text-[10px] text-ink-light mt-3 tracking-widest uppercase" }, "Fig 1. Momentum over perfection.")), /* @__PURE__ */ React.createElement(ScrollReveal, null, /* @__PURE__ */ React.createElement("p", null, "after that, i built and scaled ideatr.dev to over 100 active users in a few months. seeing real people use my software changed how i think about product, distribution, and the cost of being wrong.")), /* @__PURE__ */ React.createElement(ScrollReveal, null, /* @__PURE__ */ React.createElement("p", null, "in 2026, i launched supercompress (neural context compression for AI agents), ascii-skill (world-class ASCII art for any agent), and kept building loopy. i also won early traction with pincer (a dyslexia-friendly browser extension) and jasmine (AI frontend design with taste).")), /* @__PURE__ */ React.createElement(ScrollReveal, null, /* @__PURE__ */ React.createElement("p", null, "i now host my code on gitlab (gitlab.com/arjunkshah) and github. i'm starting to document my full journey on video \u2014 episode 1 is live on X. it covers what drives a 14-year-old building at the intersection of AI, product design, and agent infrastructure.")), /* @__PURE__ */ React.createElement(ScrollReveal, null, /* @__PURE__ */ React.createElement("p", null, "now i am focused on the intersection of artificial intelligence, product-level design, and execution. that is why i am building loopy, supercompress, ascii-skill, pincer, jasmine, and everything around autonomous agents and design taste."))));
+  ), /* @__PURE__ */ React.createElement("p", { className: "font-mono text-[10px] text-ink-light mt-3 tracking-widest uppercase" }, "Fig 1. Momentum over perfection.")), /* @__PURE__ */ React.createElement("p", null, "after that, i built and scaled ideatr.dev to over 100 active users in a few months. seeing real people use my software changed how i think about product, distribution, and the cost of being wrong."), /* @__PURE__ */ React.createElement("p", null, "in 2026, i launched supercompress (neural context compression for AI agents), ascii-skill (world-class ASCII art for any agent), and kept building loopy. i also won early traction with pincer (a dyslexia-friendly browser extension) and jasmine (AI frontend design with taste)."), /* @__PURE__ */ React.createElement("p", null, "i now host my code on gitlab (gitlab.com/arjunkshah) and github. i'm starting to document my full journey on video \u2014 episode 1 is live on X. it covers what drives a 14-year-old building at the intersection of AI, product design, and agent infrastructure."), /* @__PURE__ */ React.createElement("p", null, "now i am focused on the intersection of artificial intelligence, product-level design, and execution. that is why i am building loopy, supercompress, ascii-skill, pincer, jasmine, and everything around autonomous agents and design taste.")));
   const workProjects = [
     {
       slug: "loopy",
@@ -446,27 +420,24 @@
   ];
   const workProjectMap = Object.fromEntries(workProjects.map((project) => [project.slug, project]));
   const Work = ({ setPath }) => /* @__PURE__ */ React.createElement(motion.div, { variants: pageVariants, initial: "initial", animate: "enter", exit: "exit", className: "max-w-3xl w-full" }, /* @__PURE__ */ React.createElement("div", { className: "flex flex-col w-full" }, workProjects.map((project) => /* @__PURE__ */ React.createElement(
-    ScrollReveal,
-    { key: project.slug },
+    "div",
+    {
+      key: project.slug,
+      onClick: () => setPath(`/work/${project.slug}`),
+      className: "group flex items-center justify-between gap-4 border-b border-ink/5 py-8 md:py-12 hover:border-ink/20 transition-colors duration-500 cursor-pointer"
+    },
+    /* @__PURE__ */ React.createElement("div", { className: "flex flex-col md:flex-row md:items-baseline gap-2 md:gap-8 min-w-0" }, /* @__PURE__ */ React.createElement("span", { className: "font-mono text-xs text-ink-light w-16 shrink-0" }, project.year), /* @__PURE__ */ React.createElement("div", { className: "flex flex-col gap-2 min-w-0" }, /* @__PURE__ */ React.createElement("div", { className: "flex items-center gap-2 flex-wrap" }, /* @__PURE__ */ React.createElement("h3", { className: "text-2xl md:text-4xl tracking-tight transition-transform duration-500 group-hover:translate-x-2" }, project.title), /* @__PURE__ */ React.createElement("span", { className: "text-[9px] font-mono tracking-widest uppercase bg-ink/5 rounded-full px-2 py-0.5 text-ink-light/70" }, project.tag), project.videoUrl && /* @__PURE__ */ React.createElement("span", { className: "text-[9px] font-mono tracking-widest uppercase border border-ink/15 rounded-full px-2 py-0.5 text-ink-light", title: "Demo video available" }, "Video")), /* @__PURE__ */ React.createElement("p", { className: "text-ink-light text-base md:text-lg max-w-xl" }, project.desc))),
     /* @__PURE__ */ React.createElement(
-      "div",
+      "a",
       {
-        onClick: () => setPath(`/work/${project.slug}`),
-        className: "group flex items-center justify-between gap-4 border-b border-ink/5 py-8 md:py-12 hover:border-ink/20 transition-colors duration-500 cursor-pointer"
+        href: project.url,
+        target: "_blank",
+        rel: "noopener noreferrer",
+        onClick: (e) => e.stopPropagation(),
+        className: "shrink-0 inline-flex items-center gap-2 rounded-full border border-ink/15 px-3 py-1 text-[10px] tracking-widest uppercase text-ink-light hover:border-ink/35 hover:text-ink transition-colors"
       },
-      /* @__PURE__ */ React.createElement("div", { className: "flex flex-col md:flex-row md:items-baseline gap-2 md:gap-8 min-w-0" }, /* @__PURE__ */ React.createElement("span", { className: "font-mono text-xs text-ink-light w-16 shrink-0" }, project.year), /* @__PURE__ */ React.createElement("div", { className: "flex flex-col gap-2 min-w-0" }, /* @__PURE__ */ React.createElement("div", { className: "flex items-center gap-2 flex-wrap" }, /* @__PURE__ */ React.createElement("h3", { className: "text-2xl md:text-4xl tracking-tight transition-transform duration-500 group-hover:translate-x-2" }, project.title), /* @__PURE__ */ React.createElement("span", { className: "text-[9px] font-mono tracking-widest uppercase bg-ink/5 rounded-full px-2 py-0.5 text-ink-light/70" }, project.tag), project.videoUrl && /* @__PURE__ */ React.createElement("span", { className: "text-[9px] font-mono tracking-widest uppercase border border-ink/15 rounded-full px-2 py-0.5 text-ink-light", title: "Demo video available" }, "Video")), /* @__PURE__ */ React.createElement("p", { className: "text-ink-light text-base md:text-lg max-w-xl" }, project.desc))),
-      /* @__PURE__ */ React.createElement(
-        "a",
-        {
-          href: project.url,
-          target: "_blank",
-          rel: "noopener noreferrer",
-          onClick: (e) => e.stopPropagation(),
-          className: "shrink-0 inline-flex items-center gap-2 rounded-full border border-ink/15 px-3 py-1 text-[10px] tracking-widest uppercase text-ink-light hover:border-ink/35 hover:text-ink transition-colors"
-        },
-        project.linkLabel,
-        /* @__PURE__ */ React.createElement("span", { "aria-hidden": "true" }, "\u2197")
-      )
+      project.linkLabel,
+      /* @__PURE__ */ React.createElement("span", { "aria-hidden": "true" }, "\u2197")
     )
   ))));
   const ProjectDetail = ({ project, setPath }) => /* @__PURE__ */ React.createElement(motion.div, { variants: pageVariants, initial: "initial", animate: "enter", exit: "exit", className: "max-w-3xl w-full" }, /* @__PURE__ */ React.createElement("div", { className: "flex items-start justify-between gap-6 mb-12" }, /* @__PURE__ */ React.createElement("button", { type: "button", onClick: () => setPath("/work"), className: "font-mono text-[10px] tracking-widest uppercase text-ink-light hover:text-ink transition-colors" }, "Back"), /* @__PURE__ */ React.createElement(
@@ -720,18 +691,15 @@
     ];
     const [selected, setSelected] = useState(essays[0]);
     return /* @__PURE__ */ React.createElement(motion.div, { variants: pageVariants, initial: "initial", animate: "enter", exit: "exit", className: "max-w-2xl w-full" }, /* @__PURE__ */ React.createElement("div", { className: "flex flex-col gap-8 md:gap-12" }, essays.map((essay) => /* @__PURE__ */ React.createElement(
-      ScrollReveal,
-      { key: essay.title },
-      /* @__PURE__ */ React.createElement(
-        "button",
-        {
-          type: "button",
-          onClick: () => setSelected(essay),
-          className: `w-full flex flex-col gap-2 text-left cursor-pointer group ${selected.title === essay.title ? "opacity-100" : "opacity-60 hover:opacity-100"} transition-opacity duration-300`
-        },
-        /* @__PURE__ */ React.createElement("span", { className: "font-mono text-[10px] tracking-widest text-ink-light uppercase" }, essay.date),
-        /* @__PURE__ */ React.createElement("h3", { className: "text-xl md:text-2xl tracking-tight group-hover:italic transition-all duration-300" }, essay.title)
-      )
+      "button",
+      {
+        key: essay.title,
+        type: "button",
+        onClick: () => setSelected(essay),
+        className: `w-full flex flex-col gap-2 text-left cursor-pointer group ${selected.title === essay.title ? "opacity-100" : "opacity-60 hover:opacity-100"} transition-opacity duration-300`
+      },
+      /* @__PURE__ */ React.createElement("span", { className: "font-mono text-[10px] tracking-widest text-ink-light uppercase" }, essay.date),
+      /* @__PURE__ */ React.createElement("h3", { className: "text-xl md:text-2xl tracking-tight group-hover:italic transition-all duration-300" }, essay.title)
     ))), (selected == null ? void 0 : selected.content) && /* @__PURE__ */ React.createElement(
       motion.div,
       {
@@ -827,7 +795,7 @@
       ));
     })));
   };
-  const Contact = () => /* @__PURE__ */ React.createElement(motion.div, { variants: pageVariants, initial: "initial", animate: "enter", exit: "exit", className: "max-w-2xl" }, /* @__PURE__ */ React.createElement("div", { className: "space-y-12" }, /* @__PURE__ */ React.createElement(ScrollReveal, null, /* @__PURE__ */ React.createElement("p", { className: "text-2xl md:text-4xl tracking-tight leading-snug" }, "i am always open to talking about startups, artificial intelligence, product design, or autonomous agents.")), /* @__PURE__ */ React.createElement(ScrollReveal, null, /* @__PURE__ */ React.createElement("div", { className: "flex flex-col gap-4 font-mono text-sm tracking-wide" }, /* @__PURE__ */ React.createElement("a", { href: "mailto:arjunkshah21@gmail.com", target: "_blank", rel: "noopener noreferrer", className: "text-ink hover:text-ink-light transition-colors w-fit border-b border-ink/20 hover:border-ink/0 pb-1" }, "arjunkshah21@gmail.com"), /* @__PURE__ */ React.createElement("a", { href: "https://x.com/arjunkshah21", target: "_blank", rel: "noopener noreferrer", className: "text-ink hover:text-ink-light transition-colors w-fit border-b border-ink/20 hover:border-ink/0 pb-1" }, "x.com/arjunkshah21"), /* @__PURE__ */ React.createElement("a", { href: "https://github.com/arjunkshah", target: "_blank", rel: "noopener noreferrer", className: "text-ink hover:text-ink-light transition-colors w-fit border-b border-ink/20 hover:border-ink/0 pb-1" }, "github.com/arjunkshah"), /* @__PURE__ */ React.createElement("a", { href: "https://gitlab.com/arjunkshah", target: "_blank", rel: "noopener noreferrer", className: "text-ink hover:text-ink-light transition-colors w-fit border-b border-ink/20 hover:border-ink/0 pb-1" }, "gitlab.com/arjunkshah"), /* @__PURE__ */ React.createElement("a", { href: "https://www.linkedin.com/in/arjun-k-shah", target: "_blank", rel: "noopener noreferrer", className: "text-ink hover:text-ink-light transition-colors w-fit border-b border-ink/20 hover:border-ink/0 pb-1" }, "linkedin.com/in/arjun-k-shah"))), /* @__PURE__ */ React.createElement(ScrollReveal, null, /* @__PURE__ */ React.createElement("p", { className: "text-ink-light italic mt-24" }, "signed,", /* @__PURE__ */ React.createElement("br", null), "a.s."))));
+  const Contact = () => /* @__PURE__ */ React.createElement(motion.div, { variants: pageVariants, initial: "initial", animate: "enter", exit: "exit", className: "max-w-2xl" }, /* @__PURE__ */ React.createElement("div", { className: "space-y-12" }, /* @__PURE__ */ React.createElement("p", { className: "text-2xl md:text-4xl tracking-tight leading-snug" }, "i am always open to talking about startups, artificial intelligence, product design, or autonomous agents."), /* @__PURE__ */ React.createElement("div", { className: "flex flex-col gap-4 font-mono text-sm tracking-wide" }, /* @__PURE__ */ React.createElement("a", { href: "mailto:arjunkshah21@gmail.com", target: "_blank", rel: "noopener noreferrer", className: "text-ink hover:text-ink-light transition-colors w-fit border-b border-ink/20 hover:border-ink/0 pb-1" }, "arjunkshah21@gmail.com"), /* @__PURE__ */ React.createElement("a", { href: "https://x.com/arjunkshah21", target: "_blank", rel: "noopener noreferrer", className: "text-ink hover:text-ink-light transition-colors w-fit border-b border-ink/20 hover:border-ink/0 pb-1" }, "x.com/arjunkshah21"), /* @__PURE__ */ React.createElement("a", { href: "https://github.com/arjunkshah", target: "_blank", rel: "noopener noreferrer", className: "text-ink hover:text-ink-light transition-colors w-fit border-b border-ink/20 hover:border-ink/0 pb-1" }, "github.com/arjunkshah"), /* @__PURE__ */ React.createElement("a", { href: "https://gitlab.com/arjunkshah", target: "_blank", rel: "noopener noreferrer", className: "text-ink hover:text-ink-light transition-colors w-fit border-b border-ink/20 hover:border-ink/0 pb-1" }, "gitlab.com/arjunkshah"), /* @__PURE__ */ React.createElement("a", { href: "https://www.linkedin.com/in/arjun-k-shah", target: "_blank", rel: "noopener noreferrer", className: "text-ink hover:text-ink-light transition-colors w-fit border-b border-ink/20 hover:border-ink/0 pb-1" }, "linkedin.com/in/arjun-k-shah")), /* @__PURE__ */ React.createElement("p", { className: "text-ink-light italic mt-24" }, "signed,", /* @__PURE__ */ React.createElement("br", null), "a.s.")));
   const App = () => {
     const initialPath = typeof window !== "undefined" ? window.location.pathname : "/";
     const [currentPath, setCurrentPath] = useState(initialPath || "/");
