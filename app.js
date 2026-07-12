@@ -126,27 +126,43 @@
       )))
     );
   };
+  // ─── Flappy Bird Stats (isolated to prevent 60fps re-renders) ───
+  const FlappyBirdStatsLabel = React.memo(({ stats }) => /* @__PURE__ */ React.createElement("div", { className: "flex flex-wrap gap-4 mb-5 font-mono text-[10px] tracking-widest text-ink-light uppercase" },
+    /* @__PURE__ */ React.createElement("span", null, "Generation ", stats.generation),
+    /* @__PURE__ */ React.createElement("span", null, "Best Score ", stats.bestScore),
+    /* @__PURE__ */ React.createElement("span", { className: "text-ink/50" }, "Uptime ", stats.elapsedDays, "d ", stats.elapsedHours, "h ", stats.elapsedMinutes, "m")
+  ));
+
   // ─── NEAT Flappy Bird ────────────────────────────────────────
   const FlappyBirdHome = () => {
     const containerRef = React.useRef(null);
     const gameRef = React.useRef(null);
-    const [stats, setStats] = React.useState({ generation: 0, bestScore: 0, aliveCount: 0, totalGenerations: 0, elapsedDays: 0, elapsedHours: 0, elapsedMinutes: 0 });
+    const statsRef = React.useRef({ generation: 0, bestScore: 0, aliveCount: 0, totalGenerations: 0, elapsedDays: 0, elapsedHours: 0, elapsedMinutes: 0 });
+    const [stats, setStats] = React.useState(statsRef.current);
 
     React.useEffect(() => {
       const container = containerRef.current;
       if (!container) return;
-      const game = initVortexFlappy('vortex-game-container', setStats);
+      const game = initVortexFlappy('vortex-game-container', (newStats) => {
+        const prev = statsRef.current;
+        // Only trigger React re-render when something actually changes
+        if (prev.generation !== newStats.generation ||
+            prev.bestScore !== newStats.bestScore ||
+            prev.aliveCount !== newStats.aliveCount ||
+            prev.elapsedDays !== newStats.elapsedDays ||
+            prev.elapsedHours !== newStats.elapsedHours ||
+            prev.elapsedMinutes !== newStats.elapsedMinutes) {
+          statsRef.current = newStats;
+          setStats(newStats);
+        }
+      });
       gameRef.current = game;
       return () => { if (gameRef.current) { gameRef.current.destroy(); gameRef.current = null; } };
     }, []);
 
     return /* @__PURE__ */ React.createElement(RevealText, null, /* @__PURE__ */ React.createElement("div", { className: "w-full py-8 md:py-12 border-t border-ink/10" },
       /* @__PURE__ */ React.createElement("h3", { className: "text-lg md:text-2xl tracking-tight mb-3" }, "NEAT Flappy Bird"),
-      /* @__PURE__ */ React.createElement("div", { className: "flex flex-wrap gap-4 mb-5 font-mono text-[10px] tracking-widest text-ink-light uppercase" },
-        /* @__PURE__ */ React.createElement("span", null, "Generation ", stats.generation),
-        /* @__PURE__ */ React.createElement("span", null, "Best Score ", stats.bestScore),
-        /* @__PURE__ */ React.createElement("span", { className: "text-ink/50" }, "Uptime ", stats.elapsedDays, "d ", stats.elapsedHours, "h ", stats.elapsedMinutes, "m")
-      ),
+      /* @__PURE__ */ React.createElement(FlappyBirdStatsLabel, { stats }),
       /* @__PURE__ */ React.createElement("div", { id: "vortex-game-container", ref: containerRef, className: "w-full max-w-[360px] mx-auto" }),
       /* @__PURE__ */ React.createElement("p", { className: "text-ink-light text-sm mt-4 max-w-xs mx-auto text-center italic" }, "neat flappy bird, learning forever.")
     ));
@@ -229,16 +245,30 @@
   };
 
   // ─── Scroll Reveal ──────────────────────────────────────────────
-  const ScrollReveal = ({ children, className = "" }) => React.createElement(
-    motion.div,
-    {
-      initial: { opacity: 0, y: 24 },
-      whileInView: { opacity: 1, y: 0 },
-      viewport: { once: true, margin: "-60px" },
-      transition: { duration: 0.6, ease }
-    },
-    React.createElement("div", { className }, children)
-  );
+  const ScrollReveal = ({ children, className = "" }) => {
+    const ref = React.useRef(null);
+    const [inView, setInView] = React.useState(false);
+    React.useEffect(() => {
+      const el = ref.current;
+      if (!el) return;
+      const observer = new IntersectionObserver(
+        ([entry]) => { if (entry.isIntersecting) { setInView(true); observer.unobserve(el); } },
+        { threshold: 0.15 }
+      );
+      observer.observe(el);
+      return () => observer.disconnect();
+    }, []);
+    return React.createElement(
+      motion.div,
+      {
+        ref,
+        initial: { opacity: 0, y: 32 },
+        animate: inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 32 },
+        transition: { duration: 0.65, ease }
+      },
+      React.createElement("div", { className }, children)
+    );
+  };
 
   const Home = () => /* @__PURE__ */ React.createElement(motion.div, { variants: pageVariants, initial: "initial", animate: "enter", exit: "exit", className: "max-w-2xl w-full" }, /* @__PURE__ */ React.createElement("div", { className: "space-y-5 text-lg md:text-2xl leading-relaxed md:leading-relaxed font-light tracking-tight" },
     /* @__PURE__ */ React.createElement(RevealText, null, /* @__PURE__ */ React.createElement("p", null, "hi, my name is arjun shah. this is my website, and i'm currently working on ", /* @__PURE__ */ React.createElement("a", { href: "https://supercompress.dev", target: "_blank", rel: "noopener noreferrer", className: "underline underline-offset-4 decoration-ink/30 hover:decoration-ink transition-all" }, "supercompress"), " \u2014 it is open source. i like doing cool stuff, and feel free to check out the website.")),

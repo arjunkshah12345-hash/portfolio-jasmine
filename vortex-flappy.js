@@ -116,13 +116,59 @@ class NeatBird {
     }
 }
 
+// ─── Brain persistence helpers ────────────────────────────────
+function saveBestBrain(brain) {
+    try {
+        const weights = brain.getWeights();
+        const data = weights.map(w => ({
+            shape: w.shape,
+            values: Array.from(w.dataSync())
+        }));
+        localStorage.setItem('vortex-brain', JSON.stringify(data));
+    } catch (e) { /* localStorage full or unavailable */ }
+}
+
+function loadBestBrain() {
+    try {
+        const saved = localStorage.getItem('vortex-brain');
+        if (!saved) return null;
+        const data = JSON.parse(saved);
+        const model = tf.sequential();
+        model.add(tf.layers.dense({ inputShape: [INPUT_NODES], units: 6 }));
+        model.add(tf.layers.leakyReLU());
+        model.add(tf.layers.dense({ units: OUTPUT_NODES, activation: 'sigmoid' }));
+        const tensors = data.map(d => tf.tensor(d.values, d.shape));
+        model.setWeights(tensors);
+        return model;
+    } catch (e) {
+        return null;
+    }
+}
+
 // ─── Population Class ──────────────────────────────────────────
 class VortexPopulation {
-    constructor(gameWidth, gameHeight, generation = 1, bestScore = 0) {
+    constructor(gameWidth, gameHeight, generation = 1, bestScore = 0, seedBrain = null) {
         this.gameWidth = gameWidth;
         this.gameHeight = gameHeight;
-        this.birds = Array(POPULATION_SIZE).fill().map(() =>
-            new NeatBird(gameWidth, gameHeight));
+        this.birds = [];
+        if (seedBrain) {
+            // Seed all birds from the saved brain so learning continues
+            for (let i = 0; i < POPULATION_SIZE; i++) {
+                const bird = new NeatBird(gameWidth, gameHeight);
+                tf.tidy(() => {
+                    const weights = seedBrain.getWeights();
+                    const cloned = weights.map(w => tf.clone(w));
+                    bird.brain.setWeights(cloned);
+                });
+                bird.mutate();
+                this.birds.push(bird);
+            }
+            seedBrain.dispose();
+        } else {
+            for (let i = 0; i < POPULATION_SIZE; i++) {
+                this.birds.push(new NeatBird(gameWidth, gameHeight));
+            }
+        }
         this.generation = generation;
         this.bestScore = bestScore;
         this.bestBird = null;
@@ -172,6 +218,8 @@ class VortexPopulation {
         if (bestBirds[0].score > this.bestScore) {
             this.bestScore = bestBirds[0].score;
             this.bestBird = bestBirds[0];
+            // Persist the actual neural network weights
+            saveBestBrain(bestBirds[0].brain);
         }
 
         this.birds = [];
@@ -249,12 +297,14 @@ function initVortexFlappy(containerId, statsCallback) {
     let groundX = 0;
     let running = true;
 
-    // Restore persisted stats
+    // Restore persisted stats and brain
     let savedGen = 1;
     let savedBest = 0;
+    let savedBrain = null;
     try {
         savedGen = parseInt(localStorage.getItem('vortex-generation')) || 1;
         savedBest = parseInt(localStorage.getItem('vortex-bestScore')) || 0;
+        savedBrain = loadBestBrain();
     } catch {}
 
     // Birth timestamp — set once, runs forever
@@ -269,7 +319,7 @@ function initVortexFlappy(containerId, statsCallback) {
         birthTimestamp = Date.now();
     }
 
-    let population = new VortexPopulation(gameCanvas.width, gameCanvas.height, savedGen, savedBest);
+    let population = new VortexPopulation(gameCanvas.width, gameCanvas.height, savedGen, savedBest, savedBrain);
 
     // Pipe spawning
     let pipeInterval = null;
