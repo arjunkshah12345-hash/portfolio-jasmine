@@ -1,12 +1,18 @@
 // ─── Server-side NEAT Flappy Bird Evolution ─────────────────────
-// Stateless evolution endpoint. No external storage needed.
-// Uses a module-level variable to persist brain state across warm starts.
-// Cron jobs ping this every 10 minutes → evolution runs → brain improves.
-// Client fetches ?stats=1 to get the latest brain (instant, no evolution).
+// Reads latest-brain.json (deployed with the project) as the source of truth.
+// Uses in-memory cache for warm instances. CLIENTS FETCH THE FILE DIRECTLY.
+// GitLab CI runs evolution locally and commits updated brain to the repo.
 //
-// On a cold start, the cached state is empty. The function evolves
-// from random weights, and the client falls back to localStorage
-// until the cron has had time to warm up the instance.
+// This endpoint exists for: manual evolution triggers, quick stats, and
+// as a warm-instance fallback. The shared state is the FILE, not memory.
+//
+// IMPORTANT: All clients fetch /latest-brain.json directly from CDN.
+// This guarantees every visitor sees the SAME brain — no instance divergence.
+
+const fs = require('fs');
+const path = require('path');
+
+const BRAIN_FILE = path.join(__dirname, '..', 'latest-brain.json');
 
 // ─── Config (matching vortex-flappy.js) ────────────────────────
 const POPULATION_SIZE = 50;
@@ -217,6 +223,21 @@ function runEvolution(seedWeights) {
   return { weights, generation, bestScore, totalGenerations };
 }
 
+// ─── Load brain from file (tries disk first, falls back to cache) ─
+function loadBrainFromFile() {
+  try {
+    if (fs.existsSync(BRAIN_FILE)) {
+      const data = JSON.parse(fs.readFileSync(BRAIN_FILE, 'utf8'));
+      if (data && data.weights && data.weights.length === 4) {
+        return data;
+      }
+    }
+  } catch (e) {
+    // File not readable (cold start on Vercel, expected)
+  }
+  return null;
+}
+
 // ─── Handler ───────────────────────────────────────────────────
 module.exports = async (req, res) => {
   res.setHeader('Access-Control-Allow-Origin', '*');
@@ -227,9 +248,17 @@ module.exports = async (req, res) => {
     return;
   }
 
+  // On cold start, hydrate cache from the shared file (deployed with project)
+  if (!cachedState) {
+    const fileState = loadBrainFromFile();
+    if (fileState) {
+      cachedState = fileState;
+    }
+  }
+
   const isStatsOnly = req.query && req.query.stats === '1';
 
-  // Stats-only request: return cached state instantly (no evolution)
+  // Stats-only request: return cached/file state instantly
   if (isStatsOnly) {
     if (cachedState) {
       return res.status(200).json({
@@ -237,10 +266,10 @@ module.exports = async (req, res) => {
         bestScore: cachedState.bestScore,
         totalGenerations: cachedState.totalGenerations,
         weights: cachedState.weights,
-        lastActive: cachedState.lastActive,
+        lastActive: cachedState.lastActive || null,
       });
     }
-    // No cached state yet (cold start, first invocation)
+    // Nothing at all (first deploy, CI hasn't run yet)
     return res.status(200).json({
       generation: 0,
       bestScore: 0,

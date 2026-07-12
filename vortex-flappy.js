@@ -237,12 +237,11 @@ class VortexPopulation {
 
         this.generation++;
         this.totalGenerations++;
-        // Persist progress and last-active timestamp
+        // Persist progress to localStorage (cache only — source of truth is latest-brain.json)
         try {
             localStorage.setItem('vortex-generation', this.generation);
             localStorage.setItem('vortex-bestScore', this.bestScore);
             localStorage.setItem('vortex-totalGens', this.totalGenerations);
-            localStorage.setItem('vortex-lastActive', Date.now());
         } catch {}
     }
 
@@ -270,12 +269,13 @@ const birdFrames = [
 ];
 
 // ─── Helpers ───────────────────────────────────────────────────
-// Fetch server-trained brain from the Vercel evolution API
-async function fetchServerBrain() {
+// Fetch the shared brain file from CDN (same for ALL visitors)
+// GitLab CI updates this file every 10 minutes via evolution
+async function fetchLatestBrain() {
     try {
         const controller = new AbortController();
         const timeout = setTimeout(() => controller.abort(), 3000);
-        const res = await fetch('/api/evolve?stats=1', { signal: controller.signal });
+        const res = await fetch('/latest-brain.json', { signal: controller.signal });
         clearTimeout(timeout);
         if (!res.ok) return null;
         const data = await res.json();
@@ -315,60 +315,30 @@ async function initVortexFlappy(containerId, statsCallback) {
     let groundX = 0;
     let running = true;
 
-    // Restore persisted stats and brain from localStorage
+    // Load brain from localStorage (local cache only, not source of truth)
     let savedGen = 1;
-    let savedTotalGens = 1;
     let savedBest = 0;
     let savedBrain = null;
-    let savedLastActive = null;
     try {
         savedGen = parseInt(localStorage.getItem('vortex-generation')) || 1;
-        savedTotalGens = parseInt(localStorage.getItem('vortex-totalGens')) || 1;
         savedBest = parseInt(localStorage.getItem('vortex-bestScore')) || 0;
         savedBrain = loadBestBrain();
-        savedLastActive = parseInt(localStorage.getItem('vortex-lastActive'));
     } catch {}
 
-    // Fetch server-trained brain (trained 24/7 via Vercel function)
-    // Override local state if server has a better brain
+    // Fetch the shared brain from /latest-brain.json (SINGLE SOURCE OF TRUTH)
+    // This file is updated by GitLab CI and served from CDN — same for ALL visitors
+    // If available, it completely overrides the local cache
     try {
-        const server = await fetchServerBrain();
-        if (server && server.weights && server.bestScore > savedBest) {
-            // Save server brain to localStorage for persistence
-            localStorage.setItem('vortex-brain', JSON.stringify(server.weights));
-            localStorage.setItem('vortex-generation', server.generation);
-            localStorage.setItem('vortex-bestScore', server.bestScore);
-            localStorage.setItem('vortex-totalGens', server.totalGenerations);
-            savedBest = server.bestScore;
-            savedGen = server.generation;
-            savedTotalGens = server.totalGenerations;
-            savedBrain = loadBestBrain(); // converts server weights to TF model
+        const fileBrain = await fetchLatestBrain();
+        if (fileBrain && fileBrain.weights && fileBrain.bestScore > 0) {
+            // Save to localStorage as cache for offline/next visit
+            localStorage.setItem('vortex-brain', JSON.stringify(fileBrain.weights));
+            localStorage.setItem('vortex-generation', fileBrain.generation);
+            localStorage.setItem('vortex-bestScore', fileBrain.bestScore);
+            savedBest = fileBrain.bestScore;
+            savedGen = fileBrain.generation;
+            savedBrain = loadBestBrain();
         }
-    } catch {}
-
-    // Fast-forward generations based on time elapsed since last active
-    // The game runs ~180 generations per hour (~20s per gen)
-    if (savedLastActive) {
-        const elapsedMs = Date.now() - savedLastActive;
-        const elapsedHours = elapsedMs / (1000 * 60 * 60);
-        if (elapsedHours > 1) {
-            const ffGens = Math.floor(elapsedHours * 180);
-            if (ffGens > 0) {
-                savedGen += ffGens;
-                savedTotalGens += ffGens;
-            }
-        }
-    }
-
-    // Save updated counters immediately
-    try {
-        localStorage.setItem('vortex-generation', savedGen);
-        localStorage.setItem('vortex-totalGens', savedTotalGens);
-        localStorage.setItem('vortex-bestScore', savedBest);
-    } catch {}
-    // Update lastActive to now
-    try {
-        localStorage.setItem('vortex-lastActive', Date.now());
     } catch {}
 
     // Birth timestamp — set once, runs forever
@@ -499,8 +469,6 @@ async function initVortexFlappy(containerId, statsCallback) {
         pipeInterval = setInterval(spawnPipe, PIPE_SPAWN_INTERVAL);
         spawnPipe();
         gameLoop();
-        // Fire-and-forget: trigger server-side evolution (helps next visitor)
-        fetch('/api/evolve', { method: 'GET' }).catch(() => {});
     };
 
     // If sprites already loaded
@@ -508,8 +476,6 @@ async function initVortexFlappy(containerId, statsCallback) {
         pipeInterval = setInterval(spawnPipe, PIPE_SPAWN_INTERVAL);
         spawnPipe();
         gameLoop();
-        // Fire-and-forget: trigger server-side evolution (helps next visitor)
-        fetch('/api/evolve', { method: 'GET' }).catch(() => {});
     }
 
     // Return cleanup
