@@ -275,7 +275,7 @@ async function fetchServerBrain() {
     try {
         const controller = new AbortController();
         const timeout = setTimeout(() => controller.abort(), 3000);
-        const res = await fetch('/api/stats', { signal: controller.signal });
+        const res = await fetch('/api/evolve?stats=1', { signal: controller.signal });
         clearTimeout(timeout);
         if (!res.ok) return null;
         const data = await res.json();
@@ -499,6 +499,8 @@ async function initVortexFlappy(containerId, statsCallback) {
         pipeInterval = setInterval(spawnPipe, PIPE_SPAWN_INTERVAL);
         spawnPipe();
         gameLoop();
+        // Fire-and-forget: trigger server-side evolution (helps next visitor)
+        fetch('/api/evolve', { method: 'GET' }).catch(() => {});
     };
 
     // If sprites already loaded
@@ -506,6 +508,8 @@ async function initVortexFlappy(containerId, statsCallback) {
         pipeInterval = setInterval(spawnPipe, PIPE_SPAWN_INTERVAL);
         spawnPipe();
         gameLoop();
+        // Fire-and-forget: trigger server-side evolution (helps next visitor)
+        fetch('/api/evolve', { method: 'GET' }).catch(() => {});
     }
 
     // Return cleanup
