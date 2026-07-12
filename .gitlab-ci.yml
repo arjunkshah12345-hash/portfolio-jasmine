@@ -7,16 +7,16 @@ image: node:20-alpine
 
 evolve-birds:
   before_script:
-    - apk add --no-cache git openssh-client
+    - apk add --no-cache git
     - git config user.name "Bot"
     - git config user.email "bot@arjunshah.xyz"
   script:
     - node scripts/evolve.js
     - git add latest-brain.json
-    - git diff --cached --quiet || git commit -m "chore: evolve birds [skip ci]"
-    - git remote set-url origin https://gitlab-ci-token:${CI_JOB_TOKEN}@gitlab.com/arjunkshah/portfolio-jasmine.git
-    - git push origin HEAD:main
+    - git diff --cached --quiet && echo "No brain changes" || (
+        git commit -m "chore: evolve birds [skip ci]" &&
+        git remote set-url origin https://gitlab-ci-token:${CI_JOB_TOKEN}@gitlab.com/arjunkshah/portfolio-jasmine.git &&
+        git push origin HEAD:main
+      )
   only:
     - schedules
-  tags:
-    - docker
