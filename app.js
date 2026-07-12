@@ -112,7 +112,7 @@
         initial: { opacity: 0 },
         animate: { opacity: 1 },
         transition: { duration: 1, delay: 0.5 },
-        className: "fixed top-0 left-0 w-full p-5 md:p-8 flex justify-between items-start z-50 pointer-events-none bg-paper/85 backdrop-blur-lg border-b border-ink/5"
+        className: "fixed top-0 left-0 w-full p-5 md:p-8 flex justify-between items-start z-50 pointer-events-none"
       },
       /* @__PURE__ */ React.createElement("div", { className: "font-mono text-[10px] tracking-widest uppercase pointer-events-auto cursor-pointer", onClick: () => setPath("/") }, "A. Shah"),
       /* @__PURE__ */ React.createElement("div", { className: "flex flex-col items-end gap-2 pointer-events-auto" }, links.map((link) => /* @__PURE__ */ React.createElement(
