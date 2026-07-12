@@ -14,6 +14,7 @@ const fs = require('fs');
 const path = require('path');
 
 const BRAIN_FILE = path.join(__dirname, '..', 'latest-brain.json');
+const TMP_BRAIN_FILE = '/tmp/latest-brain.json';
 
 // ─── Config (matching vortex-flappy.js) ────────────────────────
 const POPULATION_SIZE = 50;
@@ -224,8 +225,18 @@ function runEvolution(seedWeights) {
   return { weights, generation, bestScore, totalGenerations };
 }
 
-// ─── Load brain from file (tries disk first, falls back to cache) ─
+// ─── Load brain from file (tries /tmp/ first, falls back to project) ─
 function loadBrainFromFile() {
+  // On Vercel, /tmp/ is writable — check there first for updated state
+  try {
+    if (fs.existsSync(TMP_BRAIN_FILE)) {
+      const data = JSON.parse(fs.readFileSync(TMP_BRAIN_FILE, 'utf8'));
+      if (data && data.weights && data.weights.length === 4) {
+        return data;
+      }
+    }
+  } catch {}
+  // Fall back to the file deployed with the project
   try {
     if (fs.existsSync(BRAIN_FILE)) {
       const data = JSON.parse(fs.readFileSync(BRAIN_FILE, 'utf8'));
@@ -233,9 +244,7 @@ function loadBrainFromFile() {
         return data;
       }
     }
-  } catch (e) {
-    // File not readable (cold start on Vercel, expected)
-  }
+  } catch {}
   return null;
 }
 
@@ -248,6 +257,11 @@ module.exports = async (req, res) => {
     res.status(200).end();
     return;
   }
+
+    // Prevent Vercel edge caching — every visitor must get the live state
+  res.setHeader('Cache-Control', 'no-cache, no-store, must-revalidate');
+  res.setHeader('Pragma', 'no-cache');
+  res.setHeader('Expires', '0');
 
   // On cold start, hydrate cache from the shared file (deployed with project)
   if (!cachedState) {
@@ -293,9 +307,9 @@ module.exports = async (req, res) => {
       lastActive: Date.now(),
     };
 
-    // Also try to persist to file as cold-start fallback
+    // Persist to /tmp/ as cold-start fallback (Vercel allows writes to /tmp/)
     try {
-      fs.writeFileSync(BRAIN_FILE, JSON.stringify(cachedState, null, 2));
+      fs.writeFileSync(TMP_BRAIN_FILE, JSON.stringify(cachedState, null, 2));
     } catch {}
 
     res.status(200).json({
