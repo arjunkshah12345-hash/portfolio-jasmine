@@ -128,8 +128,8 @@
   };
   // ─── Flappy Bird Stats (isolated to prevent 60fps re-renders) ───
   const FlappyBirdStatsLabel = React.memo(({ stats }) => /* @__PURE__ */ React.createElement("div", { className: "flex flex-wrap gap-4 mb-5 font-mono text-[10px] tracking-widest text-ink-light uppercase" },
-    /* @__PURE__ */ React.createElement("span", null, "Generation ", stats.generation),
-    /* @__PURE__ */ React.createElement("span", null, "Best Score ", stats.bestScore),
+    /* @__PURE__ */ React.createElement("span", null, "Score ", stats.currentScore),
+    /* @__PURE__ */ React.createElement("span", null, "Best ", stats.bestScore),
     /* @__PURE__ */ React.createElement("span", { className: "text-ink/50" }, "Uptime ", stats.elapsedDays, "d ", stats.elapsedHours, "h ", stats.elapsedMinutes, "m")
   ));
 
@@ -137,7 +137,7 @@
   const FlappyBirdHome = () => {
     const containerRef = React.useRef(null);
     const gameRef = React.useRef(null);
-    const statsRef = React.useRef({ generation: 0, bestScore: 0, aliveCount: 0, totalGenerations: 0, elapsedDays: 0, elapsedHours: 0, elapsedMinutes: 0 });
+    const statsRef = React.useRef({ bestScore: 0, currentScore: 0, highScore: 0, alive: true, elapsedDays: 0, elapsedHours: 0, elapsedMinutes: 0 });
     const [stats, setStats] = React.useState(statsRef.current);
 
     React.useEffect(() => {
@@ -147,9 +147,10 @@
       initVortexFlappy('vortex-game-container', (newStats) => {
         const prev = statsRef.current;
         // Only trigger React re-render when something actually changes
-        if (prev.generation !== newStats.generation ||
+        if (prev.currentScore !== newStats.currentScore ||
             prev.bestScore !== newStats.bestScore ||
-            prev.aliveCount !== newStats.aliveCount ||
+            prev.highScore !== newStats.highScore ||
+            prev.alive !== newStats.alive ||
             prev.elapsedDays !== newStats.elapsedDays ||
             prev.elapsedHours !== newStats.elapsedHours ||
             prev.elapsedMinutes !== newStats.elapsedMinutes) {

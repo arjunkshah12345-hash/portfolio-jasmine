@@ -1,8 +1,4 @@
 // ─── Config ────────────────────────────────────────────────────
-const POPULATION_SIZE = 50;
-const INPUT_NODES = 4;
-const OUTPUT_NODES = 1;
-const MUTATION_RATE = 0.1;
 const GRAVITY = 0.9;
 const FLAP_SPEED = -14;
 const GROUND_HEIGHT = 112;
@@ -11,34 +7,18 @@ const PIPE_SPAWN_INTERVAL = 1500;
 const PIPE_GAP = 150;
 const PIPE_HORIZONTAL_GAP = 220;
 
-// ─── NeatBird Class ────────────────────────────────────────────
-class NeatBird {
-    constructor(gameWidth, gameHeight, brain = null) {
+// ─── Bird Class ────────────────────────────────────────────────
+class FlappyBird {
+    constructor(gameWidth, gameHeight, brain) {
         this.x = 50;
         this.y = gameHeight / 2;
         this.width = 34;
         this.height = 24;
         this.velocity = 0;
-        this.brain = brain || this.createBrain();
-        this.fitness = 0;
+        this.brain = brain;
         this.alive = true;
-        this.score = 0;
         this.gameHeight = gameHeight;
         this.gameWidth = gameWidth;
-    }
-
-    createBrain() {
-        const model = tf.sequential();
-        model.add(tf.layers.dense({
-            inputShape: [INPUT_NODES],
-            units: 6
-        }));
-        model.add(tf.layers.leakyReLU());
-        model.add(tf.layers.dense({
-            units: OUTPUT_NODES,
-            activation: 'sigmoid'
-        }));
-        return model;
     }
 
     think(inputs) {
@@ -51,92 +31,39 @@ class NeatBird {
 
     update(pipes) {
         if (!this.alive) return;
-
         this.velocity += GRAVITY;
         this.y += this.velocity;
-
-        if (this.y + this.height > this.gameHeight - GROUND_HEIGHT) {
-            this.y = this.gameHeight - GROUND_HEIGHT - this.height;
+        if (this.y + this.height > this.gameHeight - GROUND_HEIGHT || this.y < 0) {
             this.alive = false;
-            return;
         }
-
-        if (this.y < 0) {
-            this.y = 0;
-            this.alive = false;
-            return;
-        }
-
         for (const pipe of pipes) {
             if (this.checkCollision(pipe)) {
                 this.alive = false;
-                return;
-            }
-        }
-
-        this.fitness++;
-        if (pipes.length > 0) {
-            const pipe = pipes[0];
-            if (!pipe.scored && pipe.x + 52 < this.x) {
-                this.score++;
-                pipe.scored = true;
             }
         }
     }
 
     checkCollision(pipe) {
-        const birdBox = {
-            x: this.x + 5,
-            y: this.y + 5,
-            width: this.width - 10,
-            height: this.height - 10
-        };
-        if (birdBox.x < pipe.x + 52 && birdBox.x + birdBox.width > pipe.x &&
-            birdBox.y < pipe.height) return true;
-        if (birdBox.x < pipe.x + 52 && birdBox.x + birdBox.width > pipe.x &&
-            birdBox.y + birdBox.height > pipe.height + pipe.gap) return true;
+        const bx = this.x + 5;
+        const by = this.y + 5;
+        const bw = this.width - 10;
+        const bh = this.height - 10;
+        if (bx < pipe.x + 52 && bx + bw > pipe.x && by < pipe.height) return true;
+        if (bx < pipe.x + 52 && bx + bw > pipe.x && by + bh > pipe.height + pipe.gap) return true;
         return false;
     }
-
-    mutate() {
-        tf.tidy(() => {
-            const weights = this.brain.getWeights();
-            const mutatedWeights = weights.map(w => {
-                const shape = w.shape;
-                const values = w.dataSync().map(v => {
-                    if (Math.random() < MUTATION_RATE) {
-                        return v + (Math.random() * 2 - 1) * 0.1;
-                    }
-                    return v;
-                });
-                return tf.tensor(values, shape);
-            });
-            this.brain.setWeights(mutatedWeights);
-        });
-    }
 }
 
-// ─── Brain persistence helpers ────────────────────────────────
-function saveBestBrain(brain) {
-    try {
-        const weights = brain.getWeights();
-        const data = weights.map(w => ({
-            shape: w.shape,
-            values: Array.from(w.dataSync())
-        }));
-        localStorage.setItem('vortex-brain', JSON.stringify(data));
-    } catch (e) { /* localStorage full or unavailable */ }
-}
-
+// ─── Brain persistence helpers ─────────────────────────────────
 function loadBestBrain() {
     try {
         const saved = localStorage.getItem('vortex-brain');
         if (!saved) return null;
         const data = JSON.parse(saved);
         const model = tf.sequential();
-        model.add(tf.layers.dense({ inputShape: [INPUT_NODES], units: 6 }));
+        model.add(tf.layers.dense({ inputShape: [4], units: 6 }));
         model.add(tf.layers.leakyReLU());
-        model.add(tf.layers.dense({ units: OUTPUT_NODES, activation: 'sigmoid' }));
+        model.add(tf.layers.dense({ units: 1, activation: 'sigmoid' }));
         const tensors = data.map(d => tf.tensor(d.values, d.shape));
         model.setWeights(tensors);
         return model;
@@ -145,132 +72,7 @@ function loadBestBrain() {
     }
 }
 
-// ─── Population Class ──────────────────────────────────────────
-class VortexPopulation {
-    constructor(gameWidth, gameHeight, generation = 1, bestScore = 0, seedBrain = null) {
-        this.gameWidth = gameWidth;
-        this.gameHeight = gameHeight;
-        this.birds = [];
-        if (seedBrain) {
-            // Seed all birds from the saved brain so learning continues
-            for (let i = 0; i < POPULATION_SIZE; i++) {
-                const bird = new NeatBird(gameWidth, gameHeight);
-                tf.tidy(() => {
-                    const weights = seedBrain.getWeights();
-                    const cloned = weights.map(w => tf.clone(w));
-                    bird.brain.setWeights(cloned);
-                });
-                bird.mutate();
-                this.birds.push(bird);
-            }
-            seedBrain.dispose();
-        } else {
-            for (let i = 0; i < POPULATION_SIZE; i++) {
-                this.birds.push(new NeatBird(gameWidth, gameHeight));
-            }
-        }
-        this.generation = generation;
-        this.bestScore = bestScore;
-        this.bestBird = null;
-        this.totalGenerations = generation;
-    }
-
-    update(pipes) {
-        let allDead = true;
-        this.birds.forEach(bird => {
-            if (bird.alive) {
-                allDead = false;
-                bird.update(pipes);
-                const inputs = this.getInputs(bird, pipes);
-                if (bird.think(inputs)) {
-                    bird.velocity = FLAP_SPEED;
-                }
-            }
-        });
-
-        if (allDead) {
-            this.nextGeneration();
-            return true;
-        }
-        return false;
-    }
-
-    getInputs(bird, pipes) {
-        const nearestPipe = this.getNearestPipe(bird, pipes);
-        if (!nearestPipe) return [0, bird.y / this.gameHeight, 0, 0];
-        return [
-            (nearestPipe.x - bird.x) / this.gameWidth,
-            bird.y / this.gameHeight,
-            (bird.y - nearestPipe.height) / this.gameHeight,
-            (nearestPipe.height + nearestPipe.gap - bird.y) / this.gameHeight
-        ];
-    }
-
-    getNearestPipe(bird, pipes) {
-        return pipes.find(pipe => pipe.x + 52 >= bird.x) || null;
-    }
-
-    nextGeneration() {
-        const bestBirds = this.birds
-            .sort((a, b) => b.fitness - a.fitness)
-            .slice(0, POPULATION_SIZE / 2);
-
-        if (bestBirds[0].score > this.bestScore) {
-            this.bestScore = bestBirds[0].score;
-            this.bestBird = bestBirds[0];
-            // Persist the actual neural network weights
-            saveBestBrain(bestBirds[0].brain);
-        }
-
-        this.birds = [];
-        for (let i = 0; i < POPULATION_SIZE; i++) {
-            const parent = bestBirds[Math.floor(Math.random() * bestBirds.length)];
-            const child = new NeatBird(this.gameWidth, this.gameHeight);
-            tf.tidy(() => {
-                const parentWeights = parent.brain.getWeights();
-                const clonedWeights = parentWeights.map(w => tf.clone(w));
-                child.brain.setWeights(clonedWeights);
-            });
-            child.mutate();
-            this.birds.push(child);
-        }
-
-        this.generation++;
-        this.totalGenerations++;
-        // Persist progress to localStorage (cache only — source of truth is latest-brain.json)
-        try {
-            localStorage.setItem('vortex-generation', this.generation);
-            localStorage.setItem('vortex-bestScore', this.bestScore);
-            localStorage.setItem('vortex-totalGens', this.totalGenerations);
-        } catch {}
-    }
-
-    draw(ctx, sprites, birdFrames, currentFrame) {
-        this.birds.forEach(bird => {
-            if (bird.alive) {
-                ctx.save();
-                ctx.translate(bird.x + bird.width / 2, bird.y + bird.height / 2);
-                ctx.rotate(Math.min(Math.max(bird.velocity * 0.05, -0.5), 0.5));
-                const frame = birdFrames[currentFrame];
-                ctx.drawImage(sprites, frame.x, frame.y, 17, 12,
-                    -bird.width / 2, -bird.height / 2, bird.width, bird.height);
-                ctx.restore();
-            }
-        });
-    }
-}
-
-// ─── Bird frame positions ─────────────────────────────────────
-const birdFrames = [
-    { x: 3, y: 491 },
-    { x: 31, y: 491 },
-    { x: 59, y: 491 },
-    { x: 31, y: 491 }
-];
-
-// ─── Helpers ───────────────────────────────────────────────────
-// Fetch the shared brain file from CDN (same for ALL visitors)
-// GitLab CI updates this file every 10 minutes via evolution
+// ─── Fetch the shared brain file from CDN (same for ALL visitors) ──
 async function fetchLatestBrain() {
     try {
         const controller = new AbortController();
@@ -286,7 +88,15 @@ async function fetchLatestBrain() {
     }
 }
 
-// ─── Init Function ─────────────────────────────────────────────
+// ─── Bird frame positions ─────────────────────────────────────
+const birdFrames = [
+    { x: 3, y: 491 },
+    { x: 31, y: 491 },
+    { x: 59, y: 491 },
+    { x: 31, y: 491 }
+];
+
+// ─── Init Function (Spectator Mode — single bird, no evolution) ──
 async function initVortexFlappy(containerId, statsCallback) {
     const container = document.getElementById(containerId);
     if (!container) return null;
@@ -294,7 +104,7 @@ async function initVortexFlappy(containerId, statsCallback) {
     container.innerHTML = '';
     container.style.cssText = 'display:flex;justify-content:center;';
 
-    // Single game canvas — just the bird and the pipes
+    // Single game canvas
     const gameCanvas = document.createElement('canvas');
     gameCanvas.width = 320;
     gameCanvas.height = 480;
@@ -306,40 +116,34 @@ async function initVortexFlappy(containerId, statsCallback) {
     const sprites = new Image();
     sprites.src = '/vortex-sprites.png';
 
-    // Game state
-    let pipes = [];
-    let score = 0;
-    let frameCount = 0;
-    let currentFrame = 0;
-    let bgX = 0;
-    let groundX = 0;
-    let running = true;
+    // ─── Load the best brain (source of truth: latest-brain.json) ──
+    let brain = null;
+    let brainBestScore = 0;
 
-    // Load brain from localStorage (local cache only, not source of truth)
-    let savedGen = 1;
-    let savedBest = 0;
-    let savedBrain = null;
-    try {
-        savedGen = parseInt(localStorage.getItem('vortex-generation')) || 1;
-        savedBest = parseInt(localStorage.getItem('vortex-bestScore')) || 0;
-        savedBrain = loadBestBrain();
-    } catch {}
-
-    // Fetch the shared brain from /latest-brain.json (SINGLE SOURCE OF TRUTH)
-    // This file is updated by GitLab CI and served from CDN — same for ALL visitors
-    // If available, it completely overrides the local cache
     try {
         const fileBrain = await fetchLatestBrain();
         if (fileBrain && fileBrain.weights && fileBrain.bestScore > 0) {
-            // Save to localStorage as cache for offline/next visit
             localStorage.setItem('vortex-brain', JSON.stringify(fileBrain.weights));
-            localStorage.setItem('vortex-generation', fileBrain.generation);
             localStorage.setItem('vortex-bestScore', fileBrain.bestScore);
-            savedBest = fileBrain.bestScore;
-            savedGen = fileBrain.generation;
-            savedBrain = loadBestBrain();
+            brainBestScore = fileBrain.bestScore;
+            brain = loadBestBrain();
         }
     } catch {}
+
+    // Fallback to localStorage cache
+    if (!brain) {
+        brain = loadBestBrain();
+        brainBestScore = parseInt(localStorage.getItem('vortex-bestScore')) || 0;
+    }
+
+    // If still no brain, create a random one
+    if (!brain) {
+        const model = tf.sequential();
+        model.add(tf.layers.dense({ inputShape: [4], units: 6 }));
+        model.add(tf.layers.leakyReLU());
+        model.add(tf.layers.dense({ units: 1, activation: 'sigmoid' }));
+        brain = model;
+    }
 
     // Birth timestamp — set once, runs forever
     let birthTimestamp;
@@ -353,83 +157,125 @@ async function initVortexFlappy(containerId, statsCallback) {
         birthTimestamp = Date.now();
     }
 
-    let population = new VortexPopulation(gameCanvas.width, gameCanvas.height, savedGen, savedBest, savedBrain);
+    // ─── Game State ───────────────────────────────────────────
+    let bird = new FlappyBird(gameCanvas.width, gameCanvas.height, brain);
+    let pipes = [];
+    let roundScore = 0;
+    let sessionHighScore = 0;
+    let frameCount = 0;
+    let currentFrame = 0;
+    let groundX = 0;
+    let running = true;
+    let deadTimer = 0;
+    const DEAD_DELAY = 30; // frames (~500ms) before restart
 
     // Pipe spawning
-    let pipeInterval = null;
     function spawnPipe() {
         if (!running) return;
-        if (pipes.length > 0) {
-            const lastPipe = pipes[pipes.length - 1];
-            if (lastPipe.x > gameCanvas.width - PIPE_HORIZONTAL_GAP) return;
-        }
+        if (pipes.length > 0 && pipes[pipes.length - 1].x > gameCanvas.width - PIPE_HORIZONTAL_GAP) return;
         const minHeight = 60;
         const maxHeight = gameCanvas.height - PIPE_GAP - 80 - GROUND_HEIGHT;
-        let height;
-        const randomFactor = Math.random();
-        if (randomFactor < 0.4) {
-            height = randomFactor < 0.2 ? minHeight + Math.random() * 40 : maxHeight - Math.random() * 40;
-        } else {
-            height = minHeight + Math.random() * (maxHeight - minHeight);
-        }
+        const height = minHeight + Math.random() * (maxHeight - minHeight);
         pipes.push({ x: gameCanvas.width, height: Math.floor(height), gap: PIPE_GAP, scored: false });
     }
 
-    // Drawing functions
+    // Reset the round — same brain, fresh game
+    function resetRound() {
+        bird = new FlappyBird(gameCanvas.width, gameCanvas.height, brain);
+        pipes = [];
+        roundScore = 0;
+        deadTimer = 0;
+        spawnPipe();
+    }
+
+    // ─── Drawing ──────────────────────────────────────────────
     function drawGame() {
         ctx.clearRect(0, 0, gameCanvas.width, gameCanvas.height);
         ctx.fillStyle = '#70c5ce';
         ctx.fillRect(0, 0, gameCanvas.width, gameCanvas.height);
 
+        // Pipes
         for (const pipe of pipes) {
             ctx.drawImage(sprites, 84, 323, 26, 160, pipe.x, pipe.height + pipe.gap, 52, 400);
         }
         for (const pipe of pipes) {
             ctx.drawImage(sprites, 56, 323, 26, 160, pipe.x, pipe.height - 400, 52, 400);
         }
+
+        // Ground
         for (let i = 0; i < 3; i++) {
             ctx.drawImage(sprites, 292, 0, 168, 56, groundX + (i * 224), gameCanvas.height - GROUND_HEIGHT, 224, 112);
         }
 
-        population.draw(ctx, sprites, birdFrames, currentFrame);
+        // Bird
+        if (bird) {
+            ctx.save();
+            ctx.translate(bird.x + bird.width / 2, bird.y + bird.height / 2);
+            ctx.rotate(Math.min(Math.max(bird.velocity * 0.05, -0.5), 0.5));
+            const frame = birdFrames[currentFrame];
+            ctx.drawImage(sprites, frame.x, frame.y, 17, 12,
+                -bird.width / 2, -bird.height / 2, bird.width, bird.height);
+            ctx.restore();
+        }
 
+        // Score display
         ctx.fillStyle = 'white';
         ctx.strokeStyle = 'black';
         ctx.lineWidth = 3;
         ctx.font = 'bold 36px Arial';
         ctx.textAlign = 'center';
-        ctx.strokeText(score, gameCanvas.width / 2, 50);
-        ctx.fillText(score, gameCanvas.width / 2, 50);
+        ctx.strokeText(roundScore, gameCanvas.width / 2, 50);
+        ctx.fillText(roundScore, gameCanvas.width / 2, 50);
     }
 
-    // Game loop
-    function updatePipes() {
-        for (let i = pipes.length - 1; i >= 0; i--) {
-            pipes[i].x -= PIPE_SPEED;
-            if (pipes[i].x + 52 < 0) { pipes.splice(i, 1); }
-        }
-    }
+    // ─── Game Loop ────────────────────────────────────────────
+    let pipeInterval = null;
 
     function gameLoop() {
         if (!running) return;
 
-        // Background scroll
+        // Scroll ground
         groundX -= PIPE_SPEED;
         if (groundX <= -224) groundX = 0;
 
-        // Update population
-        if (population.update(pipes)) {
-            pipes = [];
-            score = 0;
-            spawnPipe();
+        // Move pipes
+        for (let i = pipes.length - 1; i >= 0; i--) {
+            pipes[i].x -= PIPE_SPEED;
+            if (pipes[i].x + 52 < 0) pipes.splice(i, 1);
         }
 
-        updatePipes();
+        if (bird && bird.alive) {
+            // Bird thinks
+            const nearest = pipes.find(p => p.x + 52 >= bird.x) || pipes[pipes.length - 1];
+            if (nearest) {
+                const inputs = [
+                    (nearest.x - bird.x) / gameCanvas.width,
+                    bird.y / gameCanvas.height,
+                    (bird.y - nearest.height) / gameCanvas.height,
+                    (nearest.height + PIPE_GAP - bird.y) / gameCanvas.height
+                ];
+                if (bird.think(inputs)) {
+                    bird.velocity = FLAP_SPEED;
+                }
+            }
 
-        // Update score
-        const aliveBirds = population.birds.filter(b => b.alive);
-        if (aliveBirds.length > 0) {
-            score = Math.max(...aliveBirds.map(b => b.score));
+            bird.update(pipes);
+
+            // Track score (pipes passed)
+            if (pipes.length > 0) {
+                const firstPipe = pipes[0];
+                if (!firstPipe.scored && firstPipe.x + 52 < bird.x) {
+                    firstPipe.scored = true;
+                    roundScore++;
+                    if (roundScore > sessionHighScore) sessionHighScore = roundScore;
+                }
+            }
+        } else if (bird) {
+            // Bird is dead — wait a moment then restart
+            deadTimer++;
+            if (deadTimer > DEAD_DELAY) {
+                resetRound();
+            }
         }
 
         // Bird animation
@@ -438,23 +284,23 @@ async function initVortexFlappy(containerId, statsCallback) {
         }
         frameCount++;
 
-        // Draw game
+        // Draw
         drawGame();
 
-        // Calculate elapsed time since birth
+        // Calculate uptime
         const elapsed = Date.now() - birthTimestamp;
         const totalSeconds = Math.floor(elapsed / 1000);
         const days = Math.floor(totalSeconds / 86400);
         const hours = Math.floor((totalSeconds % 86400) / 3600);
         const minutes = Math.floor((totalSeconds % 3600) / 60);
 
-        // Report stats to React
+        // Report stats
         if (statsCallback) {
             statsCallback({
-                generation: population.generation,
-                bestScore: population.bestScore,
-                aliveCount: population.birds.filter(b => b.alive).length,
-                totalGenerations: population.totalGenerations,
+                bestScore: brainBestScore,
+                currentScore: roundScore,
+                highScore: sessionHighScore,
+                alive: bird ? bird.alive : false,
                 elapsedDays: days,
                 elapsedHours: hours,
                 elapsedMinutes: minutes
@@ -464,32 +310,25 @@ async function initVortexFlappy(containerId, statsCallback) {
         requestAnimationFrame(gameLoop);
     }
 
-    // Start
+    // ─── Start ────────────────────────────────────────────────
     sprites.onload = () => {
         pipeInterval = setInterval(spawnPipe, PIPE_SPAWN_INTERVAL);
         spawnPipe();
         gameLoop();
     };
 
-    // If sprites already loaded
     if (sprites.complete) {
         pipeInterval = setInterval(spawnPipe, PIPE_SPAWN_INTERVAL);
         spawnPipe();
         gameLoop();
     }
 
-    // Return cleanup
     return {
         destroy: () => {
             running = false;
             if (pipeInterval) clearInterval(pipeInterval);
             container.innerHTML = '';
-            // Dispose TensorFlow tensors
-            try {
-                population.birds.forEach(b => {
-                    if (b.brain) b.brain.dispose();
-                });
-            } catch {}
+            try { if (brain) brain.dispose(); } catch {}
         }
     };
 }
