@@ -16,7 +16,7 @@ const itemVariants = {
 const Work = () => {
   const projects = [
     { year: 'Now', title: 'Loopy', url: 'https://loopy.yachts', desc: 'Autonomous software engineer that researches, plans, builds, fixes, and loops until the product is done.' },
-    { year: '2026', title: 'Supercompress', url: 'https://trysupercompress.vercel.app', desc: 'Neural context compression for long-running AI agents.' },
+    { year: '2026', title: 'Supercompress', url: 'https://www.supercompress.dev', desc: 'Neural context compression for long-running AI agents.' },
     { year: '2026', title: 'Pincer', url: 'https://trypincer.netlify.app/', desc: 'Chrome extension that modifies page content to support dyslexic users.' },
     { year: 'Last year', title: 'rooted.ai', url: 'https://rooted-ai.vercel.app', desc: 'Stanford GSB LISA project focused on AI-driven natural health exploration.' },
     { year: 'Last year', title: 'ideatr.dev', url: 'https://github.com/arjunkshah/ideatr', desc: 'Clone and recreate any website as a modern React app in seconds.' },
