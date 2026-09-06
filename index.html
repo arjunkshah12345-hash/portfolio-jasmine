@@ -1,92 +1,64 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Arjun Shah — Notes</title>
-    <meta property="og:title" content="Arjun Shah — Portfolio">
-    <meta property="og:description" content="Crafted software and AI-led experiences.">
-    <meta property="og:type" content="website">
-    <meta property="og:url" content="https://www.arjunshah.xyz/">
-    <meta property="og:image" content="https://www.arjunshah.xyz/social-card.png">
-    <meta property="og:image:width" content="1200">
-    <meta property="og:image:height" content="630">
-    <meta property="og:image:alt" content="Arjun Shah — Portfolio">
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Arjun Shah — Portfolio">
-    <meta name="twitter:description" content="Crafted software and AI-led experiences.">
-    <meta name="twitter:image" content="https://www.arjunshah.xyz/social-card.png">
-    <meta name="twitter:image:alt" content="Arjun Shah — Portfolio social preview">
-    
-    <!-- Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Newsreader:ital,opsz,wght@0,6..72,300;0,6..72,400;0,6..72,500;1,6..72,300;1,6..72,400&display=swap" rel="stylesheet">
-    
-    <!-- Tailwind CSS -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    
-    <!-- Tailwind Config for Standalone Preview -->
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        paper: 'var(--bg)',
-                        ink: { DEFAULT: 'var(--text)', light: 'var(--text-light)' }
-                    },
-                    fontFamily: {
-                        serif: ['"Newsreader"', 'serif'],
-                        mono: ['"JetBrains Mono"', 'monospace'],
-                    },
-                    transitionTimingFunction: {
-                        'smooth': 'cubic-bezier(0.16, 1, 0.3, 1)',
-                    }
-                }
-            }
-        }
-    </script>
-
-    <!-- Jasmine badge font -->
-    <style>
-        @font-face{font-family:'Iowan Old Style';src:url('https://tryjasmine.dev/fonts/IowanOld.woff2') format('woff2');font-weight:400;font-style:normal;font-display:swap;}
-        .jasmine-badge{font-family:'Iowan Old Style','Iowan Old Serif',Georgia,'Times New Roman',serif;letter-spacing:0.02em;}
-    </style>
-
-    <style>
-        :root {
-            --bg: #f2f0e9;
-            --text: #1c1c1a;
-            --text-light: #6b6a65;
-            --noise-opacity: 0.04;
-        }
-        body {
-            background-color: var(--bg);
-            color: var(--text);
-            font-family: 'Newsreader', serif;
-            -webkit-font-smoothing: antialiased;
-            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.04'/%3E%3C/svg%3E");
-            transition: background-color 0.4s ease, color 0.4s ease;
-        }
-        ::selection { background-color: var(--text); color: var(--bg); }
-        .hide-scrollbar::-webkit-scrollbar { display: none; }
-        .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
-    </style>
-
-    <!-- React & ReactDOM -->
-    <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
-    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
-    
-    
-    <!-- Framer Motion -->
-    <script src="https://unpkg.com/framer-motion@10.16.4/dist/framer-motion.js"></script>
-    
-    <!-- Lucide Icons -->
-    <script src="https://unpkg.com/lucide@latest"></script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>arjun shah — founder of SuperCompress &amp; Loopy</title>
+  <meta name="description" content="Arjun Shah — founder of SuperCompress (open-source prompt compression) and Loopy. AI agents, infrastructure, and experiments from San Jose." />
+  <meta name="google-site-verification" content="DcwcYhB52-F2-T0iBzE0gfgnxBF5hSJzXdVCbjUMxk0" />
+  <link rel="canonical" href="https://www.arjunshah.xyz/" />
+  <link rel="alternate" type="text/plain" href="https://www.arjunshah.xyz/llms.txt" title="LLMs.txt" />
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Person",
+    "name": "Arjun Shah",
+    "url": "https://www.arjunshah.xyz/",
+    "jobTitle": "Founder",
+    "description": "Founder of SuperCompress and Loopy. Builds AI agents and prompt compression infrastructure.",
+    "sameAs": [
+      "https://www.linkedin.com/in/arjunkshah",
+      "https://x.com/arjunkshah21",
+      "https://github.com/arjunkshah",
+      "https://www.supercompress.dev/",
+      "https://loopy.yachts/"
+    ],
+    "knowsAbout": [
+      "SuperCompress",
+      "prompt compression",
+      "LLM token compression",
+      "coding agents",
+      "Answer Engine Optimization",
+      "Loopy"
+    ],
+    "founder": {
+      "@type": "Organization",
+      "name": "SuperCompress",
+      "url": "https://www.supercompress.dev/"
+    }
+  }
+  </script>
+  <script>if(location.search.includes("code=")&&location.pathname.indexOf("callback")===-1)location.replace("/callback"+location.search);</script>
+  <script>(function(){var k='arjun-theme',t=localStorage.getItem(k);if(t!=='light'&&t!=='dark')t=matchMedia('(prefers-color-scheme: light)').matches?'light':'dark';document.documentElement.setAttribute('data-theme',t);})();</script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/light/style.css" />
+  <link rel="stylesheet" href="/src/spotify-widget.css" />
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.7/dist/gsap.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.7/dist/ScrollTrigger.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.7/dist/ScrollToPlugin.min.js"></script>
 </head>
-<body>
-    <div id="root"></div>
-
-    <script src="/app.js"></script>
+<body class="theme-light" data-page="home" data-base="/">
+  <main id="main"></main>
+  <script src="/src/data.js"></script>
+  <script src="/light/layout.js"></script>
+  <script src="/light/render.js"></script>
+  <script src="/src/theme.js"></script>
+  <script src="/src/motion.js"></script>
+  <script src="/src/personality.js"></script>
+  <script src="/light/core.js"></script>
+  <script src="/src/easter-eggs.js"></script>
+  <script src="/src/spotify-widget.js"></script>
 </body>
 </html>
